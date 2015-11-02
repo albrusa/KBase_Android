@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">KBase_Android</string>
+
+
+    <string name="codigo_usuario">Código usuario</string>
+    <string name="siguiente">Siguiente</string>
+
+
+
+    <string name="campo_obligatorio">Campo Obligatorio</string>
+
+
+
+    <string name="Prefijo_Andorra">Andorra</string>
+    <string name="Prefijo_Austria">Austria</string>
+    <string name="Prefijo_Bulgaria">Bulgaria</string>
+    <string name="Prefijo_Bélgica">Bélgica</string>
+    <string name="Prefijo_Croacia">Croacia</string>
+    <string name="Prefijo_Chipre">Chipre</string>
+    <string name="Prefijo_República_Checa">República Checa</string>
+    <string name="Prefijo_Dinamarca">Dinamarca</string>
+    <string name="Prefijo_Estonia">Estonia</string>
+    <string name="Prefijo_Finlandia">Finlandia</string>
+    <string name="Prefijo_Francia">Francia</string>
+    <string name="Prefijo_Gibraltar">Gibraltar</string>
+    <string name="Prefijo_Alemania">Alemania</string>
+    <string name="Prefijo_Grecia">Grecia</string>
+    <string name="Prefijo_Hungría">Hungría</string>
+    <string name="Prefijo_Islandia">Islandia</string>
+    <string name="Prefijo_Irlanda">Irlanda</string>
+    <string name="Prefijo_Italia">Italia</string>
+    <string name="Prefijo_Letonia">Letonia</string>
+    <string name="Prefijo_Liechtenstein">Liechtenstein</string>
+    <string name="Prefijo_Lituania">Lituania</string>
+    <string name="Prefijo_Luxemburgo">Luxemburgo</string>
+    <string name="Prefijo_Malta">Malta</string>
+    <string name="Prefijo_Mónaco">Mónaco</string>
+    <string name="Prefijo_Países_Bajos">Países Bajo</string>
+    <string name="Prefijo_Noruega">Noruega</string>
+    <string name="Prefijo_Polonia">Polonia</string>
+    <string name="Prefijo_Portugal">Portugal</string>
+    <string name="Prefijo_Rumania">Rumania</string>
+    <string name="Prefijo_San_Marino">San Marino</string>
+    <string name="Prefijo_Eslovaquia">Eslovaquia</string>
+    <string name="Prefijo_Eslovenia">Eslovenia</string>
+    <string name="Prefijo_España">España</string>
+    <string name="Prefijo_Suecia">Suecia</string>
+    <string name="Prefijo_Suiza">Suiza</string>
+    <string name="Prefijo_Reino_Unido">Reino Unido</string>
+    <string name="Prefijo_Ciudad_del_Vaticano">Ciudad del Vaticano</string>
+    <string name="Prefijo_India">India</string>
+
 </resources>
