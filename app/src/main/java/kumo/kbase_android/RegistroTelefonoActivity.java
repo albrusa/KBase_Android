@@ -32,7 +32,7 @@ public class RegistroTelefonoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_telefono);
+        setContentView(R.layout.registro_telefono_fragment);
 
         Bundle extras = getIntent().getExtras();
 

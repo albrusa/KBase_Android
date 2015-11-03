@@ -6,31 +6,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="kumo.kbase_android.RegistroUsuarioActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/registro_codigo_acceso"/>
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/registro_prefijo"
-        android:spinnerMode="dialog"
-        ></Spinner>
+    tools:context="kumo.kbase_android.fragments.CodigoAccesoFragment">
 
 
     <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <AutoCompleteTextView android:id="@+id/registro_telefono" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="@string/telefono"
-            android:inputType="phone" android:maxLines="1"
+        <AutoCompleteTextView android:id="@+id/registro_codigo_acceso" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/codigo_usuario"
+            android:inputType="text" android:maxLines="1"
             android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:hint="@string/siguiente" android:id="@+id/registro_to_telefono"/>
+
 
 </LinearLayout>

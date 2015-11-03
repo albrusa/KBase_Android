@@ -13,7 +13,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_usuario);
+        setContentView(R.layout.registro_usuario_fragment);
 
 
         final AutoCompleteTextView mCodigo_Acceso = (AutoCompleteTextView) findViewById(R.id.registro_codigo_acceso);
