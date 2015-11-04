@@ -52,6 +52,7 @@ public class GsonRequest<T> extends JsonRequest<T> {
 
         setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
+        mView = _view;
         gson = new Gson();
         clazz = classType;
         mHeaders = headers;

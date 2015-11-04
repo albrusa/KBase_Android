@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 
 import kumo.kbase_android.R;
 
@@ -20,7 +23,9 @@ import kumo.kbase_android.R;
  */
 public class CodigoAccesoFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private onCodigoAccesoFragmentInteraction mListener;
+    private AutoCompleteTextView mCodigo_Acceso;
+    private Button mSiguiente;
 
     public static CodigoAccesoFragment newInstance() {
         CodigoAccesoFragment fragment = new CodigoAccesoFragment();
@@ -43,6 +48,22 @@ public class CodigoAccesoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View _view =  inflater.inflate(R.layout.registro_usuario_fragment, container, false);
 
+        mCodigo_Acceso = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_acceso);
+        mSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
+
+        mSiguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String codigo_Acceso = mCodigo_Acceso.getText().toString();
+                if (!TextUtils.isEmpty(codigo_Acceso)) {
+                    if (mListener != null) {
+                        mListener.onCodigoAccesoFragmentInteraction(codigo_Acceso);
+                    }
+                }
+            }
+        });
+
         return _view;
     }
 
@@ -55,7 +76,7 @@ public class CodigoAccesoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         try {
-            mListener = (OnFragmentInteractionListener) getActivity();
+            mListener = (onCodigoAccesoFragmentInteraction) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
@@ -63,31 +84,16 @@ public class CodigoAccesoFragment extends Fragment {
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
+
+    public interface onCodigoAccesoFragmentInteraction {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onCodigoAccesoFragmentInteraction(String codigo_acceso);
     }
 
 }
