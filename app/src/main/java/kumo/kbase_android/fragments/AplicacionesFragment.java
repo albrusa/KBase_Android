@@ -1,15 +1,16 @@
 package kumo.kbase_android.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,46 +23,33 @@ import java.util.HashMap;
 import java.util.List;
 
 import kumo.kbase_android.R;
-import kumo.kbase_android.adapters.PrefijosAdapter;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Configuracion;
-import kumo.kbase_android.model.xPrefijo_Telf;
 import kumo.kbase_android.utils.Constantes;
-import kumo.kbase_android.utils.Cultura;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AplicacionesFragment.OnAplicacionesFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AplicacionesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AplicacionesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String CODIGO_ACCESO = "codigo_acceso";
     private static final String PREFIJO = "prefijo";
     private static final String TELEFONO = "telefono";
 
-    // TODO: Rename and change types of parameters
     private String mCodigo_Acceso;
     private String mPrefijo;
     private String mTelefono;
 
-    private AutoCompleteTextView vTelefono;
-    private Spinner vPrefijo;
-    private TextView vCodigo_Acceso;
+    private Button vSiguiente;
+    private ProgressBar vProgreso;
 
     private OnAplicacionesFragmentInteractionListener mListener;
 
-    public static AplicacionesFragment newInstance(String codigo_acceso, String prefijo, String telefono) {
+    public static AplicacionesFragment newInstance(String _codigo_acceso, String _prefijo, String _telefono) {
         AplicacionesFragment fragment = new AplicacionesFragment();
         Bundle args = new Bundle();
-        args.putString(CODIGO_ACCESO, codigo_acceso);
-        args.putString(PREFIJO, prefijo);
-        args.putString(TELEFONO, telefono);
+        args.putString(CODIGO_ACCESO, _codigo_acceso);
+        args.putString(PREFIJO, _prefijo);
+        args.putString(TELEFONO, _telefono);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,26 +73,10 @@ public class AplicacionesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View _view =  inflater.inflate(R.layout.registro_telefono_fragment, container, false);
+        View _view =  inflater.inflate(R.layout.registro_aplicaciones_fragment, container, false);
 
-        vTelefono = (AutoCompleteTextView) _view.findViewById(R.id.registro_telefono);
-
-        vCodigo_Acceso = (TextView)_view.findViewById(R.id.registro_codigo_acceso);
-        vCodigo_Acceso.setText(mCodigo_Acceso);
-
-        vPrefijo = ( Spinner )_view.findViewById( R.id.registro_prefijo );
-        List<xPrefijo_Telf> prefijos = Cultura.obt_prefijos();
-        PrefijosAdapter adapter = new PrefijosAdapter(_view.getContext(),android.R.layout.select_dialog_singlechoice,prefijos);
-
-        vPrefijo.setAdapter(adapter);
-
-        Button mSiguiente = (Button) _view.findViewById(R.id.registro_to_telefono);
-        mSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        vSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
+        vProgreso  = (ProgressBar) _view.findViewById(R.id.circular_progress);
 
         return _view;
     }
@@ -113,7 +85,7 @@ public class AplicacionesFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        View _view = getView();
+        final View _view = getView();
 
         HashMap<String, String> params = new HashMap<String, String>();
 
@@ -129,7 +101,26 @@ public class AplicacionesFragment extends Fragment {
                             new Response.Listener<Configuracion[]>() {
                                 @Override
                                 public void onResponse(Configuracion[] response) {
-                                    List<Configuracion> persons = Arrays.asList(response);
+                                    List<Configuracion> l_configuraciones = Arrays.asList(response);
+
+                                    LinearLayout layout = (LinearLayout) _view.findViewById(R.id.Registro_layout);
+
+                                    if (l_configuraciones.size() == 1) {
+                                        mListener.OnAplicacionesFragmentInteractionListener(l_configuraciones.get(0));
+                                    } else {
+
+                                        vSiguiente.setVisibility(View.VISIBLE);
+                                        vProgreso.setVisibility(View.GONE);
+
+                                        for (Configuracion config : l_configuraciones) {
+
+                                            TextView text = new TextView(getContext());
+                                            text.setTextColor(Color.BLACK);
+                                            text.setText(config.Aplicacion);
+
+                                            layout.addView(text);
+                                        }
+                                    }
                                 }
                             }, new Response.ErrorListener() {
 
@@ -172,8 +163,7 @@ public class AplicacionesFragment extends Fragment {
 
 
     public interface OnAplicacionesFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void OnAplicacionesFragmentInteractionListener(String codigo_acceso, String prefijo, String telefono);
+        public void OnAplicacionesFragmentInteractionListener(Configuracion _configuracion);
     }
 
 }

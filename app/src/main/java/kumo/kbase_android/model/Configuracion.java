@@ -3,33 +3,35 @@ package kumo.kbase_android.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by dev_2 on 03/11/2015.
  */
 
 @DatabaseTable(tableName = "Configuracion")
-public class Configuracion {
+public class Configuracion implements Serializable{
 
     @DatabaseField(id = true)
-    Integer id;
+    public Integer id;
 
     @DatabaseField
-    String Id_Aplicacion;
+    public String Id_Aplicacion;
 
     @DatabaseField
-    String Aplicacion;
+    public String Aplicacion;
 
     @DatabaseField
-    String Id_Usuario;
+    public String Id_Usuario;
 
     @DatabaseField
-    String Id_Usuario_Clase;
+    public String Id_Usuario_Clase;
 
     @DatabaseField
-    String Ruta_Imagen_Aplicacion;
+    public String Ruta_Imagen_Aplicacion;
 
     @DatabaseField
-    String Ruta_Imagen_Usuario;
+    public String Ruta_Imagen_Usuario;
 
     public Configuracion(){
 

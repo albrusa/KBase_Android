@@ -14,26 +14,24 @@ import kumo.kbase_android.R;
 import kumo.kbase_android.model.Configuracion;
 import kumo.kbase_android.utils.Constantes;
 
-public class CodigoAccesoFragment extends Fragment {
+public class IntroducirClaveFragment extends Fragment {
 
-    private onCodigoAccesoFragmentInteraction mListener;
+    private onIntroducirClaveFragmentInteraction mListener;
 
-
-    private AutoCompleteTextView vCodigo_Acceso;
+    private AutoCompleteTextView vClave;
     private Button vSiguiente;
 
     private Configuracion mConfiguracion;
-    private View mView;
 
-    public static CodigoAccesoFragment  newInstance(Configuracion _configuracion) {
-        CodigoAccesoFragment fragment = new CodigoAccesoFragment();
+    public static IntroducirClaveFragment newInstance(Configuracion _configuracion) {
+        IntroducirClaveFragment fragment = new IntroducirClaveFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constantes.BUNDLE_CONFIGURACION,_configuracion);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public CodigoAccesoFragment() {
+    public IntroducirClaveFragment() {
         // Required empty public constructor
     }
 
@@ -48,14 +46,14 @@ public class CodigoAccesoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View _view =  inflater.inflate(R.layout.registro_usuario_fragment, container, false);
+        View _view =  inflater.inflate(R.layout.registro_introducir_clave_fragment, container, false);
 
-        vCodigo_Acceso = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_acceso);
+        vClave = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_acceso);
 
 
         //Cal comentar
 
-        vCodigo_Acceso.setText("nmonfulleda");
+        vClave.setText("nmonfulleda");
 
         //Fi cal comentar
 
@@ -65,10 +63,10 @@ public class CodigoAccesoFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String codigo_Acceso = vCodigo_Acceso.getText().toString();
-                if (!TextUtils.isEmpty(codigo_Acceso)) {
+                String clave = vClave.getText().toString();
+                if (!TextUtils.isEmpty(clave)) {
                     if (mListener != null) {
-                        mListener.onCodigoAccesoFragmentInteraction(codigo_Acceso);
+                        mListener.onIntroducirClaveFragmentInteraction();
                     }
                 }
             }
@@ -86,7 +84,7 @@ public class CodigoAccesoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         try {
-            mListener = (onCodigoAccesoFragmentInteraction) getActivity();
+            mListener = (onIntroducirClaveFragmentInteraction) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
@@ -101,9 +99,9 @@ public class CodigoAccesoFragment extends Fragment {
     }
 
 
-    public interface onCodigoAccesoFragmentInteraction {
+    public interface onIntroducirClaveFragmentInteraction {
         // TODO: Update argument type and name
-        public void onCodigoAccesoFragmentInteraction(String codigo_acceso);
+        public void onIntroducirClaveFragmentInteraction();
     }
 
 }

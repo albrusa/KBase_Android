@@ -1,7 +1,6 @@
 package kumo.kbase_android.httpRequest;
 
 
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -76,10 +75,10 @@ public class GsonRequest<T> extends JsonRequest<T> {
             volleyError = error;
         }
 
-        Log.d("error", "error");
+        Log.d("error", volleyError.getMessage());
 
-        Snackbar.make(mView, "Esto es una prueba", Snackbar.LENGTH_LONG)
-                .show();
+        /*Snackbar.make(mView, "Esto es una prueba", Snackbar.LENGTH_LONG)
+                .show();*/
 
         return volleyError;
     }
@@ -96,9 +95,13 @@ public class GsonRequest<T> extends JsonRequest<T> {
             if(valor.Id_Estado == 0) {
                 return Response.success(
                         gson.fromJson(valor.vX, clazz), HttpHeaderParser.parseCacheHeaders(response));
+            }else{
+                throw new Exception(valor.Mensaje);
             }
-            return Response.success(
-                    gson.fromJson(json, clazz), HttpHeaderParser.parseCacheHeaders(response));
+
+
+            /*return Response.success(
+                    gson.fromJson(json, clazz), HttpHeaderParser.parseCacheHeaders(response));*/
 
            /* String json = new String(
                     response.data, HttpHeaderParser.parseCharset(response.headers));
@@ -108,6 +111,8 @@ public class GsonRequest<T> extends JsonRequest<T> {
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
+            return Response.error(new ParseError(e));
+        }catch (Exception e){
             return Response.error(new ParseError(e));
         }
     }

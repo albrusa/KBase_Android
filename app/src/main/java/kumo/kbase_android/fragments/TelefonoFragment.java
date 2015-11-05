@@ -1,7 +1,6 @@
 package kumo.kbase_android.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -20,27 +19,19 @@ import kumo.kbase_android.adapters.PrefijosAdapter;
 import kumo.kbase_android.model.xPrefijo_Telf;
 import kumo.kbase_android.utils.Cultura;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TelefonoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TelefonoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TelefonoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private OnTelefonoFragmentInteractionListener mListener;
+
     private static final String CODIGO_ACCESO = "codigo_acceso";
 
-    // TODO: Rename and change types of parameters
     private String mCodigo_Acceso;
 
     private AutoCompleteTextView vTelefono;
     private Spinner vPrefijo;
     private TextView vCodigo_Acceso;
 
-    private OnTelefonoFragmentInteractionListener mListener;
+
 
     public static TelefonoFragment newInstance(String codigo_acceso) {
         TelefonoFragment fragment = new TelefonoFragment();
@@ -60,8 +51,6 @@ public class TelefonoFragment extends Fragment {
         if (getArguments() != null) {
             mCodigo_Acceso = getArguments().getString(CODIGO_ACCESO);
         }
-
-
     }
 
     @Override
@@ -80,6 +69,19 @@ public class TelefonoFragment extends Fragment {
         PrefijosAdapter adapter = new PrefijosAdapter(_view.getContext(),android.R.layout.select_dialog_singlechoice,prefijos);
 
         vPrefijo.setAdapter(adapter);
+
+        //Cal comentar a la versió final
+
+        for (int i = 0; i < vPrefijo.getCount(); i++) {
+            if (((xPrefijo_Telf)vPrefijo.getItemAtPosition(i)).iX.equals("34")) {
+                vPrefijo.setSelection(i);
+                break;
+            }
+        }
+        vTelefono.setText("650595821");
+
+        //Fi del comentari
+
 
         Button mSiguiente = (Button) _view.findViewById(R.id.registro_to_telefono);
         mSiguiente.setOnClickListener(new View.OnClickListener() {
