@@ -8,6 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+
 import kumo.kbase_android.fragments.AplicacionesFragment;
 import kumo.kbase_android.fragments.CodigoAccesoFragment;
 import kumo.kbase_android.fragments.CrearClaveFragment;
@@ -15,8 +22,12 @@ import kumo.kbase_android.fragments.IntroducirClaveFragment;
 import kumo.kbase_android.fragments.IntroducirCodigoValidacionFragment;
 import kumo.kbase_android.fragments.SeleccionarPasswordFragment;
 import kumo.kbase_android.fragments.TelefonoFragment;
+import kumo.kbase_android.httpRequest.GsonRequest;
+import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Configuracion;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.model.boolean_Api;
+import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class RegistroActivity extends AppCompatActivity
@@ -178,7 +189,54 @@ public class RegistroActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_REGISTRADO,"1").apply();
 
-        saltarRegistro();
+        String token = sharedPreferences.getString(QuickstartPreferences.ID_TOKEN,"");
+
+        try {
+
+            HashMap<String, String> params = new HashMap<String, String>();
+
+            final JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("_id_aplicacion", mConfiguracion.Id_Aplicacion);
+            jsonObject.addProperty("_id_usuario", mConfiguracion.Id_Usuario);
+            jsonObject.addProperty("_id_usuario_clase", mConfiguracion.Id_Usuario_Clase);
+            jsonObject.addProperty("_token", token);
+
+            GsonRequest<boolean_Api> getPersons =
+                    new GsonRequest<boolean_Api>(Request.Method.POST, findViewById(android.R.id.content), Constantes.USUARIO__REGISTRAR, boolean_Api.class,params,jsonObject,
+
+                            new Response.Listener<boolean_Api>() {
+                                @Override
+                                public void onResponse(boolean_Api response) {
+
+                                    if (response.Valor)
+                                    {
+                                        saltarRegistro();
+                                    }
+                                    else{
+
+                                        Log.d("ValidacionFragment","codigo erroneo");
+                                    }
+
+
+
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("objeto", error.getMessage());
+                            // TODO deal with error
+                        }
+                    });
+
+            HttpCola.getInstance(this.getBaseContext()).addToRequestQueue(getPersons);
+
+        } catch (Exception e) {
+            Log.d("Error",e.getMessage());
+        }
+
+
+
     }
 
 
