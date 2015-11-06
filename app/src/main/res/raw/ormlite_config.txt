@@ -1,0 +1,93 @@
+dataClass=kumo.kbase_android.model.Usuario
+tableName=Usuario
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Codigo_Acceso
+columnName=Codigo_Acceso
+# --field-end--
+# --field-start--
+fieldName=Clave
+fieldName=Clave
+# --field-end--
+# --field-start--
+fieldName=e_Clave
+fieldName=e_Clave
+# --field-end--
+# --field-start--
+fieldName=Nombre
+fieldName=Nombre
+# --field-end--
+# --field-start--
+fieldName=Apellidos
+fieldName=Apellidos
+# --field-end--
+# --field-start--
+fieldName=Prefijo
+fieldName=Prefijo
+# --field-end--
+# --field-start--
+fieldName=Tlf_Movil
+fieldName=Tlf_Movil
+# --field-end--
+# --field-start--
+fieldName=Correo
+fieldName=Correo
+# --field-end--
+# --field-start--
+fieldName=Idioma
+fieldName=Idioma
+# --field-end--
+# --field-start--
+fieldName=Imagen_Perfil
+fieldName=Imagen_Perfil
+# --field-end--
+# --field-start--
+fieldName=c_Estado_Pago
+fieldName=c_Estado_Pago
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=kumo.kbase_android.model.Configuracion
+tableName=Configuracion
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Aplicacion
+columnName=Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario
+columnName=Id_Usuario
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario_Clase
+columnName=Id_Usuario_Clase
+# --field-end--
+# --field-start--
+fieldName=Ruta_Imagen_Aplicacion
+columnName=Ruta_Imagen_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Ruta_Imagen_Usuario
+columnName=Ruta_Imagen_Usuario
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

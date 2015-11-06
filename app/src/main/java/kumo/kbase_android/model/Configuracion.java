@@ -12,7 +12,7 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "Configuracion")
 public class Configuracion implements Serializable{
 
-    @DatabaseField(id = true)
+    @DatabaseField(id = true, generatedId = true)
     public Integer id;
 
     @DatabaseField
