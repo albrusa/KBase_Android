@@ -6,14 +6,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="kumo.kbase_android.fragments.CodigoAccesoFragment">
+    tools:context="kumo.kbase_android.fragments.IntroducirClaveFragment">
 
 
     <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <AutoCompleteTextView android:id="@+id/registro_codigo_acceso" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="@string/codigo_usuario"
+        <AutoCompleteTextView android:id="@+id/registro_clave" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="Clave"
             android:inputType="text" android:maxLines="1"
             android:singleLine="true" />
 

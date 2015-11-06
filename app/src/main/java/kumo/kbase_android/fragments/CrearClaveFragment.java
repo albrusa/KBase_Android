@@ -22,6 +22,7 @@ import kumo.kbase_android.R;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Configuracion;
+import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.model.boolean_Api;
 import kumo.kbase_android.utils.Constantes;
 
@@ -40,6 +41,7 @@ public class CrearClaveFragment extends Fragment {
     private Configuracion mConfiguracion;
     private String mCodigo_Validacion;
     private View mView;
+    private String mClave;
 
 
     public static CrearClaveFragment newInstance(Configuracion _configuracion, String _codigo_validacion) {
@@ -69,6 +71,8 @@ public class CrearClaveFragment extends Fragment {
                              Bundle savedInstanceState) {
         View _view =  inflater.inflate(R.layout.registro_crear_clave_fragment, container, false);
 
+        mView = _view;
+
         vClave = (AutoCompleteTextView) _view.findViewById(R.id.registro_clave);
         vRepetir_Clave = (AutoCompleteTextView) _view.findViewById(R.id.registro_repetir_clave);
 
@@ -93,6 +97,8 @@ public class CrearClaveFragment extends Fragment {
 
                     if(clave.equals(repetir_clave)) {
 
+                        mClave = clave;
+
                         try {
 
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -112,7 +118,51 @@ public class CrearClaveFragment extends Fragment {
                                                 public void onResponse(boolean_Api response) {
                                                     if (response.Valor)
                                                     {
-                                                        mListener.onCrearClaveFragmentInteractionListener();
+
+                                                        try {
+
+                                                            HashMap<String, String> params = new HashMap<String, String>();
+
+                                                            final JsonObject jsonObject = new JsonObject();
+                                                            jsonObject.addProperty("_id_aplicacion", mConfiguracion.Id_Aplicacion);
+                                                            jsonObject.addProperty("_id_usuario", mConfiguracion.Id_Usuario);
+                                                            jsonObject.addProperty("_id_usuario_clase", mConfiguracion.Id_Usuario_Clase);
+                                                            jsonObject.addProperty("_clave", mClave);
+
+                                                            GsonRequest<Usuario> getPersons =
+                                                                    new GsonRequest<Usuario>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
+
+                                                                            new Response.Listener<Usuario>() {
+                                                                                @Override
+                                                                                public void onResponse(Usuario response) {
+                                                                                    Usuario usuario = response;
+
+
+                                                                                    if (usuario != null)
+                                                                                    {
+                                                                                        mListener.onCrearClaveFragmentInteractionListener(usuario);
+                                                                                    }
+                                                                                    else{
+
+                                                                                        Log.d("ValidacionFragment", "codigo erroneo");
+                                                                                    }
+
+
+                                                                                }
+                                                                            }, new Response.ErrorListener() {
+
+                                                                        @Override
+                                                                        public void onErrorResponse(VolleyError error) {
+                                                                            Log.d("objeto", error.getMessage());
+                                                                            // TODO deal with error
+                                                                        }
+                                                                    });
+
+                                                            HttpCola.getInstance(mView.getContext()).addToRequestQueue(getPersons);
+
+                                                        } catch (Exception e) {
+                                                            Log.d("Error",e.getMessage());
+                                                        }
                                                     }
                                                     else{
 
@@ -134,11 +184,6 @@ public class CrearClaveFragment extends Fragment {
 
                         } catch (Exception e) {
                             Log.d("Error",e.getMessage());
-                        }
-
-
-                        if (mListener != null) {
-                            mListener.onCrearClaveFragmentInteractionListener();
                         }
                     }else{
 
@@ -178,7 +223,7 @@ public class CrearClaveFragment extends Fragment {
 
     public interface onCrearClaveFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onCrearClaveFragmentInteractionListener();
+        public void onCrearClaveFragmentInteractionListener(Usuario usuario);
     }
 
 }

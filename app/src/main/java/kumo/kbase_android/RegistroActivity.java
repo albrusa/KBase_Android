@@ -1,6 +1,5 @@
 package kumo.kbase_android;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -9,21 +8,28 @@ import android.util.Log;
 import kumo.kbase_android.fragments.AplicacionesFragment;
 import kumo.kbase_android.fragments.CodigoAccesoFragment;
 import kumo.kbase_android.fragments.CrearClaveFragment;
+import kumo.kbase_android.fragments.IntroducirClaveFragment;
 import kumo.kbase_android.fragments.IntroducirCodigoValidacionFragment;
 import kumo.kbase_android.fragments.SeleccionarPasswordFragment;
 import kumo.kbase_android.fragments.TelefonoFragment;
 import kumo.kbase_android.model.Configuracion;
+import kumo.kbase_android.model.Usuario;
 
 public class RegistroActivity extends AppCompatActivity
         implements
-        CodigoAccesoFragment.onCodigoAccesoFragmentInteraction,
+        CodigoAccesoFragment.onCodigoAccesoFragmentInteractionListener,
         TelefonoFragment.OnTelefonoFragmentInteractionListener,
         AplicacionesFragment.OnAplicacionesFragmentInteractionListener,
         SeleccionarPasswordFragment.OnSeleccionarPasswordFragmentInteractionListener,
-        IntroducirCodigoValidacionFragment.onIntroducirCodigoValidacionFragmentInteraction
+        IntroducirCodigoValidacionFragment.onIntroducirCodigoValidacionFragmentInteraction,
+        IntroducirClaveFragment.onIntroducirClaveFragmentInteraction,
+        CrearClaveFragment.onCrearClaveFragmentInteractionListener
         {
 
     public Configuracion mConfiguracion;
+    public String mCodigo_Acceso;
+    public String mTelefono;
+    public String mPrefijo;
 
 
     @Override
@@ -34,20 +40,22 @@ public class RegistroActivity extends AppCompatActivity
         Fragment fragment = new CodigoAccesoFragment();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(fragment.getClass().getName())
         .commit();
     }
 
-    public void onCodigoAccesoFragmentInteraction(String codigo_acceso) {
-        Log.d("Interaction", codigo_acceso);
+    public void onCodigoAccesoFragmentInteractionListener(String _codigo_acceso) {
+        Log.d("Interaction", _codigo_acceso);
 
-        Fragment fragment = new TelefonoFragment().newInstance(codigo_acceso);
+        mCodigo_Acceso = _codigo_acceso;
+
+        Fragment fragment = new TelefonoFragment().newInstance(_codigo_acceso);
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
                 .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
 
@@ -55,34 +63,50 @@ public class RegistroActivity extends AppCompatActivity
         // Do something here to display that article
     }
 
-    public void OnTelefonoFragmentInteractionListener(String codigo_acceso, String prefijo, String telefono) {
+    public void OnTelefonoFragmentInteractionListener(String _codigo_acceso, String _prefijo, String _telefono) {
 
-        Log.d("Interaction", codigo_acceso);
+        Log.d("Interaction", _codigo_acceso);
 
-        Fragment fragment = new AplicacionesFragment().newInstance(codigo_acceso,prefijo,telefono);
+        mPrefijo = _prefijo;
+        mTelefono = _telefono;
+
+        Fragment fragment = new AplicacionesFragment().newInstance(_codigo_acceso,_prefijo,_telefono);
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
                 .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
     }
 
-    public void OnAplicacionesFragmentInteractionListener(Configuracion _configuracion) {
+    public void OnAplicacionesFragmentInteractionListener(String _estado, Configuracion _configuracion) {
 
-        mConfiguracion = _configuracion;
+        if( _estado == "Ok") {
 
-        Fragment fragment = new SeleccionarPasswordFragment().newInstance(mConfiguracion);
+            mConfiguracion = _configuracion;
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack(fragment.getClass().getName())
-                .commit();
+            Fragment fragment = new SeleccionarPasswordFragment().newInstance(mConfiguracion);
 
-        Log.d("Interaction", _configuracion.Id_Aplicacion);
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .replace(R.id.registro_contenido, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+
+            Log.d("Interaction", _configuracion.Id_Aplicacion);
+        }else{
+            if(_estado == "Ko"){
+                Fragment fragment = new TelefonoFragment().newInstance(mCodigo_Acceso);
+
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
+                        .replace(R.id.registro_contenido, fragment)
+                        .commit();
+
+            }
+        }
 
     }
 
@@ -96,12 +120,12 @@ public class RegistroActivity extends AppCompatActivity
         }
         else
         {
-            fragment = new IntroducirCodigoValidacionFragment().newInstance(mConfiguracion);
+            fragment = new IntroducirClaveFragment().newInstance(mConfiguracion);
         }
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
                 .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
 
@@ -114,14 +138,60 @@ public class RegistroActivity extends AppCompatActivity
         Fragment fragment = new CrearClaveFragment().newInstance(mConfiguracion,_codigo_validacion);
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
                 .replace(R.id.registro_contenido, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }
 
+    public void onIntroducirClaveFragmentInteraction(Usuario _usuario){
+
+        guardar_Usuario(mConfiguracion);
+
+
+        Log.d("Interaction", "asd");
+    }
+
+    public void onCrearClaveFragmentInteractionListener(Usuario _usuario){
+
+        Log.d("Interaction", "asd");
+    }
+
+
+    public void guardar_Usuario(Configuracion _configuracion){
+
+    }
+
+
         @Override
     protected void onResume(){
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+         Fragment fragment_activo = (Fragment)getSupportFragmentManager().findFragmentById(R.id.registro_contenido);
+
+        Log.d("Interaction", fragment_activo.getClass().getName());
+
+        if(fragment_activo instanceof SeleccionarPasswordFragment){
+
+            Fragment fragment = new TelefonoFragment().newInstance(mCodigo_Acceso);
+
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter,R.anim.pop_exit)
+                    .replace(R.id.registro_contenido, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+
+        }else{
+            super.onBackPressed();
+        }
+
+
+
+
+
     }
 }

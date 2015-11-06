@@ -16,7 +16,7 @@ import kumo.kbase_android.utils.Constantes;
 
 public class CodigoAccesoFragment extends Fragment {
 
-    private onCodigoAccesoFragmentInteraction mListener;
+    private onCodigoAccesoFragmentInteractionListener mListener;
 
 
     private AutoCompleteTextView vCodigo_Acceso;
@@ -68,7 +68,7 @@ public class CodigoAccesoFragment extends Fragment {
                 String codigo_Acceso = vCodigo_Acceso.getText().toString();
                 if (!TextUtils.isEmpty(codigo_Acceso)) {
                     if (mListener != null) {
-                        mListener.onCodigoAccesoFragmentInteraction(codigo_Acceso);
+                        mListener.onCodigoAccesoFragmentInteractionListener(codigo_Acceso);
                     }
                 }
             }
@@ -86,7 +86,7 @@ public class CodigoAccesoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         try {
-            mListener = (onCodigoAccesoFragmentInteraction) getActivity();
+            mListener = (onCodigoAccesoFragmentInteractionListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
@@ -101,9 +101,9 @@ public class CodigoAccesoFragment extends Fragment {
     }
 
 
-    public interface onCodigoAccesoFragmentInteraction {
+    public interface onCodigoAccesoFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onCodigoAccesoFragmentInteraction(String codigo_acceso);
+        public void onCodigoAccesoFragmentInteractionListener(String codigo_acceso);
     }
 
 }

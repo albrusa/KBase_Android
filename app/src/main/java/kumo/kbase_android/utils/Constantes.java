@@ -9,6 +9,7 @@ public class Constantes {
 
     //public static final String HTTP_SERVER = "http://www.kmed.es/Android_Api";
 
+    //public static final String HTTP_SERVER = " http://192.168.1.83/kModel_api";
 
     public static final String USUARIO__OBT_APLICACIONES = HTTP_SERVER+"/Usuarios/obt_aplicaciones";
     public static final String USUARIO__GENERAR_CODIGO_VERIFICACION = HTTP_SERVER+"/Usuarios/generar_codigo_verificacion";

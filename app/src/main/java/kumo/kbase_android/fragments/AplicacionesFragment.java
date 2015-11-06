@@ -106,7 +106,7 @@ public class AplicacionesFragment extends Fragment {
                                     LinearLayout layout = (LinearLayout) _view.findViewById(R.id.Registro_layout);
 
                                     if (l_configuraciones.size() == 1) {
-                                        mListener.OnAplicacionesFragmentInteractionListener(l_configuraciones.get(0));
+                                        mListener.OnAplicacionesFragmentInteractionListener("Ok", l_configuraciones.get(0));
                                     } else {
 
                                         vSiguiente.setVisibility(View.VISIBLE);
@@ -127,6 +127,7 @@ public class AplicacionesFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("objeto", error.getMessage());
+                            mListener.OnAplicacionesFragmentInteractionListener("Ko", null);
                             // TODO deal with error
                         }
                     });
@@ -163,7 +164,7 @@ public class AplicacionesFragment extends Fragment {
 
 
     public interface OnAplicacionesFragmentInteractionListener {
-        public void OnAplicacionesFragmentInteractionListener(Configuracion _configuracion);
+        public void OnAplicacionesFragmentInteractionListener(String _estado, Configuracion _configuracion);
     }
 
 }

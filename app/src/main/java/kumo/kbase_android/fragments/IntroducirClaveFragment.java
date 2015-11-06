@@ -4,14 +4,25 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+
 import kumo.kbase_android.R;
+import kumo.kbase_android.httpRequest.GsonRequest;
+import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Configuracion;
+import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.Constantes;
 
 public class IntroducirClaveFragment extends Fragment {
@@ -22,6 +33,7 @@ public class IntroducirClaveFragment extends Fragment {
     private Button vSiguiente;
 
     private Configuracion mConfiguracion;
+    private View mView;
 
     public static IntroducirClaveFragment newInstance(Configuracion _configuracion) {
         IntroducirClaveFragment fragment = new IntroducirClaveFragment();
@@ -48,7 +60,9 @@ public class IntroducirClaveFragment extends Fragment {
                              Bundle savedInstanceState) {
         View _view =  inflater.inflate(R.layout.registro_introducir_clave_fragment, container, false);
 
-        vClave = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_acceso);
+        mView = _view;
+
+        vClave = (AutoCompleteTextView) _view.findViewById(R.id.registro_clave);
 
 
         //Cal comentar
@@ -65,8 +79,51 @@ public class IntroducirClaveFragment extends Fragment {
 
                 String clave = vClave.getText().toString();
                 if (!TextUtils.isEmpty(clave)) {
-                    if (mListener != null) {
-                        mListener.onIntroducirClaveFragmentInteraction();
+
+
+                    try {
+
+                        HashMap<String, String> params = new HashMap<String, String>();
+
+                        final JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("_id_aplicacion", mConfiguracion.Id_Aplicacion);
+                        jsonObject.addProperty("_id_usuario", mConfiguracion.Id_Usuario);
+                        jsonObject.addProperty("_id_usuario_clase", mConfiguracion.Id_Usuario_Clase);
+                        jsonObject.addProperty("_clave", clave);
+
+                        GsonRequest<Usuario> getPersons =
+                                new GsonRequest<Usuario>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
+
+                                        new Response.Listener<Usuario>() {
+                                            @Override
+                                            public void onResponse(Usuario response) {
+                                                Usuario usuario = response;
+
+
+                                                if (usuario != null)
+                                                {
+                                                    mListener.onIntroducirClaveFragmentInteraction(usuario);
+                                                }
+                                                else{
+
+                                                    Log.d("ValidacionFragment", "codigo erroneo");
+                                                }
+
+
+                                            }
+                                        }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("objeto", error.getMessage());
+                                        // TODO deal with error
+                                    }
+                                });
+
+                        HttpCola.getInstance(mView.getContext()).addToRequestQueue(getPersons);
+
+                    } catch (Exception e) {
+                        Log.d("Error",e.getMessage());
                     }
                 }
             }
@@ -100,8 +157,7 @@ public class IntroducirClaveFragment extends Fragment {
 
 
     public interface onIntroducirClaveFragmentInteraction {
-        // TODO: Update argument type and name
-        public void onIntroducirClaveFragmentInteraction();
+        public void onIntroducirClaveFragmentInteraction(Usuario _usuario);
     }
 
 }

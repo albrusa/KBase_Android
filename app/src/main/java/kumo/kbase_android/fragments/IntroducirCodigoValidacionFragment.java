@@ -64,13 +64,6 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
 
         vCodigo_Validacion = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_validacion);
 
-
-        //Cal comentar
-
-        vCodigo_Validacion.setText("nmonfulleda");
-
-        //Fi cal comentar
-
         vSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
 
         vSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +104,6 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.d("objeto", error.getMessage());
-                                        // TODO deal with error
                                     }
                                 });
 
