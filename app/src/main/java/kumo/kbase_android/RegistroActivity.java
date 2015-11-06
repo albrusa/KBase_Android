@@ -1,6 +1,9 @@
 package kumo.kbase_android;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +17,7 @@ import kumo.kbase_android.fragments.SeleccionarPasswordFragment;
 import kumo.kbase_android.fragments.TelefonoFragment;
 import kumo.kbase_android.model.Configuracion;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class RegistroActivity extends AppCompatActivity
         implements
@@ -35,15 +39,24 @@ public class RegistroActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registro_activity);
 
-        Fragment fragment = new CodigoAccesoFragment();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean si_Registro = sharedPreferences.getString(QuickstartPreferences.USUARIO_REGISTRADO,"0") == "0";
 
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.registro_contenido, fragment)
-                .addToBackStack(fragment.getClass().getName())
-        .commit();
+        if(si_Registro) {
+
+            setContentView(R.layout.registro_activity);
+
+            Fragment fragment = new CodigoAccesoFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .replace(R.id.registro_contenido, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+        }else{
+            saltarRegistro();
+        }
     }
 
     public void onCodigoAccesoFragmentInteractionListener(String _codigo_acceso) {
@@ -146,7 +159,7 @@ public class RegistroActivity extends AppCompatActivity
 
     public void onIntroducirClaveFragmentInteraction(Usuario _usuario){
 
-        guardar_Usuario(mConfiguracion);
+        guardar_Usuario(mConfiguracion, _usuario);
 
 
         Log.d("Interaction", "asd");
@@ -154,18 +167,42 @@ public class RegistroActivity extends AppCompatActivity
 
     public void onCrearClaveFragmentInteractionListener(Usuario _usuario){
 
+        guardar_Usuario(mConfiguracion, _usuario);
+
         Log.d("Interaction", "asd");
     }
 
 
-    public void guardar_Usuario(Configuracion _configuracion){
+    public void guardar_Usuario(Configuracion _configuracion, Usuario _usuario){
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_REGISTRADO,"1").apply();
+
+        saltarRegistro();
     }
+
+
+    public void saltarRegistro(){
+
+        Intent intent = new Intent(this,ConversacionesListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
 
         @Override
     protected void onResume(){
         super.onResume();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean si_Registro = sharedPreferences.getString(QuickstartPreferences.USUARIO_REGISTRADO,"0") == "0";
+
+        if(!si_Registro) {
+
+            saltarRegistro();
+        }
+
     }
 
     @Override
