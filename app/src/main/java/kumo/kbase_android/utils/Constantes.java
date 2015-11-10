@@ -7,9 +7,11 @@ public class Constantes {
 
     public static final String HTTP_SERVER = "http://localhost:32766";
 
-    //public static final String HTTP_SERVER = "http://www.kmed.es/Android_Api";
+    //public static final String HTTP_SERVER = "https://www.kmed.es/Android_Api";
 
     //public static final String HTTP_SERVER = " http://192.168.1.83/kModel_api";
+
+    public static final String HTTP_KMED_SERVER = "https://www.kmed.es";
 
     public static final String USUARIO__OBT_APLICACIONES = HTTP_SERVER+"/Usuarios/obt_aplicaciones";
     public static final String USUARIO__GENERAR_CODIGO_VERIFICACION = HTTP_SERVER+"/Usuarios/generar_codigo_verificacion";
@@ -23,6 +25,12 @@ public class Constantes {
     public static final String USUARIO__AUTENTIFICAR = HTTP_SERVER+"/Usuarios/autentificar";
 
 
+    public static final String CONVERSACIONES_OBT_CONVERSACIONES = HTTP_SERVER+"/Conversaciones/obt_conversaciones";
+    public static final String CONVERSACIONES_OBT_MENSAJES = HTTP_SERVER+"/Conversaciones/obt_mensajes";
+
+    public static final String DOCUMENTOS_OBT_DOCUMENTOS = HTTP_SERVER+"/Documentos/obt_documentos";
+
+    public static final String NOTICIAS_OBT_NOTICIAS = HTTP_SERVER+"/Noticias/obt_Noticias";
 
 
 

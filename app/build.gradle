@@ -21,8 +21,12 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layouts/adapters',
                     'src/main/res/layouts/registro',
                     'src/main/res/layouts/conversacionesList',
+                    'src/main/res/layouts/usuariosList',
+                    'src/main/res/layouts/documentosList',
+                    'src/main/res/layouts/main',
                     'src/main/res/layouts',
                     'src/main/res'
             ]

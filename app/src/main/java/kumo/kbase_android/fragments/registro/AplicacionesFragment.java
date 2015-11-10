@@ -1,4 +1,4 @@
-package kumo.kbase_android.fragments;
+package kumo.kbase_android.fragments.registro;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 
 @DatabaseTable(tableName = "Usuario")
-public class Usuario implements Serializable{
+public class Usuario extends db_Base implements Serializable{
 
     @DatabaseField(id = true, generatedId = true)
-    public Integer id;
+    public Integer id_db;
 
     @DatabaseField
     public String Codigo_Acceso;
@@ -47,6 +47,12 @@ public class Usuario implements Serializable{
 
     @DatabaseField
     public int c_Estado_Pago;
+
+    @DatabaseField
+    public String Aplicacion;
+
+    @DatabaseField
+    public String Ruta_Imagen_Aplicacion;
 
     public Usuario(){
 

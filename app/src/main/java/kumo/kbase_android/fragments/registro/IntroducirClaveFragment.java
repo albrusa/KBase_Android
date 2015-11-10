@@ -1,4 +1,4 @@
-package kumo.kbase_android.fragments;
+package kumo.kbase_android.fragments.registro;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,28 +22,28 @@ import kumo.kbase_android.R;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Configuracion;
-import kumo.kbase_android.model.boolean_Api;
+import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.Constantes;
 
-public class IntroducirCodigoValidacionFragment extends Fragment {
+public class IntroducirClaveFragment extends Fragment {
 
-    private onIntroducirCodigoValidacionFragmentInteraction mListener;
+    private onIntroducirClaveFragmentInteraction mListener;
 
-    private AutoCompleteTextView vCodigo_Validacion;
+    private AutoCompleteTextView vClave;
     private Button vSiguiente;
 
     private Configuracion mConfiguracion;
     private View mView;
 
-    public static IntroducirCodigoValidacionFragment newInstance(Configuracion _configuracion) {
-        IntroducirCodigoValidacionFragment fragment = new IntroducirCodigoValidacionFragment();
+    public static IntroducirClaveFragment newInstance(Configuracion _configuracion) {
+        IntroducirClaveFragment fragment = new IntroducirClaveFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constantes.BUNDLE_CONFIGURACION,_configuracion);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public IntroducirCodigoValidacionFragment() {
+    public IntroducirClaveFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +58,18 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View _view =  inflater.inflate(R.layout.registro_codigo_validacion_fragment, container, false);
+        View _view =  inflater.inflate(R.layout.registro_introducir_clave_fragment, container, false);
 
         mView = _view;
 
-        vCodigo_Validacion = (AutoCompleteTextView) _view.findViewById(R.id.registro_codigo_validacion);
+        vClave = (AutoCompleteTextView) _view.findViewById(R.id.registro_clave);
+
+
+        //Cal comentar
+
+        vClave.setText("nmonfulleda");
+
+        //Fi cal comentar
 
         vSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
 
@@ -70,8 +77,10 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                final String codigo_validacion = vCodigo_Validacion.getText().toString();
-                if (!TextUtils.isEmpty(codigo_validacion)) {
+                String clave = vClave.getText().toString();
+                if (!TextUtils.isEmpty(clave)) {
+
+
                     try {
 
                         HashMap<String, String> params = new HashMap<String, String>();
@@ -79,22 +88,24 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
                         final JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("_id_aplicacion", mConfiguracion.Id_Aplicacion);
                         jsonObject.addProperty("_id_usuario", mConfiguracion.Id_Usuario);
-                        jsonObject.addProperty("_id_usuario_Clase", mConfiguracion.Id_Usuario_Clase);
-                        jsonObject.addProperty("_codigo_verificacion", codigo_validacion);
+                        jsonObject.addProperty("_id_usuario_clase", mConfiguracion.Id_Usuario_Clase);
+                        jsonObject.addProperty("_clave", clave);
 
-                        GsonRequest<boolean_Api> getPersons =
-                                new GsonRequest<boolean_Api>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__VERIFICAR_CODIGO_VERIFICACION, boolean_Api.class,params,jsonObject,
+                        GsonRequest<Usuario> getPersons =
+                                new GsonRequest<Usuario>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
 
-                                        new Response.Listener<boolean_Api>() {
+                                        new Response.Listener<Usuario>() {
                                             @Override
-                                            public void onResponse(boolean_Api response) {
-                                                if (response.Valor)
+                                            public void onResponse(Usuario response) {
+                                                Usuario usuario = response;
+
+                                                if (usuario != null)
                                                 {
-                                                    mListener.onIntroducirCodigoValidacionFragmentInteraction(codigo_validacion);
+                                                    mListener.onIntroducirClaveFragmentInteraction(usuario);
                                                 }
                                                 else{
 
-                                                    Log.d("ValidacionFragment","codigo erroneo");
+                                                    Log.d("ValidacionFragment", "codigo erroneo");
                                                 }
 
 
@@ -104,6 +115,7 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.d("objeto", error.getMessage());
+                                        // TODO deal with error
                                     }
                                 });
 
@@ -128,7 +140,7 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
     public void onStart() {
         super.onStart();
         try {
-            mListener = (onIntroducirCodigoValidacionFragmentInteraction) getActivity();
+            mListener = (onIntroducirClaveFragmentInteraction) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
@@ -143,8 +155,8 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
     }
 
 
-    public interface onIntroducirCodigoValidacionFragmentInteraction {
-        public void onIntroducirCodigoValidacionFragmentInteraction(String _codigo_validacion);
+    public interface onIntroducirClaveFragmentInteraction {
+        public void onIntroducirClaveFragmentInteraction(Usuario _usuario);
     }
 
 }

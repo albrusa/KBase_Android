@@ -9,4 +9,5 @@ public class QuickstartPreferences {
     public static final String ID_TOKEN = "idToken";
 
     public static final String USUARIO_REGISTRADO = "usuarioRegistrado";
+    public static final String USUARIO_ACTIVO = "usuarioActivo";
 }

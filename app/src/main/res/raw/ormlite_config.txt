@@ -2,9 +2,37 @@ dataClass=kumo.kbase_android.model.Usuario
 tableName=Usuario
 # --table-fields-start--
 # --field-start--
-fieldName=id
-columnName=id
+fieldName=id_db
+columnName=id_db
 generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id
+columnName=Id
+# --field-end--
+# --field-start--
+fieldName=Id_Clase
+columnName=Id_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario
+columnName=Id_Propietario
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario_Clase
+columnName=Id_Propietario_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Creado
+columnName=Creado
+# --field-end--
+# --field-start--
+fieldName=Modificado
+columnName=Modificado
 # --field-end--
 # --field-start--
 fieldName=Codigo_Acceso
@@ -12,43 +40,51 @@ columnName=Codigo_Acceso
 # --field-end--
 # --field-start--
 fieldName=Clave
-fieldName=Clave
+columnName=Clave
 # --field-end--
 # --field-start--
 fieldName=e_Clave
-fieldName=e_Clave
+columnName=e_Clave
 # --field-end--
 # --field-start--
 fieldName=Nombre
-fieldName=Nombre
+columnName=Nombre
 # --field-end--
 # --field-start--
 fieldName=Apellidos
-fieldName=Apellidos
+columnName=Apellidos
 # --field-end--
 # --field-start--
 fieldName=Prefijo
-fieldName=Prefijo
+columnName=Prefijo
 # --field-end--
 # --field-start--
 fieldName=Tlf_Movil
-fieldName=Tlf_Movil
+columnName=Tlf_Movil
 # --field-end--
 # --field-start--
 fieldName=Correo
-fieldName=Correo
+columnName=Correo
 # --field-end--
 # --field-start--
 fieldName=Idioma
-fieldName=Idioma
+columnName=Idioma
 # --field-end--
 # --field-start--
 fieldName=Imagen_Perfil
-fieldName=Imagen_Perfil
+columnName=Imagen_Perfil
 # --field-end--
 # --field-start--
 fieldName=c_Estado_Pago
-fieldName=c_Estado_Pago
+columnName=c_Estado_Pago
+# --field-end--
+# --field-start--
+fieldName=Aplicacion
+columnName=Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Ruta_Imagen_Aplicacion
+columnName=Ruta_Imagen_Aplicacion
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -60,8 +96,8 @@ dataClass=kumo.kbase_android.model.Configuracion
 tableName=Configuracion
 # --table-fields-start--
 # --field-start--
-fieldName=id
-columnName=id
+fieldName=id_db
+columnName=id_db
 generatedId=true
 # --field-end--
 # --field-start--

@@ -13,10 +13,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Map;
 
 import kumo.kbase_android.model.ret_Api;
@@ -49,10 +51,14 @@ public class GsonRequest<T> extends JsonRequest<T> {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
                 errorListener);
 
-        setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mView = _view;
-        gson = new Gson();
+        //gson = new Gson();
+
+        gson = new GsonBuilder().registerTypeAdapter(Date.class, new NetDateTimeAdapter()).create();
+
+
         clazz = classType;
         mHeaders = headers;
         mlistener = listener;
@@ -117,3 +123,5 @@ public class GsonRequest<T> extends JsonRequest<T> {
         }
     }
 }
+
+

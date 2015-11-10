@@ -9,31 +9,31 @@ import java.io.Serializable;
  * Created by dev_2 on 03/11/2015.
  */
 
-@DatabaseTable(tableName = "Configuracion")
-public class Configuracion implements Serializable{
+@DatabaseTable(tableName = "Mensaje")
+public class Mensaje extends db_Base implements Serializable{
 
     @DatabaseField(id = true, generatedId = true)
     public Integer id_db;
 
     @DatabaseField
-    public String Id_Aplicacion;
+    public String Id_0;
 
     @DatabaseField
-    public String Aplicacion;
+    public String Id_0_Clase;
 
     @DatabaseField
-    public String Id_Usuario;
+    public String Mensaje;
 
     @DatabaseField
-    public String Id_Usuario_Clase;
+    public int Orden;
 
     @DatabaseField
-    public String Ruta_Imagen_Aplicacion;
+    public String Id_Archivo;
 
     @DatabaseField
-    public String Ruta_Imagen_Usuario;
+    public int c_Estado;
 
-    public Configuracion(){
+    public Mensaje(){
 
     }
 }
