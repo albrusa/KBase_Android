@@ -12,10 +12,13 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.R;
+import kumo.kbase_android.adapters.ConversacionesListAdapter;
 import kumo.kbase_android.adapters.PrefijosAdapter;
+import kumo.kbase_android.model.Conversacion;
 import kumo.kbase_android.model.xPrefijo_Telf;
 import kumo.kbase_android.utils.Cultura;
 
@@ -67,6 +70,7 @@ public class TelefonoFragment extends Fragment {
         vPrefijo = ( Spinner )_view.findViewById( R.id.registro_prefijo );
         List<xPrefijo_Telf> prefijos = Cultura.obt_prefijos();
         PrefijosAdapter adapter = new PrefijosAdapter(_view.getContext(),android.R.layout.select_dialog_singlechoice,prefijos);
+
 
         vPrefijo.setAdapter(adapter);
 

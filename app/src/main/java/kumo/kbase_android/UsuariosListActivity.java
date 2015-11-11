@@ -39,18 +39,28 @@ public class UsuariosListActivity extends AppCompatActivity{
 
         List<Usuario> l_usuarios2 = new ArrayList<Usuario>();
 
-        Usuario usur = new Usuario();
+        /*Usuario usur = new Usuario();
         usur.Nombre = "Paciente";
         usur.Aplicacion = "Paciente";
-        usur.Id = "44154DFF-DCED-4877-9D25-00EF75AA4485";
+        usur.Id = "44154DFF-DCED-4877-9D25-00EF75AA4485"; //8D75DB91-3315-4232-86DC-458F01426760
         usur.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
-        usur.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF";
+        usur.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+        usur.Imagen_Perfil = "";*/
+
+        Usuario usur = new Usuario();
+        usur.Nombre = "Paciente";
+        usur.Aplicacion = "kGlobal test";
+        usur.Id = "8D75DB91-3315-4232-86DC-458F01426760";
+        usur.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
+        usur.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6";
         usur.Imagen_Perfil = "";
+
 
         try {
             Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
 
-            l_usuarios2 = usuarioDao.queryBuilder().where().eq("Id","44154DFF-DCED-4877-9D25-00EF75AA4485").query();
+            //l_usuarios2 = usuarioDao.queryBuilder().where().eq("Id","44154DFF-DCED-4877-9D25-00EF75AA4485").query();
+            l_usuarios2 = usuarioDao.queryBuilder().where().eq("Id","8D75DB91-3315-4232-86DC-458F01426760").query();
 
             if(l_usuarios2.size() == 0){
                 usuarioDao.create(usur);

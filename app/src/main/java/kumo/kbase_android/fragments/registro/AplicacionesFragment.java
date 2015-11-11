@@ -87,7 +87,7 @@ public class AplicacionesFragment extends Fragment {
 
         final View _view = getView();
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
 
         final JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("_codigo_acceso", mCodigo_Acceso);
@@ -96,7 +96,7 @@ public class AplicacionesFragment extends Fragment {
 
         try {
             GsonRequest<Configuracion[]> getPersons =
-                    new GsonRequest<Configuracion[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.USUARIO__OBT_APLICACIONES, Configuracion[].class,params,jsonObject,
+                    new GsonRequest<>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.USUARIO__OBT_APLICACIONES, Configuracion[].class,params,jsonObject,
 
                             new Response.Listener<Configuracion[]>() {
                                 @Override
@@ -164,7 +164,7 @@ public class AplicacionesFragment extends Fragment {
 
 
     public interface OnAplicacionesFragmentInteractionListener {
-        public void OnAplicacionesFragmentInteractionListener(String _estado, Configuracion _configuracion);
+        void OnAplicacionesFragmentInteractionListener(String _estado, Configuracion _configuracion);
     }
 
 }

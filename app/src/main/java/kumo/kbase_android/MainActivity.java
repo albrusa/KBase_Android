@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager(), mUsuario));
 
             TabLayout tabLayout = (TabLayout) findViewById(R.id.appbartabs);
-            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
             tabLayout.setupWithViewPager(viewPager);
         }else{
 

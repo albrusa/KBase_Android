@@ -193,7 +193,8 @@ public class RegistroActivity extends AppCompatActivity
 
     public void onIntroducirClaveFragmentInteraction(Usuario _usuario){
 
-        guardar_Usuario(mConfiguracion, _usuario);
+        //guardar_Usuario(mConfiguracion, _usuario);
+        guardar_Usuario_NoRegistro(mConfiguracion, _usuario);
 
 
         Log.d("Interaction", "asd");
@@ -206,6 +207,41 @@ public class RegistroActivity extends AppCompatActivity
         Log.d("Interaction", "asd");
     }
 
+
+    public void guardar_Usuario_NoRegistro(final Configuracion _configuracion, final Usuario _usuario) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_REGISTRADO,"1").apply();
+
+        DatabaseHelper databaseHelper = OpenHelperManager.getHelper(getBaseContext(), DatabaseHelper.class);
+
+        try {
+            Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
+
+            _usuario.Aplicacion = _configuracion.Aplicacion;
+            _usuario.Ruta_Imagen_Aplicacion = _configuracion.Ruta_Imagen_Aplicacion;
+
+
+            if(usuarioDao.isTableExists()){
+
+                List<Usuario> l_usuarios = usuarioDao.queryBuilder().where().eq("Id",_usuario.Id).query();
+
+                if(l_usuarios.size() == 0){
+                    usuarioDao.create(_usuario);
+                }
+
+            }else{
+
+                usuarioDao.create(_usuario);
+            }
+
+            saltarRegistro();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void guardar_Usuario(final Configuracion _configuracion, final Usuario _usuario){
 

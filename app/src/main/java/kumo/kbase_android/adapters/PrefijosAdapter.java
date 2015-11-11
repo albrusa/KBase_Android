@@ -28,6 +28,8 @@ public class PrefijosAdapter extends ArrayAdapter<xPrefijo_Telf> {
         mPrefijos = Cultura.obt_prefijos();
     }
 
+
+
     @Override
     public int getCount() {
         return mPrefijos.size();
@@ -44,8 +46,29 @@ public class PrefijosAdapter extends ArrayAdapter<xPrefijo_Telf> {
         return index;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        View v = convertView;
+        ViewHolder holder;
+
+        if (v == null) {
+            LayoutInflater vi =
+                    (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = vi.inflate(android.R.layout.select_dialog_item, null);
+            // cache view fields into the holder
+            holder = new ViewHolder();
+            holder.textView = (TextView) v;
+            // associate the holder with the view for later lookup
+            v.setTag(holder);
+        }
+        else {
+            // view already exists, get the holder instance from the view
+            holder = (ViewHolder) v.getTag();
+        }
+
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -66,4 +89,10 @@ public class PrefijosAdapter extends ArrayAdapter<xPrefijo_Telf> {
         return textView;
     }
 
+
+    static class ViewHolder {
+        TextView textView;
+    }
+
 }
+

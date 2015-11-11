@@ -20,7 +20,7 @@ public class CodigoAccesoFragment extends Fragment {
 
 
     private AutoCompleteTextView vCodigo_Acceso;
-    private Button vSiguiente;
+    //private Button vSiguiente;
 
     private Configuracion mConfiguracion;
     private View mView;
@@ -59,7 +59,7 @@ public class CodigoAccesoFragment extends Fragment {
 
         //Fi cal comentar
 
-        vSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
+        final Button vSiguiente  = (Button) _view.findViewById(R.id.registro_to_telefono);
 
         vSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
