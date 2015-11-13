@@ -5,9 +5,10 @@ package kumo.kbase_android.utils;
  */
 public class Constantes {
 
-    //public static final String HTTP_SERVER = "http://localhost:32766";
+    public static final String HTTP_SERVER = "http://localhost:32766";
 
-    public static final String HTTP_SERVER = "https://www.kmed.es/Android_Api";
+
+    //public static final String HTTP_SERVER = "https://www.kmed.es/Android_Api";
 
     //public static final String HTTP_SERVER = " http://192.168.1.83/kModel_api";
 
@@ -27,6 +28,10 @@ public class Constantes {
 
     public static final String CONVERSACIONES_OBT_CONVERSACIONES = HTTP_SERVER+"/Conversaciones/obt_conversaciones";
     public static final String CONVERSACIONES_OBT_MENSAJES = HTTP_SERVER+"/Conversaciones/obt_mensajes";
+
+    public static final String CONVERSACIONES_ENVIAR_ARCHIVO = HTTP_SERVER+"/Conversaciones/enviar_archivo";
+   // public static final String CONVERSACIONES_ENVIAR_ARCHIVO = "http://localhost:32767/Home/Usuario";
+
 
     public static final String DOCUMENTOS_OBT_DOCUMENTOS = HTTP_SERVER+"/Documentos/obt_documentos";
 
