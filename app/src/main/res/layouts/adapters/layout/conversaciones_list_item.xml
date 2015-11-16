@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20sp"
-
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/Imagen"
         android:layout_toLeftOf="@+id/Fecha"

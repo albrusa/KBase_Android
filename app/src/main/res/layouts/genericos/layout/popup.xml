@@ -10,7 +10,7 @@
     tools:context="kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragment">
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/camera_btn_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -18,14 +18,14 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/galeria_btn_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/imageButton1"
         android:src="@drawable/ic_camera" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/archivos_btn_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

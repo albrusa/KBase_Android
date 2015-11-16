@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -42,6 +43,13 @@ import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class MensajesListActivity extends AppCompatActivity implements MensajesListFragment.OnMensajesListFragmentInteractionListener {
+
+    private static final int CAMERA = 100;
+    private static final int GALERIA = 200;
+    private static final int ARCHIVO = 300;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
 
     private String mId_Usuario;
     private Usuario mUsuario;
@@ -124,40 +132,69 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(popupView, Gravity.TOP, 0, toolbar.getHeight() + 60);
 
-        ImageButton camara = (ImageButton) popupView.findViewById(R.id.imageButton1);
+        ImageButton camara = (ImageButton) popupView.findViewById(R.id.camera_btn_popup);
+        ImageButton galeria = (ImageButton) popupView.findViewById(R.id.galeria_btn_popup);
+        ImageButton archivos = (ImageButton) popupView.findViewById(R.id.archivos_btn_popup);
 
         camara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                captureImage();
+                capturarImagen();
             }
         });
 
-       /* PopupWindow popup = new PopupWindow(getBaseContext());
-        View layout = getLayoutInflater().inflate(R.layout.popup, null);
+        galeria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirGalleria();
+            }
+        });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        archivos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirArchivos();
+            }
+        });
 
-       // final PopupWindow popup = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.MATCH_PARENT, true);
-        //final PopupWindow popup = new PopupWindow(layout, ActionBar.LayoutParams.MATCH_PARENT,100,true);
 
-
-
-        popup.setContentView(layout);
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-        popup.showAtLocation(layout, Gravity.TOP, 0, toolbar.getHeight());*/
     }
 
-    private void captureImage() {
+    private void capturarImagen() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        fileUri = getOutputMediaFileUri(1);
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
         // start the image capture Intent
-        startActivityForResult(intent, 100);
+        startActivityForResult(intent, CAMERA);
+    }
+
+    public void abrirGalleria()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+
+
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        //Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(Intent.createChooser(intent, ""), GALERIA);
+        //startActivityForResult(intent, GALERIA);
+
+    }
+
+    public void abrirArchivos()
+    {
+        Intent intent = new Intent();
+        intent.setType("file/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        //Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.DocumentsProvider.Media);
+
+        startActivityForResult(Intent.createChooser(intent, ""), ARCHIVO);
+       //startActivityForResult(intent, GALERIA);
+
     }
 
     public Uri getOutputMediaFileUri(int type) {
@@ -186,18 +223,19 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         File mediaFile;
-        if (type == 1) {
+        if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
-        } else if (type == 2) {
+        } /*else if (type == 2) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "VID_" + timeStamp + ".mp4");
-        } else {
+        }*/ else {
             return null;
         }
 
         return mediaFile;
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -218,7 +256,59 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new UploadFileToServer().execute();
+
+        if (requestCode == CAMERA) {
+            if (resultCode == RESULT_OK) {
+
+                File archivo = new File(fileUri.getPath());
+
+                new UploadFileToServer(archivo).execute();
+            }
+             else if (resultCode == RESULT_CANCELED) {
+                // user cancelled Image capture
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                // failed to capture image
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }else{
+            if(requestCode == GALERIA){
+
+                fileUri = data.getData();
+
+
+                /*try {
+                    Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
+                //File archivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),fileUri.getPath());
+
+                File archivo = new File(fileUri.getPath());
+
+                new UploadFileToServer(archivo).execute();
+
+            }
+            else if (resultCode == RESULT_CANCELED) {
+                // user cancelled Image capture
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                // failed to capture image
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+
     }
 
 
@@ -242,8 +332,15 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        //this.finish();
+        // overridePendingTransition(R.anim.enter,R.anim.hold);
+    }
+
+    @Override
     public void onBackPressed() {
-        this.finish();
+        //this.finish();
         //overridePendingTransition(R.anim.pop_enter, R.anim.pop_exit);
     }
 
@@ -254,10 +351,17 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     }
 
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+
+        private final File mArchivo;
+
         @Override
         protected void onPreExecute() {
             // setting progress bar to zero
             super.onPreExecute();
+        }
+
+        UploadFileToServer(File _archivo) {
+            mArchivo = _archivo;
         }
 
         @Override
@@ -278,15 +382,15 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
             try {
                 MultipartUtility multipart = new MultipartUtility(Constantes.CONVERSACIONES_ENVIAR_ARCHIVO, "UTF-8");
 
-                File filePath = new File(fileUri.getPath());
+               // File filePath = new File(fileUri.getPath());
 
                 multipart.addFormField("_id_configuracion", mUsuario.Id_Aplicacion);
                 multipart.addFormField("_id_usuario", mUsuario.Id);
                 multipart.addFormField("_id_usuario_clase", mUsuario.Id_Clase);
                 multipart.addFormField("_id_conversacion", mId_Conversacion);
-                multipart.addFormField("_nombre_fichero", filePath.getName());
+                multipart.addFormField("_nombre_fichero", mArchivo.getName());
 
-                multipart.addFilePart("fileUpload", filePath);
+                multipart.addFilePart("fileUpload", mArchivo);
 
                 List<String> response = multipart.finish();
 

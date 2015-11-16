@@ -110,8 +110,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onStop(){
+        super.onStop();
+        this.finish();
+    }
+
+    @Override
     protected void onDestroy(){
-        super.onDestroy();
+        super.onDestroy();super.finish();
     }
 
     public void OnConversacionesListFragmentInteractionListener(String _id_conversacion){

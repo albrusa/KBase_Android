@@ -109,10 +109,11 @@ public class MensajesListFragment extends Fragment {
                                     adaptador = new MensajesListAdapter(l_mensajes);
 
                                     recView.setAdapter(adaptador);
+                                    //recView.scrollToPosition(4);
 
                                     recView.setLayoutManager(
                                             new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
-
+                                    recView.scrollToPosition(l_mensajes.size() - 1);
 
 
                                 }
