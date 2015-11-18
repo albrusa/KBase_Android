@@ -30,6 +30,8 @@ public class Constantes {
     public static final String CONVERSACIONES_OBT_MENSAJES = HTTP_SERVER+"/Conversaciones/obt_mensajes";
 
     public static final String CONVERSACIONES_ENVIAR_ARCHIVO = HTTP_SERVER+"/Conversaciones/enviar_archivo";
+    public static final String CONVERSACIONES_ENVIAR_MENSAJE = HTTP_SERVER+"/Conversaciones/enviar_mensaje";
+
    // public static final String CONVERSACIONES_ENVIAR_ARCHIVO = "http://localhost:32767/Home/Usuario";
 
 

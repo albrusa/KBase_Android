@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,6 +27,7 @@ import kumo.kbase_android.adapters.MensajesListAdapter;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Mensaje;
+import kumo.kbase_android.model.boolean_Api;
 import kumo.kbase_android.utils.Constantes;
 
 
@@ -39,8 +43,13 @@ public class MensajesListFragment extends Fragment {
     private String mId_Clase;
     private String mId_Conversacion;
 
+    private String mMensaje;
+
     private RecyclerView recView;
     private MensajesListAdapter adaptador;
+
+    private TextView vMensaje;
+    private Button vEnviar;
 
     private OnMensajesListFragmentInteractionListener mListener;
 
@@ -80,6 +89,9 @@ public class MensajesListFragment extends Fragment {
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
 
+        vEnviar = (Button) _view.findViewById(R.id.enviar_btn);
+        vMensaje = (TextView) _view.findViewById(R.id.mensaje_txt);
+
         return _view;
     }
 
@@ -98,7 +110,7 @@ public class MensajesListFragment extends Fragment {
         jsonObject.addProperty("_id_conversacion", mId_Conversacion);
 
         try {
-            GsonRequest<Mensaje[]> getPersons =
+            GsonRequest<Mensaje[]> obt_mensajes =
                     new GsonRequest<Mensaje[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_OBT_MENSAJES, Mensaje[].class,params,jsonObject,
 
                             new Response.Listener<Mensaje[]>() {
@@ -125,11 +137,53 @@ public class MensajesListFragment extends Fragment {
                         }
                     });
 
-            HttpCola.getInstance(_view.getContext()).addToRequestQueue(getPersons);
+            HttpCola.getInstance(_view.getContext()).addToRequestQueue(obt_mensajes);
 
         } catch (Exception e) {
             Log.d("Error",e.getMessage());
         }
+
+        vEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String mensaje = vMensaje.getText().toString();
+                if (!TextUtils.isEmpty(mensaje)) {
+                    try {
+
+                        HashMap<String, String> params = new HashMap<String, String>();
+
+                        final JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("_id_aplicacion", mId_Aplicacion);
+                        jsonObject.addProperty("_id_usuario", mId);
+                        jsonObject.addProperty("_id_usuario_clase", mId_Clase);
+                        jsonObject.addProperty("_id_conversacion", mId_Conversacion);
+                        jsonObject.addProperty("_mensaje", mensaje);
+
+                        GsonRequest<boolean_Api> enviar_mensaje =
+                                new GsonRequest<boolean_Api>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_ENVIAR_MENSAJE, boolean_Api.class,params,jsonObject,
+
+                                        new Response.Listener<boolean_Api>() {
+                                            @Override
+                                            public void onResponse(boolean_Api response) {
+
+                                            }
+                                        }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("objeto", error.getMessage());
+                                    }
+                                });
+
+                        HttpCola.getInstance(_view.getContext()).addToRequestQueue(enviar_mensaje);
+
+                    } catch (Exception e) {
+                        Log.d("Error",e.getMessage());
+                    }
+                }
+            }
+        });
     }
 
 
