@@ -11,8 +11,8 @@
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/Imagen"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="normal"
-            android:textSize="12sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.j256.ormlite.dao.Dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -262,7 +264,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
                 File archivo = new File(fileUri.getPath());
 
-                new UploadFileToServer(archivo).execute();
+                new UploadFileToServer(archivo, CAMERA).execute();
             }
              else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
@@ -292,7 +294,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
                 File archivo = new File(fileUri.getPath());
 
-                new UploadFileToServer(archivo).execute();
+                new UploadFileToServer(archivo, GALERIA).execute();
 
             }
             else if (resultCode == RESULT_CANCELED) {
@@ -340,7 +342,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     @Override
     public void onBackPressed() {
-        //this.finish();
+        this.finish();
         //overridePendingTransition(R.anim.pop_enter, R.anim.pop_exit);
     }
 
@@ -353,6 +355,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
 
         private final File mArchivo;
+        private final int mOrigen;
 
         @Override
         protected void onPreExecute() {
@@ -360,8 +363,10 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
             super.onPreExecute();
         }
 
-        UploadFileToServer(File _archivo) {
+        UploadFileToServer(File _archivo, int _tipo) {
+
             mArchivo = _archivo;
+            mOrigen = _tipo;
         }
 
         @Override
@@ -390,7 +395,16 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
                 multipart.addFormField("_id_conversacion", mId_Conversacion);
                 multipart.addFormField("_nombre_fichero", mArchivo.getName());
 
-                multipart.addFilePart("fileUpload", mArchivo);
+                if(mOrigen == CAMERA) {
+                    multipart.addFilePart("fileUpload", mArchivo);
+                }else{
+                    if(mOrigen == GALERIA) {
+
+                        File filePath = new File(fileUri.getPath());
+
+                        multipart.addFilePart("fileUpload", filePath.getName(), fileUri, getBaseContext());
+                    }
+                }
 
                 List<String> response = multipart.finish();
 

@@ -21,36 +21,12 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/main_contenido"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_above="@+id/enviar_btn"
-                >
-            </FrameLayout>
 
-            <TextView
-                android:id="@+id/mensaje_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/main_contenido"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/enviar_btn"
-                />
-
-            <Button
-                android:id="@+id/enviar_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enviar"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                />
-        </RelativeLayout>
-
+    <FrameLayout
+        android:id="@+id/main_contenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+         >
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

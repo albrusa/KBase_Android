@@ -1,5 +1,7 @@
 package kumo.kbase_android.httpRequest;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -7,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -135,6 +138,78 @@ public class MultipartUtility {
 
         outputStream.flush();
        // outputStream.close();
+        inputStream.close();
+        writer.append(LINE_FEED);
+        writer.flush();
+    }
+
+
+    /**
+     * Adds a upload file section to the request
+     * @param fieldName name attribute in <input type="file" name="..." />
+     * @param uploadFile a File to be uploaded
+     * @throws IOException
+     */
+    public void addFilePart(String fieldName, String _nombre, Uri uploadFile, Context _context)
+            throws IOException {
+        String fileName = _nombre;
+
+        writer.append("--" + boundary).append(LINE_FEED);
+        writer.append(
+                "Content-Disposition: form-data; name=\"" + fieldName
+                        + "\"; filename=\"" + fileName + "\"")
+                .append(LINE_FEED);
+        writer.append(
+                "Content-Type: "
+                        + URLConnection.guessContentTypeFromName(fileName))
+                .append(LINE_FEED);
+        writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
+        writer.append(LINE_FEED);
+        writer.flush();
+
+        InputStream inputStream = _context.getContentResolver().openInputStream(uploadFile);
+
+
+        //FileInputStream inputStream = _context.getContentResolver().openInputStream(uploadFile);
+
+
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+        /*while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }*/
+
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            baos.write(buffer, 0, bytesRead);
+        }
+        baos.close();
+        byte[] payload = baos.toByteArray();
+        baos = null;
+
+        int totalSize = payload.length;
+        int bytesTransferred = 0;
+        int chunkSize = 2000;
+
+        while (bytesTransferred < totalSize) {
+            int nextChunkSize = totalSize - bytesTransferred;
+            if (nextChunkSize > chunkSize) {
+                nextChunkSize = chunkSize;
+            }
+            outputStream.write(payload, bytesTransferred, nextChunkSize); // TODO check outcome!
+            bytesTransferred += nextChunkSize;
+
+
+            // Here you can call the method which updates progress
+            // be sure to wrap it so UI-updates are done on the main thread!
+            Log.d("test", Integer.toString((100 * bytesTransferred / totalSize)));
+        }
+
+
+
+        outputStream.flush();
+        // outputStream.close();
         inputStream.close();
         writer.append(LINE_FEED);
         writer.flush();
