@@ -3,9 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/lila</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:textViewStyle">sans-serif</item>-->
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -16,8 +17,26 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="AppTheme.ItemList">
+        <item name="android:paddingTop">16dp</item>
+    </style>
+
+
     <style name="PopUpWindowAnimation">
         <item name="android:windowEnterAnimation">@anim/popup_show</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
+
+
+    <!--<style name="Roboto">
+        <item name="tex"></item>
+        <item name="android:textViewStyle">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+    android:fontFamily="sans-serif"           // roboto regular
+    android:fontFamily="sans-serif-light"     // roboto light
+    android:fontFamily="sans-serif-condensed" // roboto condensed
+    android:fontFamily="sans-serif-thin"      // roboto thin (android 4.2)
+    android:fontFamily="sans-serif-medium"    // roboto medium (android 5.0)-->
+
+
 </resources>

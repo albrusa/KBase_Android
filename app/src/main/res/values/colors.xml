@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="touch_effect">#9ccc</color>
+    <color name="gris">#9ccc</color>
 
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="lila">#6D5CAE</color>
+    <color name="verde">#10CFBD</color>
+    <color name="azul">#48B0F7</color>
+    <color name="rojo">#F55753</color>
+
+
+
 
 
 </resources>

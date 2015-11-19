@@ -1,5 +1,6 @@
 package kumo.kbase_android.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,15 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.httpRequest.LruBitmapCache;
 import kumo.kbase_android.model.Conversacion;
+import kumo.kbase_android.utils.CircularNetworkImageView;
 import kumo.kbase_android.utils.Constantes;
 
 /**
@@ -29,13 +31,17 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
         this.l_conversaciones = _l_conversaciones;
     }
 
+    public ConversacionesListAdapter(Context _context) {
+        this.l_conversaciones = new ArrayList<>();
+    }
+
     public static class AdapterElementoViewHolder
             extends RecyclerView.ViewHolder {
 
         private TextView mMensaje;
         private TextView mNombre_Usuario;
         RequestQueue mRequestQueue;
-        NetworkImageView mImagen;
+        CircularNetworkImageView mImagen;
         ImageLoader mImageLoader;
 
 
@@ -44,7 +50,7 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
 
             mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
             mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);
+            mImagen = (CircularNetworkImageView) itemView.findViewById(R.id.Imagen);
 
         }
 
@@ -74,6 +80,12 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
         itemView.setOnClickListener(this);
 
         return tvh;
+    }
+
+    public void updateData(List<Conversacion> _conversaciones) {
+        l_conversaciones.clear();
+        l_conversaciones.addAll(_conversaciones);
+        notifyDataSetChanged();
     }
 
     @Override

@@ -1,14 +1,13 @@
 package kumo.kbase_android;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -20,6 +19,8 @@ import java.util.List;
 import kumo.kbase_android.adapters.UsuariosListAdapter;
 import kumo.kbase_android.db.DatabaseHelper;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.Cookies;
+import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class UsuariosListActivity extends AppCompatActivity{
@@ -27,11 +28,16 @@ public class UsuariosListActivity extends AppCompatActivity{
     private RecyclerView recView;
     private List<Usuario> l_usuarios;
     private UsuariosListAdapter adaptador;
+    private ObjectPreference objectPreference;
+    private Button vRegistro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.usuarios_list_activity);
+
+        objectPreference = new ObjectPreference();
+        objectPreference.init(getBaseContext());
 
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
 
@@ -82,6 +88,15 @@ public class UsuariosListActivity extends AppCompatActivity{
         recView.setLayoutManager(
                 new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
 
+        vRegistro = (Button) findViewById(R.id.registro);
+
+
+
+    }
+
+        @Override
+    protected void onResume(){
+        super.onResume();
 
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +107,7 @@ public class UsuariosListActivity extends AppCompatActivity{
 
                 Usuario usuario_seleccionado = l_usuarios.get(recView.getChildViewHolder(v).getAdapterPosition());
 
-                if(usuario_seleccionado != null) {
+                if (usuario_seleccionado != null) {
 
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     Bundle b = new Bundle();
@@ -100,18 +115,33 @@ public class UsuariosListActivity extends AppCompatActivity{
                     b.putString("Id_Usuario", usuario_seleccionado.Id);
                     intent.putExtras(b);
 
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();
+                /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();*/
+
+                    Cookies cookie = objectPreference.getComplexPreference();
+                    if (cookie != null) {
+                        cookie.putObject(QuickstartPreferences.USUARIO_ACTIVO, usuario_seleccionado);
+                        cookie.commit();
+                    }
 
                     startActivity(intent);
                 }
             }
         });
-    }
 
-        @Override
-    protected void onResume(){
-        super.onResume();
+        vRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getBaseContext(), RegistroActivity.class);
+                Bundle b = new Bundle();
+
+                b.putString("si_Registro", "1");
+                intent.putExtras(b);
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

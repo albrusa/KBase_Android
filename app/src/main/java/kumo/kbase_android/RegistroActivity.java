@@ -51,6 +51,7 @@ public class RegistroActivity extends AppCompatActivity
     public String mTelefono;
     public String mPrefijo;
 
+    public boolean si_Usuarios = false;
 
 
     @Override
@@ -60,6 +61,14 @@ public class RegistroActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean si_Registro = sharedPreferences.getString(QuickstartPreferences.USUARIO_REGISTRADO,"0") == "0";
 
+        Bundle bundle = this.getIntent().getExtras();
+        if(bundle != null) {
+            si_Registro = bundle.getString("si_Registro", "0").equals("1");
+
+            if(si_Registro){
+                si_Usuarios = true;
+            }
+        }
        // boolean si_Registro = true;
 
         if(si_Registro) {
@@ -85,6 +94,14 @@ public class RegistroActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean si_Registro = sharedPreferences.getString(QuickstartPreferences.USUARIO_REGISTRADO,"0") == "0";
         //boolean si_Registro = true;
+
+        Bundle bundle = this.getIntent().getExtras();
+        if(bundle != null) {
+            si_Registro = bundle.getString("si_Registro", "0").equals("1");
+            if(si_Registro){
+                si_Usuarios = true;
+            }
+        }
 
         if(!si_Registro) {
 
@@ -228,6 +245,7 @@ public class RegistroActivity extends AppCompatActivity
 
                 if(l_usuarios.size() == 0){
                     usuarioDao.create(_usuario);
+
                 }
 
             }else{
@@ -316,24 +334,6 @@ public class RegistroActivity extends AppCompatActivity
 
                                                 usuarioDao.create(_usuario);
                                             }
-
-
-
-                                           /* Dao<Configuracion, Integer> configuracionDao = databaseHelper.getConfiguracionDao();
-
-                                            if(configuracionDao.isTableExists()){
-
-                                                List<Configuracion> l_configuraciones = configuracionDao.queryBuilder().where().eq("Id_Aplicacion",_configuracion.Id_Aplicacion).query();
-
-                                                if(l_configuraciones.size() == 0){
-                                                    configuracionDao.create(_configuracion);
-                                                }
-
-                                            }else{
-
-                                                configuracionDao.create(_configuracion);
-                                            }*/
-
                                             saltarRegistro();
 
                                         } catch (SQLException e) {
@@ -395,7 +395,18 @@ public class RegistroActivity extends AppCompatActivity
                     .commit();
 
         }else{
-            super.onBackPressed();
+
+            if(fragment_activo instanceof CodigoAccesoFragment && si_Usuarios){
+
+                Intent intent = new Intent(getBaseContext(), UsuariosListActivity.class);
+                Bundle b = new Bundle();
+
+                startActivity(intent);
+
+            }else{
+
+                super.onBackPressed();
+            }
         }
     }
 }

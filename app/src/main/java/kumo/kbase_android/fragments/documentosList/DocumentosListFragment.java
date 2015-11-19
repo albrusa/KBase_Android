@@ -75,6 +75,16 @@ public class DocumentosListFragment extends Fragment {
 
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
+
+        adaptador = new DocumentosListAdapter(getContext());
+
+        recView.setLayoutManager(
+                new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
+
+        recView.setAdapter(adaptador);
+
+
+
         /*List<Conversacion> l_conversaciones = new ArrayList<Conversacion>();
 
         adaptador = new ConversacionesListAdapter(l_conversaciones);
@@ -109,12 +119,10 @@ public class DocumentosListFragment extends Fragment {
                                 public void onResponse(Documento[] response) {
                                     List<Documento> l_documentos = Arrays.asList(response);
 
-                                    adaptador = new DocumentosListAdapter(l_documentos);
+                                    //adaptador = new DocumentosListAdapter(l_documentos);
+                                    adaptador.updateData(l_documentos);
 
-                                    recView.setAdapter(adaptador);
 
-                                    recView.setLayoutManager(
-                                            new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
 
 
 

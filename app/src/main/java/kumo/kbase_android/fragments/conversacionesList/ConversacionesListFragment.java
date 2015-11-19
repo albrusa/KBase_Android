@@ -21,6 +21,7 @@ import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.ConversacionesListAdapter;
+import kumo.kbase_android.decorators.DividerItemDecoration;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Conversacion;
@@ -78,6 +79,15 @@ public class ConversacionesListFragment extends Fragment {
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
 
+        recView.setLayoutManager(
+                new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
+
+        recView.addItemDecoration(
+                new DividerItemDecoration(getActivity(), R.drawable.divider,76,10));
+
+        adaptador = new ConversacionesListAdapter(getContext());
+        recView.setAdapter(adaptador);
+
         return _view;
     }
 
@@ -122,12 +132,15 @@ public class ConversacionesListFragment extends Fragment {
                                 public void onResponse(Conversacion[] response) {
                                     l_conversaciones = Arrays.asList(response);
 
-                                    adaptador = new ConversacionesListAdapter(l_conversaciones);
+                                    /*adaptador = new ConversacionesListAdapter(l_conversaciones);
 
-                                    recView.setAdapter(adaptador);
 
-                                    recView.setLayoutManager(
-                                            new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
+
+                                    recView.setAdapter(adaptador);*/
+
+                                    adaptador.updateData(l_conversaciones);
+
+
 
 
                                     adaptador.setOnClickListener(new View.OnClickListener() {

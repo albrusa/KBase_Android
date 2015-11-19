@@ -5,14 +5,16 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:minHeight="72dp"
     android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:theme="@style/AppTheme.ItemList"
+    android:orientation="horizontal">
 
-    <com.android.volley.toolbox.NetworkImageView
+    <kumo.kbase_android.utils.CircularNetworkImageView
         android:id="@+id/Imagen"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentLeft="true"
         />
@@ -34,14 +36,17 @@
         android:textSize="12sp"
         android:layout_below="@+id/Nombre_Usuario"
         android:layout_toRightOf="@+id/Imagen"
+        android:layout_toLeftOf="@+id/Fecha"
         />
 
     <TextView android:id="@+id/Fecha"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="72dp"
         android:textStyle="bold"
         android:textSize="12sp"
         android:text="20:30"
+        android:gravity="right"
         android:layout_alignParentRight="true"
         />
 

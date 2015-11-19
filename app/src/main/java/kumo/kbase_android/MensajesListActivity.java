@@ -1,15 +1,12 @@
 package kumo.kbase_android;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.renderscript.ScriptGroup;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,23 +22,19 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import kumo.kbase_android.db.DatabaseHelper;
 import kumo.kbase_android.fragments.conversacionesList.MensajesListFragment;
 import kumo.kbase_android.httpRequest.MultipartUtility;
 import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.Cookies;
+import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class MensajesListActivity extends AppCompatActivity implements MensajesListFragment.OnMensajesListFragmentInteractionListener {
@@ -59,6 +52,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private String mId_Conversacion;
 
     private Uri fileUri;
+    private ObjectPreference objectPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +68,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         Bundle bundle = this.getIntent().getExtras();
         mId_Conversacion = bundle.getString("Id_Conversacion");
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mId_Usuario = sharedPreferences.getString(QuickstartPreferences.USUARIO_ACTIVO, "0");
 
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
@@ -90,7 +84,13 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        objectPreference = new ObjectPreference();
+        objectPreference.init(getBaseContext());
+        Cookies cookie = objectPreference.getComplexPreference();
+
+        mUsuario = cookie.getObject(QuickstartPreferences.USUARIO_ACTIVO, Usuario.class);
 
 
         Fragment fragment = new MensajesListFragment().newInstance(mUsuario.Id_Aplicacion, mUsuario.Id, mUsuario.Id_Clase, mId_Conversacion);
