@@ -153,7 +153,7 @@ public class ConversacionesListFragment extends Fragment {
                                             Conversacion conversacion_seleccionado = l_conversaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
 
                                             if (conversacion_seleccionado != null) {
-                                                mListener.OnConversacionesListFragmentInteractionListener(conversacion_seleccionado.Id);
+                                                mListener.OnConversacionesListFragmentInteractionListener(conversacion_seleccionado.Id, conversacion_seleccionado.Nombre, conversacion_seleccionado.Imagen);
                                             }
                                         }
                                     });
@@ -182,7 +182,7 @@ public class ConversacionesListFragment extends Fragment {
 
 
     public interface OnConversacionesListFragmentInteractionListener {
-        public void OnConversacionesListFragmentInteractionListener(String _id_conversacion);
+        public void OnConversacionesListFragmentInteractionListener(String _id_conversacion, String _nombre, String _imagen);
     }
 
 }

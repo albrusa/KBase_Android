@@ -119,13 +119,15 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();super.finish();
     }
 
-    public void OnConversacionesListFragmentInteractionListener(String _id_conversacion){
+    public void OnConversacionesListFragmentInteractionListener(String _id_conversacion, String _nombre, String _imagen){
 
 
         Intent intent = new Intent(getBaseContext(), MensajesListActivity.class);
         Bundle b = new Bundle();
 
         b.putString("Id_Conversacion", _id_conversacion);
+        b.putString("Nombre", _nombre);
+        b.putString("Imagen", _imagen);
         intent.putExtras(b);
 
         startActivity(intent);

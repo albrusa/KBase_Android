@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/attach_camera" />
 
 
     <ImageButton
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/imageButton1"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/attach_gallery" />
 
     <ImageButton
         android:id="@+id/archivos_btn_popup"

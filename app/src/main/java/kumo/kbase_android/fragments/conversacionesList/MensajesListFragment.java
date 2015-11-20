@@ -12,14 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -135,7 +133,7 @@ public class MensajesListFragment extends Fragment {
                                 public void onResponse(Mensaje[] response) {
                                     List<Mensaje> l_mensajes = Arrays.asList(response);
 
-                                    adaptador = new MensajesListAdapter(l_mensajes);
+                                    adaptador = new MensajesListAdapter(l_mensajes,mId);
 
                                     recView.setAdapter(adaptador);
 

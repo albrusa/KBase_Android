@@ -14,7 +14,11 @@
     <color name="rojo">#F55753</color>
 
 
+    <color name="negro">#de000000</color>
+    <color name="gris_oscuro">#8a000000</color>
+    <color name="gris_claro">#1e000000</color>
 
 
+    <color name="conversation_row_date">#66000000</color>
 
 </resources>

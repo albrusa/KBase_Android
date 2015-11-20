@@ -19,7 +19,59 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/AppTheme.AppBarOverlay"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="fill_parent"
+                android:layout_height="?actionBarSize"
+                >
+            <!-- android:background="?attr/selectableItemBackgroundBorderless" will cause this Custom View to make ripple effect -->
+
+                <LinearLayout
+                    android:id="@+id/conversation_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/abc_action_bar_up_description"
+                    android:orientation="horizontal">
+
+                    <kumo.kbase_android.utils.CircularNetworkImageView
+                        android:id="@+id/Toolbar_Imagen"
+                        android:layout_width="35.0dip"
+                        android:layout_height="35.0dip"
+                        android:scaleType="fitCenter"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/conversation_image"
+                    android:orientation="vertical"
+                    android:paddingBottom="2.0dip"
+                    android:paddingLeft="4.0dip"
+                    android:paddingRight="0.0dip"
+                    android:paddingTop="0.0dip" >
+                <TextView
+                    android:id="@+id/toolbar_Titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="0.6"
+                    android:ellipsize="end"
+                    android:textColor="@android:color/white"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout

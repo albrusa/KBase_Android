@@ -20,10 +20,12 @@ import kumo.kbase_android.model.Mensaje;
  */
 public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
     private List<Mensaje> l_mensajes;
+    private String mId_Usuario;
     private View.OnClickListener listener;
 
-    public MensajesListAdapter(List<Mensaje> _l_mensajes) {
+    public MensajesListAdapter(List<Mensaje> _l_mensajes ,String _id_Usuario) {
         this.l_mensajes = _l_mensajes;
+        this.mId_Usuario = _id_Usuario;
     }
 
     public static class AdapterElementoViewHolder
@@ -40,8 +42,8 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             super(itemView);
 
             mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
-            mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);
+          /*  mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
+            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);*/
 
         }
 
@@ -52,10 +54,35 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
     }
 
     @Override
+    public int getItemViewType(int position) {
+        // Just as an example, return 0 or 2 depending on position
+        // Note that unlike in ListView adapters, types don't have to be contiguous
+        Mensaje item = l_mensajes.get(position);
+
+        if(item.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+
+    @Override
     public AdapterElementoViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.mensajes_list_item, viewGroup, false);
+        View itemView;
+
+        switch (viewType) {
+            case 0: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
+                break;
+            case 1: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_item, viewGroup, false);
+           break;
+            default:
+                itemView = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.mensajes_list_item, viewGroup, false);
+                break;
+        }
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
 

@@ -20,7 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.toolbox.ImageLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +33,11 @@ import java.util.List;
 import java.util.Locale;
 
 import kumo.kbase_android.fragments.conversacionesList.MensajesListFragment;
+import kumo.kbase_android.httpRequest.HttpCola;
+import kumo.kbase_android.httpRequest.LruBitmapCache;
 import kumo.kbase_android.httpRequest.MultipartUtility;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.CircularNetworkImageView;
 import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.Cookies;
 import kumo.kbase_android.utils.ObjectPreference;
@@ -49,7 +55,14 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private String mId_Usuario;
     private Usuario mUsuario;
 
+    private CircularNetworkImageView vImagen;
+    private TextView vTitulo;
+
+    private String mImagen;
+    private String mNombre;
+
     private String mId_Conversacion;
+    private ImageLoader mImageLoader;
 
     private Uri fileUri;
     private ObjectPreference objectPreference;
@@ -67,6 +80,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         Bundle bundle = this.getIntent().getExtras();
         mId_Conversacion = bundle.getString("Id_Conversacion");
+        mNombre = bundle.getString("Nombre");
+        mImagen = bundle.getString("Imagen");
 
         /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mId_Usuario = sharedPreferences.getString(QuickstartPreferences.USUARIO_ACTIVO, "0");
@@ -91,6 +106,21 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         Cookies cookie = objectPreference.getComplexPreference();
 
         mUsuario = cookie.getObject(QuickstartPreferences.USUARIO_ACTIVO, Usuario.class);
+
+
+        CircularNetworkImageView vImagen = (CircularNetworkImageView) findViewById(R.id.Toolbar_Imagen);
+        TextView vTitulo = (TextView) findViewById(R.id.toolbar_Titulo);
+
+        ImageLoader.ImageCache imageCache = new LruBitmapCache(getBaseContext());
+
+        mImageLoader = HttpCola.getInstance(getBaseContext()).getImageLoader();
+
+        if(mImagen != null && mImagen != "")
+        {
+            vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+mImagen, mImageLoader);
+        }
+
+       vTitulo.setText(mNombre);
 
 
         Fragment fragment = new MensajesListFragment().newInstance(mUsuario.Id_Aplicacion, mUsuario.Id, mUsuario.Id_Clase, mId_Conversacion);
