@@ -76,6 +76,20 @@
         <item name="android:textColor">@color/conversation_row_date</item>
     </style>
 
+    <style name="conversation_bubble_propio">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+
+    <style name="conversation_bubble">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
     <!--<style name="Roboto">
         <item name="tex"></item>
         <item name="android:textViewStyle">fonts/RobotoCondensed-Regular.ttf</item>

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -21,6 +22,10 @@ import kumo.kbase_android.model.Mensaje;
 public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
     private List<Mensaje> l_mensajes;
     private String mId_Usuario;
+
+    private int position_ant = -1;
+
+
     private View.OnClickListener listener;
 
     public MensajesListAdapter(List<Mensaje> _l_mensajes ,String _id_Usuario) {
@@ -74,15 +79,27 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
         switch (viewType) {
             case 0: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
+
+                    if(position_ant != viewType) {
+                        LinearLayout list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                        list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
+                    }
                 break;
             case 1: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
+
+                if(position_ant != viewType) {
+                    LinearLayout list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                    list.setBackgroundResource(R.drawable.balloon_incoming_normal);
+                }
            break;
             default:
                 itemView = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.mensajes_list_item, viewGroup, false);
                 break;
         }
+
+        position_ant = viewType;
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
 
