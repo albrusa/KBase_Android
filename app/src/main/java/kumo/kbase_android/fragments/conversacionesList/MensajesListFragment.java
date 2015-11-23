@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -49,7 +49,7 @@ public class MensajesListFragment extends Fragment {
     private MensajesListAdapter adaptador;
 
     private EditText vMensaje;
-    private Button vEnviar;
+    private ImageButton vEnviar;
 
     private OnMensajesListFragmentInteractionListener mListener;
 
@@ -89,7 +89,7 @@ public class MensajesListFragment extends Fragment {
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
 
-        vEnviar = (Button) _view.findViewById(R.id.enviar_btn);
+        vEnviar = (ImageButton) _view.findViewById(R.id.enviar_btn);
         vMensaje = (EditText) _view.findViewById(R.id.mensaje_txt);
 
         return _view;
