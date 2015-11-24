@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:tabMode="fixed"
-            app:tabTextColor="@android:color/holo_purple"
+            app:tabTextColor="@color/gris"
             app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="@android:color/white"/>
 

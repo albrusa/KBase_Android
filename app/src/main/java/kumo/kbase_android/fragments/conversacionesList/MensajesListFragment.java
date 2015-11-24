@@ -89,6 +89,16 @@ public class MensajesListFragment extends Fragment {
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
 
+        LinearLayoutManager llm = new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL,false);
+
+        llm.setStackFromEnd(true);
+
+        recView.setLayoutManager(llm);
+
+        adaptador = new MensajesListAdapter(getContext(), mId);
+
+        recView.setAdapter(adaptador);
+
         vEnviar = (ImageButton) _view.findViewById(R.id.enviar_btn);
         vMensaje = (EditText) _view.findViewById(R.id.mensaje_txt);
 
@@ -110,7 +120,22 @@ public class MensajesListFragment extends Fragment {
                 enviar_mensaje();
             }
         });
+
+       /* vMensaje.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                recView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recView.smoothScrollToPosition(adaptador.getItemCount());
+                    }
+                }, 150);
+
+                return false;
+            }
+        });*/
     }
+
 
     public void obt_mensajes()
     {
@@ -133,18 +158,14 @@ public class MensajesListFragment extends Fragment {
                                 public void onResponse(Mensaje[] response) {
                                     List<Mensaje> l_mensajes = Arrays.asList(response);
 
-                                    adaptador = new MensajesListAdapter(l_mensajes,mId);
+                                    adaptador.updateData(l_mensajes);
 
-                                    recView.setAdapter(adaptador);
-
-                                    recView.setLayoutManager(
-                                            new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
-                                    //recView.scrollToPosition(4);
-
-
-                                    // recView.scrollToPosition(l_mensajes.size() - 1);
-
-
+                                    recView.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            recView.scrollToPosition(adaptador.getItemCount());
+                                        }
+                                    }, 100);
                                 }
                             }, new Response.ErrorListener() {
 

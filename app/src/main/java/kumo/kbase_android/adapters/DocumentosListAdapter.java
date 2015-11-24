@@ -9,13 +9,15 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.model.Documento;
+import kumo.kbase_android.utils.CircularNetworkImageView;
 
 /**
  * Created by dev_2 on 09/11/2015.
@@ -35,26 +37,32 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
     public static class AdapterElementoViewHolder
             extends RecyclerView.ViewHolder {
 
-        private TextView mMensaje;
-        private TextView mNombre_Usuario;
+        private TextView vMensaje;
+        private TextView vNombre_Usuario;
+        CircularNetworkImageView vImagen;
+        TextView vFecha;
+
+        DateFormat mDateFormat;
         RequestQueue mRequestQueue;
-        NetworkImageView mImagen;
         ImageLoader mImageLoader;
 
 
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
-            mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);
+            mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+            vMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
+            vNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
+            vImagen = (CircularNetworkImageView) itemView.findViewById(R.id.Imagen);
+            vFecha = (TextView)itemView.findViewById(R.id.Fecha);
 
         }
 
         public void bindTitular(Documento t) {
-            mNombre_Usuario.setText(t.Nombre);
-            mMensaje.setText(t.Propietario);
+            vNombre_Usuario.setText(t.Nombre);
+            vMensaje.setText(t.Propietario);
+            vFecha.setText(mDateFormat.format(t.Fecha));
 
            /* ImageLoader.ImageCache imageCache = new LruBitmapCache(itemView.getContext());
 

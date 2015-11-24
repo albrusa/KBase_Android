@@ -9,10 +9,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:stackFromEnd="true"
         android:background="@null"
         android:layout_alignParentTop="true"
+        android:isScrollContainer="true"
         android:layout_above="@+id/edit_layout"
        />
 

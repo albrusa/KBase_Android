@@ -1,5 +1,6 @@
 package kumo.kbase_android.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.R;
@@ -30,6 +32,11 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
 
     public MensajesListAdapter(List<Mensaje> _l_mensajes ,String _id_Usuario) {
         this.l_mensajes = _l_mensajes;
+        this.mId_Usuario = _id_Usuario;
+    }
+
+    public MensajesListAdapter(Context _context, String _id_Usuario) {
+        this.l_mensajes = new ArrayList<>();
         this.mId_Usuario = _id_Usuario;
     }
 
@@ -60,14 +67,44 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
 
     @Override
     public int getItemViewType(int position) {
-        // Just as an example, return 0 or 2 depending on position
-        // Note that unlike in ListView adapters, types don't have to be contiguous
+
         Mensaje item = l_mensajes.get(position);
 
-        if(item.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
-            return 0;
+        Mensaje item_ant;
+
+        if(position > 0){
+            item_ant = l_mensajes.get(position-1);
         }else{
-            return 1;
+            item_ant = null;
+        }
+
+        if(item.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase()))
+        {
+            if(item_ant == null) {
+                return 0;
+            }else{
+                if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+        }else
+        {
+            if(item_ant == null) {
+                return 2;
+            }else{
+                if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
+                    return 3;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
         }
     }
 
@@ -75,24 +112,31 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
     public AdapterElementoViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View itemView;
+        LinearLayout list;
 
         switch (viewType) {
             case 0: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
 
-                    if(position_ant != viewType) {
-                        LinearLayout list = (LinearLayout) itemView.findViewById(R.id.main_layout);
-                        list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
-                    }
+                list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
                 break;
             case 1: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
+
+
+                break;
+            case 2: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
 
-                if(position_ant != viewType) {
-                    LinearLayout list = (LinearLayout) itemView.findViewById(R.id.main_layout);
-                    list.setBackgroundResource(R.drawable.balloon_incoming_normal);
-                }
+                list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                list.setBackgroundResource(R.drawable.balloon_incoming_normal);
            break;
+            case 3: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_item, viewGroup, false);
+
+
+                break;
             default:
                 itemView = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.mensajes_list_item, viewGroup, false);
@@ -106,6 +150,12 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
         itemView.setOnClickListener(this);
 
         return tvh;
+    }
+
+    public void updateData(List<Mensaje> _mensajes) {
+        l_mensajes.clear();
+        l_mensajes.addAll(_mensajes);
+        notifyDataSetChanged();
     }
 
     @Override

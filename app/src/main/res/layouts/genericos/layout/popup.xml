@@ -4,32 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="130dp"
     android:gravity="center"
-    android:background="@color/wallet_holo_blue_light"
+    android:background="@color/attach_popup_background"
     tools:context="kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragment">
 
-    <ImageButton
-        android:id="@+id/camera_btn_popup"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/attach_camera" />
+        android:paddingRight="20dp"
+        android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/camera_btn_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/attach_camera" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textAlignment="center"
+            android:text="Camara"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <ImageButton
         android:id="@+id/galeria_btn_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:layout_toRightOf="@+id/imageButton1"
         android:src="@drawable/attach_gallery" />
 
-    <ImageButton
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textAlignment="center"
+            android:text="Galeria"/>
+    </LinearLayout>
+
+   <!-- <ImageButton
         android:id="@+id/archivos_btn_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/ic_camera" />-->
 
 
 

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +66,9 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private String mId_Conversacion;
     private ImageLoader mImageLoader;
 
+    private View mPopupView;
+    private PopupWindow mPopupWindow;
+
     private Uri fileUri;
     private ObjectPreference objectPreference;
 
@@ -76,6 +81,11 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        int height =(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        mPopupView = layoutInflater.inflate(R.layout.popup,null);
+        mPopupWindow = new PopupWindow(mPopupView, ActionBar.LayoutParams.MATCH_PARENT,height,true);
 
 
         Bundle bundle = this.getIntent().getExtras();
@@ -124,10 +134,13 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
 
         Fragment fragment = new MensajesListFragment().newInstance(mUsuario.Id_Aplicacion, mUsuario.Id, mUsuario.Id_Clase, mId_Conversacion);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_contenido, fragment)
-                .addToBackStack(fragment.getClass().getName())
-                .commit();
+
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_contenido, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+        }
 
 
     }
@@ -154,19 +167,16 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     public void displayPopupWindow() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.popup,null);
-        final PopupWindow popupWindow = new PopupWindow(popupView, ActionBar.LayoutParams.MATCH_PARENT,150,true);
 
-        popupWindow.setAnimationStyle(R.style.PopUpWindowAnimation);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAtLocation(popupView, Gravity.TOP, 0, toolbar.getHeight() + 60);
+        mPopupWindow.setAnimationStyle(R.style.PopUpWindowAnimation);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.showAtLocation(mPopupView, Gravity.TOP, 0, toolbar.getHeight() + 60);
 
-        ImageButton camara = (ImageButton) popupView.findViewById(R.id.camera_btn_popup);
-        ImageButton galeria = (ImageButton) popupView.findViewById(R.id.galeria_btn_popup);
-        ImageButton archivos = (ImageButton) popupView.findViewById(R.id.archivos_btn_popup);
+        ImageButton camara = (ImageButton) mPopupView.findViewById(R.id.camera_btn_popup);
+        ImageButton galeria = (ImageButton) mPopupView.findViewById(R.id.galeria_btn_popup);
+        //ImageButton archivos = (ImageButton) popupView.findViewById(R.id.archivos_btn_popup);
 
         camara.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,15 +191,6 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
                 abrirGalleria();
             }
         });
-
-        archivos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirArchivos();
-            }
-        });
-
-
     }
 
     private void capturarImagen() {
@@ -310,43 +311,41 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         }else{
             if(requestCode == GALERIA){
 
-                fileUri = data.getData();
+                if (resultCode == RESULT_OK) {
+                    fileUri = data.getData();
 
 
-                /*try {
-                    Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    /*try {
+                        Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
 
-                //File archivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),fileUri.getPath());
+                    //File archivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),fileUri.getPath());
 
-                File archivo = new File(fileUri.getPath());
+                    File archivo = new File(fileUri.getPath());
 
-                new UploadFileToServer(archivo, GALERIA).execute();
+                    new UploadFileToServer(archivo, GALERIA).execute();
+                }
+                else if (resultCode == RESULT_CANCELED) {
+                    // user cancelled Image capture
+                    Toast.makeText(getApplicationContext(),
+                            "User cancelled image capture", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    // failed to capture image
+                    Toast.makeText(getApplicationContext(),
+                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                            .show();
+                }
 
             }
-            else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
-            }
+
         }
 
 
     }
-
-
-
-
-
 
         @Override
     protected void onResume(){
@@ -372,7 +371,10 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     @Override
     public void onBackPressed() {
-        this.finish();
+        NavUtils.navigateUpFromSameTask(this);
+       // super.onBackPressed();
+//        getFragmentManager().popBackStack();
+ //       finish();
         //overridePendingTransition(R.anim.pop_enter, R.anim.pop_exit);
     }
 

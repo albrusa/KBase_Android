@@ -85,13 +85,9 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_contenido, conversacionesFragment)
                     .commit();
         }
-
-
-
     }
 
-
-        @Override
+    @Override
     protected void onResume(){
         super.onResume();
     }

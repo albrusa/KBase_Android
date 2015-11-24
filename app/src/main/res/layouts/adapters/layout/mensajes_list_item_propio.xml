@@ -11,7 +11,7 @@
         android:background="@drawable/balloon_outgoing_normal"/>-->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:id="@+id/main_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +32,7 @@
                 android:layout_gravity="bottom|center|right"
                 android:orientation="horizontal"
                 android:id="@+id/date_wrapper"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

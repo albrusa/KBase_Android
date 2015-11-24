@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gris">#9ccc</color>
+
 
 
     <color name="colorPrimary">#3F51B5</color>
@@ -14,11 +14,15 @@
     <color name="rojo">#F55753</color>
 
 
+    <color name="gris_opaco">#ccc</color>
+
     <color name="negro">#de000000</color>
     <color name="gris_oscuro">#8a000000</color>
     <color name="gris_claro">#1e000000</color>
-
+    <color name="gris">#9ccc</color>
 
     <color name="conversation_row_date">#66000000</color>
+
+    <color name="attach_popup_background">#f8ffffff</color>
 
 </resources>

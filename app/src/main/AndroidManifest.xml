@@ -24,12 +24,10 @@
 
         <activity android:name=".UsuariosListActivity" android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme" >
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".MensajesListActivity" android:theme="@style/AppTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+        <activity android:name=".MensajesListActivity" android:theme="@style/AppTheme" android:parentActivityName=".MainActivity" android:launchMode="singleTask">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity" />
         </activity>
 
         <receiver

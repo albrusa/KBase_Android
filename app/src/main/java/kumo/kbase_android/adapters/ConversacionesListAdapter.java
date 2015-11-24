@@ -38,25 +38,31 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
     public static class AdapterElementoViewHolder
             extends RecyclerView.ViewHolder {
 
-        private TextView mMensaje;
-        private TextView mNombre_Usuario;
+        private TextView vMensaje;
+        private TextView vNombre_Usuario;
+        CircularNetworkImageView vImagen;
+        TextView vFecha;
+
+
         RequestQueue mRequestQueue;
-        CircularNetworkImageView mImagen;
+
         ImageLoader mImageLoader;
 
 
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
-            mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (CircularNetworkImageView) itemView.findViewById(R.id.Imagen);
+            vMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
+            vNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
+            vImagen = (CircularNetworkImageView) itemView.findViewById(R.id.Imagen);
+            vFecha = (TextView)itemView.findViewById(R.id.Fecha);
 
         }
 
         public void bindTitular(Conversacion t) {
-            mNombre_Usuario.setText(t.Nombre);
-            mMensaje.setText(t.Mensaje);
+            vNombre_Usuario.setText(t.Nombre);
+            vMensaje.setText(t.Mensaje);
+            vFecha.setText(t.Dia + " " + t.Hora);
 
             ImageLoader.ImageCache imageCache = new LruBitmapCache(itemView.getContext());
 
@@ -64,7 +70,7 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
 
             if(t.Imagen != null && t.Imagen != "")
             {
-                mImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
+                vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
             }
         }
     }
