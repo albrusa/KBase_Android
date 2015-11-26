@@ -8,33 +8,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.R;
-import kumo.kbase_android.model.Documento;
+import kumo.kbase_android.model.Informacion;
 
 /**
  * Created by dev_2 on 09/11/2015.
  */
-public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
-    private List<Documento> l_documentos;
+public class InformacionesListAdapter extends RecyclerView.Adapter<InformacionesListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
+    private List<Informacion> l_informaciones;
     private View.OnClickListener listener;
     private static Context mContext;
 
-    public DocumentosListAdapter(List<Documento> _l_documentos) {
-        this.l_documentos = _l_documentos;
-    }
-
-    public DocumentosListAdapter(Context _context) {
+    public InformacionesListAdapter(Context _context) {
 
         this.mContext = _context;
-        this.l_documentos = new ArrayList<>();
+        this.l_informaciones = new ArrayList<>();
     }
 
     public static class AdapterElementoViewHolder
@@ -46,8 +39,6 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
         TextView vFecha;
 
         DateFormat mDateFormat;
-        RequestQueue mRequestQueue;
-        ImageLoader mImageLoader;
 
 
         public AdapterElementoViewHolder(View itemView) {
@@ -62,30 +53,32 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
 
         }
 
-        public void bindTitular(Documento t) {
-            vNombre_Usuario.setText(t.Nombre);
-            vMensaje.setText(t.Propietario);
-            vFecha.setText(mDateFormat.format(t.Fecha));
+        public void bindTitular(Informacion t) {
+            vNombre_Usuario.setText(t.Titulo);
+            vMensaje.setText(t.Descripcion);
 
-            if(t.Imagen != null && t.Imagen != "") {
+            String fecha = "";
 
-                t.Imagen = t.Imagen.replace(".png","");
+            if(t.Dia != null && !t.Dia.equals("")){
+                fecha = t.Dia;
+            }
+            if(t.Hora != null && !t.Hora.equals("")){
+
+                if(!fecha.equals("")) fecha += " ";
+
+                fecha = t.Dia;
+            }
+            vFecha.setText(fecha);
+
+            if(t.Imagen != null && !t.Imagen.equals("")) {
+
+                t.Imagen = t.Imagen.replace(".png","").toLowerCase();
 
                 int id = mContext.getResources().getIdentifier(t.Imagen, "drawable", mContext.getPackageName());
 
                 vImagen.setImageResource(id);
 
             }
-           /* ImageLoader.ImageCache imageCache = new LruBitmapCache(itemView.getContext());
-
-            mImageLoader = HttpCola.getInstance(itemView.getContext()).getImageLoader();
-
-            if(t.Imagen != null && t.Imagen != "")
-            {
-                mImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
-            }*/
-
-
         }
     }
 
@@ -93,7 +86,7 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
     public AdapterElementoViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.documentos_list_item, viewGroup, false);
+                .inflate(R.layout.informaciones_list_item, viewGroup, false);
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
 
@@ -102,22 +95,22 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
         return tvh;
     }
 
-    public void updateData(List<Documento> _documentos) {
-        l_documentos.clear();
-        l_documentos.addAll(_documentos);
+    public void updateData(List<Informacion> _informaciones) {
+        l_informaciones.clear();
+        l_informaciones.addAll(_informaciones);
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(AdapterElementoViewHolder viewHolder, int pos) {
-        Documento item = l_documentos.get(pos);
+        Informacion item = l_informaciones.get(pos);
 
         viewHolder.bindTitular(item);
     }
 
     @Override
     public int getItemCount() {
-        return l_documentos.size();
+        return l_informaciones.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {

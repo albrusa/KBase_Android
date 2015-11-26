@@ -2,6 +2,7 @@ package kumo.kbase_android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import kumo.kbase_android.adapters.MainTabAdapter;
 import kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragment;
 import kumo.kbase_android.fragments.documentosList.DocumentosListFragment;
+import kumo.kbase_android.fragments.informacionesList.InformacionesListFragment;
 import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.Cookies;
 import kumo.kbase_android.utils.ObjectPreference;
@@ -19,16 +21,20 @@ import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class MainActivity extends AppCompatActivity
  implements ConversacionesListFragment.OnConversacionesListFragmentInteractionListener,
-        DocumentosListFragment.OnDocumentosListFragmentInteractionListener
+        DocumentosListFragment.OnDocumentosListFragmentInteractionListener,
+        InformacionesListFragment.OnInformacionesListFragmentInteractionListener
     {
 
     private String mId_Usuario;
     private Usuario mUsuario;
     private ObjectPreference objectPreference;
+    private AppCompatActivity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mActivity = this;
 
         //overridePendingTransition(R.anim.enter, R.anim.hold);
 
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         mUsuario = cookie.getObject(QuickstartPreferences.USUARIO_ACTIVO, Usuario.class);
 
+        int tab_seleccionado = cookie.getObject(QuickstartPreferences.TAB_ACTIVO, int.class);
 
         if(mUsuario.Id_Clase.equals("BB60C904-701F-43CE-8E63-5E4F9D528E93")) {
 
@@ -68,10 +75,15 @@ public class MainActivity extends AppCompatActivity
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
             viewPager.setAdapter(new MainTabAdapter(
-                    getSupportFragmentManager(), mUsuario));
+                    getSupportFragmentManager(), mUsuario, getApplicationContext()));
+
+            viewPager.setCurrentItem(tab_seleccionado);
 
             TabLayout tabLayout = (TabLayout) findViewById(R.id.appbartabs);
             tabLayout.setupWithViewPager(viewPager);
+
+
+
         }else{
 
             setContentView(R.layout.main_pro_activity);
@@ -85,11 +97,13 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_contenido, conversacionesFragment)
                     .commit();
         }
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        timerHandler.removeCallbacks(timerRunnable);
     }
 
     @Override
@@ -107,11 +121,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStop(){
         super.onStop();
-        this.finish();
+
+       timerHandler.postDelayed(timerRunnable, 30000);
+
+        // this.finish();
     }
 
     @Override
     protected void onDestroy(){
+        timerHandler.removeCallbacks(timerRunnable);
         super.onDestroy();super.finish();
     }
 
@@ -126,6 +144,13 @@ public class MainActivity extends AppCompatActivity
         b.putString("Imagen", _imagen);
         intent.putExtras(b);
 
+        Cookies cookie = objectPreference.getComplexPreference();
+        if (cookie != null) {
+            cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
+            cookie.commit();
+        }
+
+
         startActivity(intent);
         Log.d("Interaction", "asd");
     }
@@ -134,4 +159,35 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("Interaction", "asd");
     }
+
+    public void OnInformacionesListFragmentInteractionListener(String _id_noticia, String _titulo, String _texto){
+
+        Intent intent = new Intent(getBaseContext(), InformacionActivity.class);
+        Bundle b = new Bundle();
+
+        b.putString("Id_Conversacion", _id_noticia);
+        b.putString("Titulo", _titulo);
+        b.putString("Texto", _texto);
+        intent.putExtras(b);
+
+        Cookies cookie = objectPreference.getComplexPreference();
+        if (cookie != null) {
+            cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 0);
+            cookie.commit();
+        }
+
+        startActivity(intent);
+        Log.d("Interaction", "asd");
+    }
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+
+            mActivity.finish();
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 }

@@ -1,7 +1,13 @@
 package kumo.kbase_android;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +36,7 @@ public class UsuariosListActivity extends AppCompatActivity{
     private UsuariosListAdapter adaptador;
     private ObjectPreference objectPreference;
     private Button vRegistro;
+    private Button vNotificacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +96,7 @@ public class UsuariosListActivity extends AppCompatActivity{
                 new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
 
         vRegistro = (Button) findViewById(R.id.registro);
+        vNotificacion = (Button) findViewById(R.id.notificacion);
 
 
 
@@ -121,6 +129,7 @@ public class UsuariosListActivity extends AppCompatActivity{
                     Cookies cookie = objectPreference.getComplexPreference();
                     if (cookie != null) {
                         cookie.putObject(QuickstartPreferences.USUARIO_ACTIVO, usuario_seleccionado);
+                        cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
                         cookie.commit();
                     }
 
@@ -142,6 +151,14 @@ public class UsuariosListActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        vNotificacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                sendNotification("hola");
+            }
+        });
     }
 
     @Override
@@ -152,5 +169,28 @@ public class UsuariosListActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         this.finish();
+    }
+
+    private void sendNotification(String message) {
+        Intent intent = new Intent(this, UsuariosListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.mr_ic_settings_dark)
+                .setContentTitle("GCM Message")
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setPriority(0)
+                .setSound(defaultSoundUri)
+                .setVisibility(-1)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 }

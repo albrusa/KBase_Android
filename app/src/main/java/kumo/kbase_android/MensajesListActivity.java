@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -370,8 +371,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     @Override
     public void onBackPressed() {
-        //NavUtils.navigateUpFromSameTask(this);
-        super.onBackPressed();
+        NavUtils.navigateUpFromSameTask(this);
+        //super.onBackPressed();
 //        getFragmentManager().popBackStack();
         //finish();
         //overridePendingTransition(R.anim.pop_enter, R.anim.pop_exit);

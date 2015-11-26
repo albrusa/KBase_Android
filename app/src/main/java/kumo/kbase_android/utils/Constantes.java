@@ -37,7 +37,7 @@ public class Constantes {
 
     public static final String DOCUMENTOS_OBT_DOCUMENTOS = HTTP_SERVER+"/Documentos/obt_documentos";
 
-    public static final String NOTICIAS_OBT_NOTICIAS = HTTP_SERVER+"/Noticias/obt_Noticias";
+    public static final String INFORMACIONES_OBT_INFORMACIONES = HTTP_SERVER+"/Informaciones/obt_informaciones";
 
 
 

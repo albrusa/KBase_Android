@@ -23,9 +23,10 @@ android {
             res.srcDirs = [
                     'src/main/res/layouts/adapters',
                     'src/main/res/layouts/registro',
-                    'src/main/res/layouts/conversacionesList',
+                    'src/main/res/layouts/conversaciones',
                     'src/main/res/layouts/usuariosList',
-                    'src/main/res/layouts/documentosList',
+                    'src/main/res/layouts/informaciones',
+                    'src/main/res/layouts/documentos',
                     'src/main/res/layouts/genericos',
                     'src/main/res/layouts/main',
                     'src/main/res/layouts',

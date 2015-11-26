@@ -20,6 +20,11 @@
     <string name="campo_obligatorio">Campo Obligatorio</string>
 
 
+    <string name="Main.Conversaciones">Conversaciones</string>
+    <string name="Main.Informaciones">Informaciones</string>
+    <string name="Main.Documentos">Documentos</string>
+
+
 
     <string name="Prefijo_Andorra">Andorra</string>
     <string name="Prefijo_Austria">Austria</string>
@@ -60,7 +65,5 @@
     <string name="Prefijo_Ciudad_del_Vaticano">Ciudad del Vaticano</string>
     <string name="Prefijo_India">India</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

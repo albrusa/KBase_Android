@@ -68,7 +68,7 @@
             android:id="@+id/buttons"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:layout_width="wrap_content"
+            android:layout_width="57dip"
             android:layout_height="57.0dip"
             android:layout_marginRight="4.0dip"
             android:layout_alignBottom="@id/text_entry_layout"

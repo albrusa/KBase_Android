@@ -2,13 +2,14 @@ package kumo.kbase_android.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 
@@ -41,6 +42,15 @@ public class CircularNetworkImageView  extends NetworkImageView {
         if(bm==null) return;
         setImageDrawable(new BitmapDrawable(mContext.getResources(),
                 getCircularBitmap(bm)));
+    }
+
+    @Override
+    public void setImageResource(int rs){
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), rs);
+        if(bm==null) return;
+        setImageDrawable(new BitmapDrawable(mContext.getResources(),
+                getCircularBitmap(bm)));
+
     }
 
     /**

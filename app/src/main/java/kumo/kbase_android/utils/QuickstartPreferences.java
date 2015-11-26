@@ -17,6 +17,8 @@ public final class QuickstartPreferences {
     public static final String USUARIO_REGISTRADO = "usuarioRegistrado";
     public static final String USUARIO_ACTIVO = "usuarioActivo";
 
+    public static final String TAB_ACTIVO = "tabActivo";
+
     public SharedPreferences settings;
 
     public static Context globalContext;

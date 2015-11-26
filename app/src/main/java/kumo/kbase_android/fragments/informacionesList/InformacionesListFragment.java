@@ -1,4 +1,4 @@
-package kumo.kbase_android.fragments.conversacionesList;
+package kumo.kbase_android.fragments.informacionesList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,15 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import kumo.kbase_android.R;
-import kumo.kbase_android.adapters.ConversacionesListAdapter;
-import kumo.kbase_android.decorators.DividerItemDecoration;
+import kumo.kbase_android.adapters.InformacionesListAdapter;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
-import kumo.kbase_android.model.Conversacion;
+import kumo.kbase_android.model.Informacion;
+import kumo.kbase_android.model.e_Informaciones;
 import kumo.kbase_android.utils.Constantes;
 
 
-public class ConversacionesListFragment extends Fragment {
+public class InformacionesListFragment extends Fragment {
 
     private static final String ID_APLICACION = "id_aplicacion";
     private static final String ID = "id";
@@ -39,14 +39,14 @@ public class ConversacionesListFragment extends Fragment {
     private String mId_Clase;
 
     private RecyclerView recView;
-    private ConversacionesListAdapter adaptador;
+    private InformacionesListAdapter adaptador;
 
-    private List<Conversacion> l_conversaciones;
+    private List<Informacion> l_informaciones;
 
-    private OnConversacionesListFragmentInteractionListener mListener;
+    private OnInformacionesListFragmentInteractionListener mListener;
 
-    public static ConversacionesListFragment newInstance(String _id_Aplicacion, String _id, String _id_Clase) {
-        ConversacionesListFragment fragment = new ConversacionesListFragment();
+    public static InformacionesListFragment newInstance(String _id_Aplicacion, String _id, String _id_Clase) {
+        InformacionesListFragment fragment = new InformacionesListFragment();
         Bundle args = new Bundle();
         args.putString(ID_APLICACION, _id_Aplicacion);
         args.putString(ID, _id);
@@ -55,7 +55,7 @@ public class ConversacionesListFragment extends Fragment {
         return fragment;
     }
 
-    public ConversacionesListFragment() {
+    public InformacionesListFragment() {
         // Required empty public constructor
     }
 
@@ -74,19 +74,18 @@ public class ConversacionesListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View _view =  inflater.inflate(R.layout.conversaciones_list_fragment, container, false);
+        View _view =  inflater.inflate(R.layout.informaciones_list_fragment, container, false);
 
         recView  = (RecyclerView) _view.findViewById(R.id.RecView);
         recView.setHasFixedSize(true);
 
+        adaptador = new InformacionesListAdapter(getContext());
+
         recView.setLayoutManager(
                 new LinearLayoutManager(_view.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        recView.addItemDecoration(
-                new DividerItemDecoration(getActivity(), R.drawable.divider,76,10));
-
-        adaptador = new ConversacionesListAdapter(getContext());
         recView.setAdapter(adaptador);
+
 
         return _view;
     }
@@ -94,25 +93,6 @@ public class ConversacionesListFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
-
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        try {
-            mListener = (OnConversacionesListFragmentInteractionListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
 
         final View _view = getView();
 
@@ -124,15 +104,15 @@ public class ConversacionesListFragment extends Fragment {
         jsonObject.addProperty("_id_usuario_clase", mId_Clase);
 
         try {
-            GsonRequest<Conversacion[]> getPersons =
-                    new GsonRequest<Conversacion[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_OBT_CONVERSACIONES, Conversacion[].class,params,jsonObject,
+            GsonRequest<Informacion[]> getPersons =
+                    new GsonRequest<Informacion[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.INFORMACIONES_OBT_INFORMACIONES, Informacion[].class,params,jsonObject,
 
-                            new Response.Listener<Conversacion[]>() {
+                            new Response.Listener<Informacion[]>() {
                                 @Override
-                                public void onResponse(Conversacion[] response) {
-                                    l_conversaciones = Arrays.asList(response);
+                                public void onResponse(Informacion[] response) {
+                                    l_informaciones = Arrays.asList(response);
 
-                                    adaptador.updateData(l_conversaciones);
+                                    adaptador.updateData(l_informaciones);
 
                                     adaptador.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -141,13 +121,18 @@ public class ConversacionesListFragment extends Fragment {
                                             Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildViewHolder(v));
                                             Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildItemId(v));
 
-                                            Conversacion conversacion_seleccionado = l_conversaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
+                                            Informacion informacion_seleccionado = l_informaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
 
-                                            if (conversacion_seleccionado != null) {
-                                                mListener.OnConversacionesListFragmentInteractionListener(conversacion_seleccionado.Id, conversacion_seleccionado.Nombre, conversacion_seleccionado.Imagen);
+                                            if (informacion_seleccionado != null) {
+
+                                                if(informacion_seleccionado.c_Tipo == e_Informaciones.Noticia.getValue())
+
+                                                mListener.OnInformacionesListFragmentInteractionListener(informacion_seleccionado.Id, informacion_seleccionado.Titulo, informacion_seleccionado.Descripcion);
                                             }
                                         }
                                     });
+
+
 
                                 }
                             }, new Response.ErrorListener() {
@@ -165,6 +150,23 @@ public class ConversacionesListFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            mListener = (OnInformacionesListFragmentInteractionListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -172,8 +174,8 @@ public class ConversacionesListFragment extends Fragment {
     }
 
 
-    public interface OnConversacionesListFragmentInteractionListener {
-        public void OnConversacionesListFragmentInteractionListener(String _id_conversacion, String _nombre, String _imagen);
+    public interface OnInformacionesListFragmentInteractionListener {
+        public void OnInformacionesListFragmentInteractionListener(String _id_informacion, String _titulo, String _texto);
     }
 
 }
