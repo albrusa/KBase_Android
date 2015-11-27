@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
     public void onStop(){
         super.onStop();
 
-       timerHandler.postDelayed(timerRunnable, 30000);
+       //timerHandler.postDelayed(timerRunnable, 30000);
 
         // this.finish();
     }
