@@ -127,3 +127,279 @@ columnName=Ruta_Imagen_Usuario
 # --table-fields-end--
 # --table-end--
 #################################
+
+#################################
+# --table-start--
+dataClass=kumo.kbase_android.model.Conversacion
+tableName=Conversacion
+# --table-fields-start--
+# --field-start--
+fieldName=id_db
+columnName=id_db
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id
+columnName=Id
+# --field-end--
+# --field-start--
+fieldName=Id_Clase
+columnName=Id_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario
+columnName=Id_Propietario
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario_Clase
+columnName=Id_Propietario_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Creado
+columnName=Creado
+# --field-end--
+# --field-start--
+fieldName=Modificado
+columnName=Modificado
+# --field-end--
+# --field-start--
+fieldName=Nombre
+columnName=Nombre
+# --field-end--
+# --field-start--
+fieldName=Mensaje
+columnName=Mensaje
+# --field-end--
+# --field-start--
+fieldName=Imagen
+columnName=Imagen
+# --field-end--
+# --field-start--
+fieldName=Dia
+columnName=Dia
+# --field-end--
+# --field-start--
+fieldName=Hora
+columnName=Hora
+# --field-end--
+# --field-start--
+fieldName=si_Leido
+columnName=si_Leido
+# --field-end--
+# --field-start--
+fieldName=Actualizado
+columnName=Actualizado
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=kumo.kbase_android.model.Mensaje
+tableName=Mensaje
+# --table-fields-start--
+# --field-start--
+fieldName=id_db
+columnName=id_db
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id
+columnName=Id
+# --field-end--
+# --field-start--
+fieldName=Id_Clase
+columnName=Id_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario
+columnName=Id_Propietario
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario_Clase
+columnName=Id_Propietario_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Creado
+columnName=Creado
+# --field-end--
+# --field-start--
+fieldName=Modificado
+columnName=Modificado
+# --field-end--
+# --field-start--
+fieldName=Id_0
+columnName=Id_0
+# --field-end--
+# --field-start--
+fieldName=Id_0_Clase
+columnName=Id_0_Clase
+# --field-end--
+# --field-start--
+fieldName=Mensaje
+columnName=Mensaje
+# --field-end--
+# --field-start--
+fieldName=Orden
+columnName=Orden
+# --field-end--
+# --field-start--
+fieldName=Id_Archivo
+columnName=Id_Archivo
+# --field-end--
+# --field-start--
+fieldName=c_Estado
+columnName=c_Estado
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=kumo.kbase_android.model.Informacion
+tableName=Informacion
+# --table-fields-start--
+# --field-start--
+fieldName=id_db
+columnName=id_db
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id
+columnName=Id
+# --field-end--
+# --field-start--
+fieldName=Id_Clase
+columnName=Id_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario
+columnName=Id_Propietario
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario_Clase
+columnName=Id_Propietario_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Creado
+columnName=Creado
+# --field-end--
+# --field-start--
+fieldName=Modificado
+columnName=Modificado
+# --field-end--
+# --field-start--
+fieldName=Titulo
+columnName=Titulo
+# --field-end--
+# --field-start--
+fieldName=Descripcion
+columnName=Descripcion
+# --field-end--
+# --field-start--
+fieldName=Imagen
+columnName=Imagen
+# --field-end--
+# --field-start--
+fieldName=Dia
+columnName=Dia
+# --field-end--
+# --field-start--
+fieldName=Hora
+columnName=Hora
+# --field-end--
+# --field-start--
+fieldName=c_Tipo
+columnName=c_Tipo
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=kumo.kbase_android.model.Documento
+tableName=Documento
+# --table-fields-start--
+# --field-start--
+fieldName=id_db
+columnName=id_db
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=Id
+columnName=Id
+# --field-end--
+# --field-start--
+fieldName=Id_Clase
+columnName=Id_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario
+columnName=Id_Propietario
+# --field-end--
+# --field-start--
+fieldName=Id_Propietario_Clase
+columnName=Id_Propietario_Clase
+# --field-end--
+# --field-start--
+fieldName=Id_Aplicacion
+columnName=Id_Aplicacion
+# --field-end--
+# --field-start--
+fieldName=Creado
+columnName=Creado
+# --field-end--
+# --field-start--
+fieldName=Modificado
+columnName=Modificado
+# --field-end--
+# --field-start--
+fieldName=Nombre
+columnName=Nombre
+# --field-end--
+# --field-start--
+fieldName=Descripcion
+columnName=Descripcion
+# --field-end--
+# --field-start--
+fieldName=Fecha
+columnName=Fecha
+# --field-end--
+# --field-start--
+fieldName=si_Publicar
+columnName=si_Publicar
+# --field-end--
+# --field-start--
+fieldName=Id_Archivo
+columnName=Id_Archivo
+# --field-end--
+# --field-start--
+fieldName=Imagen
+columnName=Imagen
+# --field-end--
+# --field-start--
+fieldName=Propietario
+columnName=Propietario
+# --field-end--
+# --field-start--
+fieldName=Url
+columnName=Url
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

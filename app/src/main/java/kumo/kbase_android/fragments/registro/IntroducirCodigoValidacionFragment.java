@@ -83,7 +83,7 @@ public class IntroducirCodigoValidacionFragment extends Fragment {
                         jsonObject.addProperty("_codigo_verificacion", codigo_validacion);
 
                         GsonRequest<boolean_Api> getPersons =
-                                new GsonRequest<boolean_Api>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__VERIFICAR_CODIGO_VERIFICACION, boolean_Api.class,params,jsonObject,
+                                new GsonRequest<boolean_Api>(Request.Method.POST, Constantes.USUARIO__VERIFICAR_CODIGO_VERIFICACION, boolean_Api.class,params,jsonObject,
 
                                         new Response.Listener<boolean_Api>() {
                                             @Override

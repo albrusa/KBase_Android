@@ -96,7 +96,7 @@ public class AplicacionesFragment extends Fragment {
 
         try {
             GsonRequest<Configuracion[]> getPersons =
-                    new GsonRequest<>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.USUARIO__OBT_APLICACIONES, Configuracion[].class,params,jsonObject,
+                    new GsonRequest<Configuracion[]>(Request.Method.POST, Constantes.USUARIO__OBT_APLICACIONES, Configuracion[].class,params,jsonObject,
 
                             new Response.Listener<Configuracion[]>() {
                                 @Override

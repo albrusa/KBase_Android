@@ -40,12 +40,12 @@ public class GsonRequest<T> extends JsonRequest<T> {
     private View mView;
 
 
-    public GsonRequest(int method,View _view, String url, Class<T> classType, JsonObject jsonRequest,
+    public GsonRequest(int method, String url, Class<T> classType, JsonObject jsonRequest,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        this(method,_view, url, classType, null, jsonRequest, listener, errorListener);
+        this(method, url, classType, null, jsonRequest, listener, errorListener);
     }
 
-    public GsonRequest(int method, View _view,  String url, Class<T> classType, Map<String, String> headers,
+    public GsonRequest(int method,  String url, Class<T> classType, Map<String, String> headers,
                        JsonObject jsonRequest, Response.Listener<T> listener,
                        Response.ErrorListener errorListener) {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
@@ -53,7 +53,7 @@ public class GsonRequest<T> extends JsonRequest<T> {
 
         setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        mView = _view;
+
         //gson = new Gson();
 
         gson = new GsonBuilder().registerTypeAdapter(Date.class, new NetDateTimeAdapter()).create();
@@ -83,8 +83,6 @@ public class GsonRequest<T> extends JsonRequest<T> {
 
         Log.d("error", volleyError.getMessage());
 
-        /*Snackbar.make(mView, "Esto es una prueba", Snackbar.LENGTH_LONG)
-                .show();*/
 
         return volleyError;
     }

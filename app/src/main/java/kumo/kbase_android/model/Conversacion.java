@@ -17,49 +17,19 @@ public class Conversacion extends db_Base implements Serializable{
     public Integer id_db;
 
     @DatabaseField
-    public String Id_Usuario_def;
-
-    @DatabaseField
-    public String Id_Usuario_Clase_def;
-
-    @DatabaseField
-    public String Tema;
-
-    @DatabaseField
-    public String Consulta_De;
-
-    @DatabaseField
-    public int c_Importancia;
-
-    @DatabaseField
-    public int c_Estado;
-
-    @DatabaseField
-    public String Id_Grupo;
-
-    @DatabaseField
-    public String Id_Grupo_Clase;
-
-    @DatabaseField
-    public String Id_Ultimo_Mensaje;
+    public String Nombre;
 
     @DatabaseField
     public String Mensaje;
 
     @DatabaseField
-    public String Mensaje_Id_Propietario;
-
-    @DatabaseField
-    public String Nombre;
-
-    @DatabaseField
     public String Imagen;
 
     @DatabaseField
-    public String Hora;
+    public String Dia;
 
     @DatabaseField
-    public String Dia;
+    public String Hora;
 
     @DatabaseField
     public boolean si_Leido;

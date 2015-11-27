@@ -68,7 +68,7 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
 
             mImageLoader = HttpCola.getInstance(itemView.getContext()).getImageLoader();
 
-            if(t.Imagen != null && t.Imagen != "")
+            if(t.Imagen != null && !t.Imagen.equals(""))
             {
                 vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
             }

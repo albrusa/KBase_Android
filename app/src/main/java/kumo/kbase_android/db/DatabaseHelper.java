@@ -13,6 +13,10 @@ import java.sql.SQLException;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.model.Configuracion;
+import kumo.kbase_android.model.Conversacion;
+import kumo.kbase_android.model.Documento;
+import kumo.kbase_android.model.Informacion;
+import kumo.kbase_android.model.Mensaje;
 import kumo.kbase_android.model.Usuario;
 
 /**
@@ -25,10 +29,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      ************************************************/
 
     private static final String DATABASE_NAME = "kbase.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 10;
 
     private Dao<Usuario, Integer> UsuarioDao;
     private Dao<Configuracion, Integer> ConfiguracionDao;
+    private Dao<Conversacion, Integer> ConversacionDao;
+    private Dao<Mensaje, Integer> MensajeDao;
+    private Dao<Documento, Integer> DocumentoDao;
+    private Dao<Informacion, Integer> InformacionDao;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -46,9 +54,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             // Create tables. This onCreate() method will be invoked only once of the application life time i.e. the first time when the application starts.
             TableUtils.dropTable(connectionSource, Usuario.class, true);
             TableUtils.dropTable(connectionSource, Configuracion.class, true);
+            TableUtils.dropTable(connectionSource, Conversacion.class, true);
+            TableUtils.dropTable(connectionSource, Mensaje.class, true);
+            TableUtils.dropTable(connectionSource, Documento.class, true);
+            TableUtils.dropTable(connectionSource, Informacion.class, true);
 
             TableUtils.createTable(connectionSource, Usuario.class);
             TableUtils.createTable(connectionSource, Configuracion.class);
+            TableUtils.createTable(connectionSource, Conversacion.class);
+            TableUtils.createTable(connectionSource, Mensaje.class);
+            TableUtils.createTable(connectionSource, Documento.class);
+            TableUtils.createTable(connectionSource, Informacion.class);
 
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
@@ -61,6 +77,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
             TableUtils.dropTable(connectionSource, Usuario.class, true);
             TableUtils.dropTable(connectionSource, Configuracion.class, true);
+            TableUtils.dropTable(connectionSource, Conversacion.class, true);
+            TableUtils.dropTable(connectionSource, Mensaje.class, true);
+            TableUtils.dropTable(connectionSource, Documento.class, true);
+            TableUtils.dropTable(connectionSource, Informacion.class, true);
             onCreate(sqliteDatabase, connectionSource);
 
         } catch (SQLException e) {
@@ -69,7 +89,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public void dropUsuario(){
+
+    public ConnectionSource getConnectionSource(){
+        return connectionSource;
+    }
+
+    /*public void dropUsuario(){
         try {
 
             TableUtils.dropTable(connectionSource, Usuario.class, true);
@@ -89,6 +114,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         }
     }
+
+
+
 
     public void dropConfiguracion(){
         try {
@@ -113,18 +141,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public void limpiar_bbdd(){
         try {
-
-           /* TableUtils.dropTable(connectionSource, Usuario.class, true);
-            TableUtils.dropTable(connectionSource, Configuracion.class, true);*/
-
             TableUtils.clearTable(connectionSource, Usuario.class);
-            TableUtils.clearTable(connectionSource,Configuracion.class);
+            TableUtils.clearTable(connectionSource, Configuracion.class);
 
         } catch (SQLException e) {
 
         }
     }
-
+*/
 
     public Dao<Usuario, Integer> getUsuarioDao() throws SQLException {
         if(UsuarioDao == null) {
@@ -138,5 +162,33 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             ConfiguracionDao = getDao(Configuracion.class);
         }
         return ConfiguracionDao;
+    }
+
+    public Dao<Conversacion, Integer> getConversacionDao() throws SQLException {
+        if(ConversacionDao == null) {
+            ConversacionDao = getDao(Conversacion.class);
+        }
+        return ConversacionDao;
+    }
+
+    public Dao<Mensaje, Integer> getMensajeDao() throws SQLException {
+        if(MensajeDao == null) {
+            MensajeDao = getDao(Mensaje.class);
+        }
+        return MensajeDao;
+    }
+
+    public Dao<Documento, Integer> getDocumentoDao() throws SQLException {
+        if(DocumentoDao == null) {
+            DocumentoDao = getDao(Documento.class);
+        }
+        return DocumentoDao;
+    }
+
+    public Dao<Informacion, Integer> getInformacionDao() throws SQLException {
+        if(InformacionDao == null) {
+            InformacionDao = getDao(Informacion.class);
+        }
+        return InformacionDao;
     }
 }

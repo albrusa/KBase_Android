@@ -304,7 +304,7 @@ public class RegistroActivity extends AppCompatActivity
             jsonObject.addProperty("_token", token);
 
             GsonRequest<boolean_Api> getPersons =
-                    new GsonRequest<boolean_Api>(Request.Method.POST, findViewById(android.R.id.content), Constantes.USUARIO__REGISTRAR, boolean_Api.class,params,jsonObject,
+                    new GsonRequest<boolean_Api>(Request.Method.POST, Constantes.USUARIO__REGISTRAR, boolean_Api.class,params,jsonObject,
 
                             new Response.Listener<boolean_Api>() {
                                 @Override

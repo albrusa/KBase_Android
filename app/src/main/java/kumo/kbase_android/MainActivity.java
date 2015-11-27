@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity
         InformacionesListFragment.OnInformacionesListFragmentInteractionListener
     {
 
-    private String mId_Usuario;
     private Usuario mUsuario;
     private ObjectPreference objectPreference;
     private AppCompatActivity mActivity;

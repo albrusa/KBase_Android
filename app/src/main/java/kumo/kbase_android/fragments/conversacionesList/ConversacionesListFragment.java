@@ -1,31 +1,27 @@
 package kumo.kbase_android.fragments.conversacionesList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.google.gson.JsonObject;
-
-import java.util.Arrays;
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.ConversacionesListAdapter;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.ConversacionesDao;
 import kumo.kbase_android.decorators.DividerItemDecoration;
-import kumo.kbase_android.httpRequest.GsonRequest;
-import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Conversacion;
-import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.ReceiverManager;
 
 
 public class ConversacionesListFragment extends Fragment {
@@ -40,6 +36,10 @@ public class ConversacionesListFragment extends Fragment {
 
     private RecyclerView recView;
     private ConversacionesListAdapter adaptador;
+    private BroadcastReceiver mReceiverConversacionesDone;
+    private ConversacionesDao conversacionesDao;
+
+    private ReceiverManager mReceiverManager;
 
     private List<Conversacion> l_conversaciones;
 
@@ -93,10 +93,65 @@ public class ConversacionesListFragment extends Fragment {
 
     @Override
     public void onResume(){
+
+        mReceiverManager = ReceiverManager.init(getContext());
+
+        IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.OBT_CONVERSACIONES_DONE);
+
+        try {
+            conversacionesDao = conversacionesDao.init(getContext(),BaseDao.getInstance(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        mReceiverConversacionesDone = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                try {
+                    l_conversaciones = conversacionesDao.obt_Conversaciones_db(mId_Aplicacion, mId, mId_Clase);
+
+                    adaptador.updateData(l_conversaciones);
+                }
+                    catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        if (!mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone)) {
+            mReceiverManager.registerReceiver(mReceiverConversacionesDone, conversacionesDone);
+        }
+
+        try {
+            l_conversaciones = conversacionesDao.obt_Conversaciones(mId_Aplicacion, mId, mId_Clase);
+
+            adaptador.updateData(l_conversaciones);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Conversacion conversacion_seleccionado = l_conversaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
+
+                if (conversacion_seleccionado != null) {
+                    mListener.OnConversacionesListFragmentInteractionListener(conversacion_seleccionado.Id, conversacion_seleccionado.Nombre, conversacion_seleccionado.Imagen);
+                }
+            }
+        });
+
+
         super.onResume();
 
 
     }
+
 
 
     @Override
@@ -113,57 +168,14 @@ public class ConversacionesListFragment extends Fragment {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
-        final View _view = getView();
-
-        HashMap<String, String> params = new HashMap<String, String>();
-
-        final JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("_id_aplicacion", mId_Aplicacion);
-        jsonObject.addProperty("_id_usuario", mId);
-        jsonObject.addProperty("_id_usuario_clase", mId_Clase);
-
-        try {
-            GsonRequest<Conversacion[]> getPersons =
-                    new GsonRequest<Conversacion[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_OBT_CONVERSACIONES, Conversacion[].class,params,jsonObject,
-
-                            new Response.Listener<Conversacion[]>() {
-                                @Override
-                                public void onResponse(Conversacion[] response) {
-                                    l_conversaciones = Arrays.asList(response);
-
-                                    adaptador.updateData(l_conversaciones);
-
-                                    adaptador.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildViewHolder(v));
-                                            Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildItemId(v));
-
-                                            Conversacion conversacion_seleccionado = l_conversaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
-
-                                            if (conversacion_seleccionado != null) {
-                                                mListener.OnConversacionesListFragmentInteractionListener(conversacion_seleccionado.Id, conversacion_seleccionado.Nombre, conversacion_seleccionado.Imagen);
-                                            }
-                                        }
-                                    });
-
-                                }
-                            }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("objeto", error.getMessage());
-                        }
-                    });
-
-            HttpCola.getInstance(_view.getContext()).addToRequestQueue(getPersons);
-
-        } catch (Exception e) {
-            Log.d("Error",e.getMessage());
-        }
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mReceiverManager.unregisterReceiver(mReceiverConversacionesDone);
+    }
+
 
     @Override
     public void onDetach() {

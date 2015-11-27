@@ -111,7 +111,7 @@ public class CrearClaveFragment extends Fragment {
                             jsonObject.addProperty("_codigo_verificacion", mCodigo_Validacion);
 
                             GsonRequest<boolean_Api> getPersons =
-                                    new GsonRequest<boolean_Api>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__ASIGNAR_CLAVE, boolean_Api.class,params,jsonObject,
+                                    new GsonRequest<boolean_Api>(Request.Method.POST, Constantes.USUARIO__ASIGNAR_CLAVE, boolean_Api.class,params,jsonObject,
 
                                             new Response.Listener<boolean_Api>() {
                                                 @Override
@@ -130,7 +130,7 @@ public class CrearClaveFragment extends Fragment {
                                                             jsonObject.addProperty("_clave", mClave);
 
                                                             GsonRequest<Usuario> getPersons =
-                                                                    new GsonRequest<Usuario>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
+                                                                    new GsonRequest<Usuario>(Request.Method.POST,  Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
 
                                                                             new Response.Listener<Usuario>() {
                                                                                 @Override

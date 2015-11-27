@@ -1,30 +1,26 @@
 package kumo.kbase_android.fragments.documentosList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.google.gson.JsonObject;
-
-import java.util.Arrays;
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.DocumentosListAdapter;
-import kumo.kbase_android.httpRequest.GsonRequest;
-import kumo.kbase_android.httpRequest.HttpCola;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.DocumentosDao;
 import kumo.kbase_android.model.Documento;
-import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.ReceiverManager;
 
 
 public class DocumentosListFragment extends Fragment {
@@ -39,6 +35,12 @@ public class DocumentosListFragment extends Fragment {
 
     private RecyclerView recView;
     private DocumentosListAdapter adaptador;
+    private BroadcastReceiver mReceiverDocumentosDone;
+    private DocumentosDao documentosDao;
+
+    private ReceiverManager mReceiverManager;
+
+    private List<Documento> l_documentos;
 
     private OnDocumentosListFragmentInteractionListener mListener;
 
@@ -101,7 +103,46 @@ public class DocumentosListFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        final View _view = getView();
+
+        mReceiverManager = ReceiverManager.init(getContext());
+
+        IntentFilter documentosDone = new IntentFilter(ReceiverManager.OBT_DOCUMENTOS_DONE);
+
+        try {
+            documentosDao = documentosDao.init(getContext(), BaseDao.getInstance(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        mReceiverDocumentosDone = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                try {
+                    l_documentos = documentosDao.obt_Documentos_db(mId_Aplicacion, mId, mId_Clase);
+
+                    adaptador.updateData(l_documentos);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        if (!mReceiverManager.isReceiverRegistered(mReceiverDocumentosDone)) {
+            mReceiverManager.registerReceiver(mReceiverDocumentosDone, documentosDone);
+        }
+
+        try {
+            l_documentos = documentosDao.obt_Documentos(mId_Aplicacion, mId, mId_Clase);
+
+            adaptador.updateData(l_documentos);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /*final View _view = getView();
 
         HashMap<String, String> params = new HashMap<String, String>();
 
@@ -112,7 +153,7 @@ public class DocumentosListFragment extends Fragment {
 
         try {
             GsonRequest<Documento[]> getPersons =
-                    new GsonRequest<Documento[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.DOCUMENTOS_OBT_DOCUMENTOS, Documento[].class,params,jsonObject,
+                    new GsonRequest<Documento[]>(Request.Method.POST, Constantes.DOCUMENTOS_OBT_DOCUMENTOS, Documento[].class,params,jsonObject,
 
                             new Response.Listener<Documento[]>() {
                                 @Override
@@ -121,8 +162,6 @@ public class DocumentosListFragment extends Fragment {
 
                                     //adaptador = new DocumentosListAdapter(l_documentos);
                                     adaptador.updateData(l_documentos);
-
-
 
 
 
@@ -139,7 +178,7 @@ public class DocumentosListFragment extends Fragment {
 
         } catch (Exception e) {
             Log.d("Error",e.getMessage());
-        }
+        }*/
     }
 
 
@@ -158,6 +197,13 @@ public class DocumentosListFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mReceiverManager.unregisterReceiver(mReceiverDocumentosDone);
+    }
+
 
     @Override
     public void onDetach() {

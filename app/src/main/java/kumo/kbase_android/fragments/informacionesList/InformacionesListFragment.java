@@ -1,6 +1,9 @@
 package kumo.kbase_android.fragments.informacionesList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,22 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.google.gson.JsonObject;
-
-import java.util.Arrays;
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.InformacionesListAdapter;
-import kumo.kbase_android.httpRequest.GsonRequest;
-import kumo.kbase_android.httpRequest.HttpCola;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.InformacionesDao;
 import kumo.kbase_android.model.Informacion;
 import kumo.kbase_android.model.e_Informaciones;
-import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.ReceiverManager;
 
 
 public class InformacionesListFragment extends Fragment {
@@ -40,6 +37,11 @@ public class InformacionesListFragment extends Fragment {
 
     private RecyclerView recView;
     private InformacionesListAdapter adaptador;
+
+    private BroadcastReceiver mReceiverInformacionesDone;
+    private InformacionesDao informacionesDao;
+
+    private ReceiverManager mReceiverManager;
 
     private List<Informacion> l_informaciones;
 
@@ -94,7 +96,65 @@ public class InformacionesListFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        final View _view = getView();
+
+        mReceiverManager = ReceiverManager.init(getContext());
+
+        IntentFilter informacionesDone = new IntentFilter(ReceiverManager.OBT_INFORMACIONES_DONE);
+
+        try {
+            informacionesDao = informacionesDao.init(getContext(), BaseDao.getInstance(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        mReceiverInformacionesDone = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                try {
+                    l_informaciones = informacionesDao.obt_Informaciones_db(mId_Aplicacion, mId, mId_Clase);
+
+                    adaptador.updateData(l_informaciones);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        if (!mReceiverManager.isReceiverRegistered(mReceiverInformacionesDone)) {
+            mReceiverManager.registerReceiver(mReceiverInformacionesDone, informacionesDone);
+        }
+
+        try {
+            l_informaciones = informacionesDao.obt_Informaciones(mId_Aplicacion, mId, mId_Clase);
+
+            adaptador.updateData(l_informaciones);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildViewHolder(v));
+                Log.d("DemoRecView", "Pulsado el elemento " + recView.getChildItemId(v));
+
+                Informacion informacion_seleccionado = l_informaciones.get(recView.getChildViewHolder(v).getAdapterPosition());
+
+                if (informacion_seleccionado != null) {
+
+                    if (informacion_seleccionado.c_Tipo == e_Informaciones.Noticia.getValue())
+
+                        mListener.OnInformacionesListFragmentInteractionListener(informacion_seleccionado.Id, informacion_seleccionado.Titulo, informacion_seleccionado.Descripcion);
+                }
+            }
+        });
+
+        /*final View _view = getView();
 
         HashMap<String, String> params = new HashMap<String, String>();
 
@@ -105,7 +165,7 @@ public class InformacionesListFragment extends Fragment {
 
         try {
             GsonRequest<Informacion[]> getPersons =
-                    new GsonRequest<Informacion[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.INFORMACIONES_OBT_INFORMACIONES, Informacion[].class,params,jsonObject,
+                    new GsonRequest<Informacion[]>(Request.Method.POST, Constantes.INFORMACIONES_OBT_INFORMACIONES, Informacion[].class,params,jsonObject,
 
                             new Response.Listener<Informacion[]>() {
                                 @Override
@@ -147,7 +207,7 @@ public class InformacionesListFragment extends Fragment {
 
         } catch (Exception e) {
             Log.d("Error",e.getMessage());
-        }
+        }*/
     }
 
 
@@ -165,6 +225,12 @@ public class InformacionesListFragment extends Fragment {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mReceiverManager.unregisterReceiver(mReceiverInformacionesDone);
     }
 
     @Override

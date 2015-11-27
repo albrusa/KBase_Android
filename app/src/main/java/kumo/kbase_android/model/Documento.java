@@ -23,9 +23,6 @@ public class Documento extends db_Base implements Serializable{
     public String Descripcion;
 
     @DatabaseField
-    public int Orden;
-
-    @DatabaseField
     public Date Fecha;
 
     @DatabaseField
@@ -35,13 +32,7 @@ public class Documento extends db_Base implements Serializable{
     public String Id_Archivo;
 
     @DatabaseField
-    public Archivo Archivo;
-
-    @DatabaseField
     public String Imagen;
-
-    @DatabaseField
-    public boolean si_Grupo;
 
     @DatabaseField
     public String Propietario;

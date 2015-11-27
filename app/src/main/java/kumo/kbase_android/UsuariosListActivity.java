@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.adapters.UsuariosListAdapter;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.UsuariosDao;
 import kumo.kbase_android.db.DatabaseHelper;
 import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.Cookies;
@@ -45,6 +47,8 @@ public class UsuariosListActivity extends AppCompatActivity{
 
         objectPreference = new ObjectPreference();
         objectPreference.init(getBaseContext());
+
+
 
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
 
@@ -70,6 +74,9 @@ public class UsuariosListActivity extends AppCompatActivity{
 
 
         try {
+
+            UsuariosDao.init(BaseDao.getInstance(this.getBaseContext()));
+
             Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
 
             //l_usuarios2 = usuarioDao.queryBuilder().where().eq("Id","44154DFF-DCED-4877-9D25-00EF75AA4485").query();
@@ -78,7 +85,9 @@ public class UsuariosListActivity extends AppCompatActivity{
             if(l_usuarios2.size() == 0){
                 usuarioDao.create(usur);
             }
-            l_usuarios = usuarioDao.queryForAll();
+            //l_usuarios = usuarioDao.queryForAll();
+
+            l_usuarios = UsuariosDao.obt_Usuarios();
 
         } catch (SQLException e) {
             e.printStackTrace();

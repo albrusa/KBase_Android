@@ -1,6 +1,9 @@
 package kumo.kbase_android.fragments.conversacionesList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,17 +21,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.MensajesListAdapter;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.MensajesDao;
 import kumo.kbase_android.httpRequest.GsonRequest;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Mensaje;
 import kumo.kbase_android.model.boolean_Api;
 import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.ReceiverManager;
 
 
 public class MensajesListFragment extends Fragment {
@@ -47,6 +54,12 @@ public class MensajesListFragment extends Fragment {
 
     private RecyclerView recView;
     private MensajesListAdapter adaptador;
+    private BroadcastReceiver mReceiverMensajesDone;
+    private MensajesDao mensajesDao;
+
+    private List<Mensaje> l_mensajes;
+
+    private ReceiverManager mReceiverManager;
 
     private EditText vMensaje;
     private ImageButton vEnviar;
@@ -111,7 +124,60 @@ public class MensajesListFragment extends Fragment {
 
         final View _view = getView();
 
-        obt_mensajes();
+
+        mReceiverManager = ReceiverManager.init(getContext());
+
+        IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.OBT_MENSAJES_DONE);
+
+        try {
+            mensajesDao = mensajesDao.init(getContext(), BaseDao.getInstance(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        mReceiverMensajesDone = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                try {
+                    l_mensajes = mensajesDao.obt_Mensajes_db(mId_Aplicacion, mId, mId_Clase, mId_Conversacion);
+
+                    adaptador.updateData(l_mensajes);
+
+                    recView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recView.scrollToPosition(adaptador.getItemCount());
+                        }
+                    }, 100);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        if (!mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
+            mReceiverManager.registerReceiver(mReceiverMensajesDone, conversacionesDone);
+        }
+
+        try {
+            l_mensajes = mensajesDao.obt_Mensajes(mId_Aplicacion, mId, mId_Clase, mId_Conversacion);
+
+            adaptador.updateData(l_mensajes);
+
+            recView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recView.scrollToPosition(adaptador.getItemCount());
+                }
+            }, 100);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         vEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +217,7 @@ public class MensajesListFragment extends Fragment {
 
         try {
             GsonRequest<Mensaje[]> obt_mensajes =
-                    new GsonRequest<Mensaje[]>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_OBT_MENSAJES, Mensaje[].class,params,jsonObject,
+                    new GsonRequest<Mensaje[]>(Request.Method.POST, Constantes.CONVERSACIONES_OBT_MENSAJES, Mensaje[].class,params,jsonObject,
 
                             new Response.Listener<Mensaje[]>() {
                                 @Override
@@ -200,7 +266,7 @@ public class MensajesListFragment extends Fragment {
                 jsonObject.addProperty("_mensaje", mensaje);
 
                 GsonRequest<boolean_Api> enviar_mensaje =
-                        new GsonRequest<boolean_Api>(Request.Method.POST, _view.findViewById(android.R.id.content), Constantes.CONVERSACIONES_ENVIAR_MENSAJE, boolean_Api.class,params,jsonObject,
+                        new GsonRequest<boolean_Api>(Request.Method.POST, Constantes.CONVERSACIONES_ENVIAR_MENSAJE, boolean_Api.class,params,jsonObject,
 
                                 new Response.Listener<boolean_Api>() {
                                     @Override
@@ -246,6 +312,12 @@ public class MensajesListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
     }
 
 

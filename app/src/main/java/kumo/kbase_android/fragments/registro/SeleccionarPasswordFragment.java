@@ -77,7 +77,7 @@ public class SeleccionarPasswordFragment extends Fragment {
                     jsonObject.addProperty("_id_usuario_Clase", mConfiguracion.Id_Usuario_Clase);
 
                     GsonRequest<boolean_Api> getPersons =
-                            new GsonRequest<boolean_Api>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__GENERAR_CODIGO_VERIFICACION, boolean_Api.class,params,jsonObject,
+                            new GsonRequest<boolean_Api>(Request.Method.POST,  Constantes.USUARIO__GENERAR_CODIGO_VERIFICACION, boolean_Api.class,params,jsonObject,
 
                                     new Response.Listener<boolean_Api>() {
                                         @Override

@@ -2,6 +2,8 @@ package kumo.kbase_android.utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -10,6 +12,10 @@ import android.provider.MediaStore;
  */
 
 public class Helpers{
+
+    public static int[] conexiones = new int []{
+            ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_MOBILE};
+
 
         public static String getRealPathFromURI(Context context,Uri contentUri){
                 Cursor cursor=null;
@@ -26,18 +32,24 @@ public class Helpers{
                 }
         }
 
-       /* public void SavePhotoUri (Context context, Uri imageuri, String Filename){
+        public static boolean isNetworkAvailable(Context context, int[] networkTypes) {
+            try {
+                ConnectivityManager cm =
+                        (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
 
-                File FilePath = new File(context.getDir(Environment.DIRECTORY_PICTURES,Context.MODE_PRIVATE));
-                try {
-                        Bitmap selectedImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),imageuri);
-                        String destinationImagePath = FilePath+"/"+Filename;
-                        FileOutputStream destination = new FileOutputStream(destinationImagePath);
-                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, destination);
-                        destination.close();
-                } catch (Exception e) {
-                        Log.e("error", e.toString());
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+                for (int networkType : networkTypes) {
+
+                    if(activeNetwork.getType() == networkType){
+                        return true;
+                    }
+
                 }
-        }*/
+            } catch (Exception e) {
+                return false;
+            }
+            return false;
+        }
 }
 

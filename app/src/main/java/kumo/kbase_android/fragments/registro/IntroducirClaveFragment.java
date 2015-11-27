@@ -92,7 +92,7 @@ public class IntroducirClaveFragment extends Fragment {
                         jsonObject.addProperty("_clave", clave);
 
                         GsonRequest<Usuario> getPersons =
-                                new GsonRequest<Usuario>(Request.Method.POST, mView.findViewById(android.R.id.content), Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
+                                new GsonRequest<Usuario>(Request.Method.POST,  Constantes.USUARIO__AUTENTIFICAR, Usuario.class,params,jsonObject,
 
                                         new Response.Listener<Usuario>() {
                                             @Override
