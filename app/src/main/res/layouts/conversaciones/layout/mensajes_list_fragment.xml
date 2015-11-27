@@ -14,8 +14,7 @@
         android:background="@null"
         android:layout_alignParentTop="true"
         android:isScrollContainer="true"
-        android:layout_above="@+id/edit_layout"
-       />
+        android:layout_above="@+id/edit_layout" />
 
     <RelativeLayout
         android:id="@+id/edit_layout"
@@ -25,6 +24,7 @@
         android:clipToPadding="false"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <FrameLayout
             android:id="@+id/text_entry_layout"
             android:paddingLeft="5.0dip"
@@ -94,41 +94,4 @@
             </FrameLayout>
         </RelativeLayout>
     </RelativeLayout>
-
-   <!-- <EditText
-        android:id="@+id/mensaje_txt"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/enviar_btn"
-        />
-
-    <Button
-        android:id="@+id/enviar_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="Enviar"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        />-->
-
 </RelativeLayout>
-
-<!--
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragment">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/RecView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-</LinearLayout>
--->

@@ -3,12 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    <!--ImageView
-        android:layout_gravity="bottom|center|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/balloon_outgoing_normal"/>-->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
@@ -53,37 +47,3 @@
             </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
-
-<!--<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:padding="10dp">
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:orientation="vertical">
-
-        <TextView android:id="@+id/Nombre_Usuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp" />
-
-        <TextView android:id="@+id/Mensaje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="normal"
-            android:textColor="@color/lila"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-
-</LinearLayout>-->

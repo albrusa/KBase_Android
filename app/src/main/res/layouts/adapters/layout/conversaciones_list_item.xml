@@ -83,39 +83,5 @@
                 android:layout_marginRight="4.0dip"
                 android:scaleType="fitStart" />
         </LinearLayout>
-
     </LinearLayout>
-
-   <!-- <TextView android:id="@+id/Nombre_Usuario"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/Imagen"
-        android:layout_toLeftOf="@+id/Fecha"
-        />
-
-    <TextView android:id="@+id/Mensaje"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textSize="12sp"
-        android:layout_below="@+id/Nombre_Usuario"
-        android:layout_toRightOf="@+id/Imagen"
-        android:layout_toLeftOf="@+id/Fecha"
-        />
-
-    <TextView android:id="@+id/Fecha"
-        android:layout_width="72dp"
-        android:layout_marginRight="16dp"
-        android:layout_height="72dp"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:text="20:30"
-        android:gravity="right"
-        android:layout_alignParentRight="true"
-        />-->
-
-
 </RelativeLayout>
