@@ -230,7 +230,9 @@ public class InformacionesListFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        mReceiverManager.unregisterReceiver(mReceiverInformacionesDone);
+        if (mReceiverManager.isReceiverRegistered(mReceiverInformacionesDone)) {
+            mReceiverManager.unregisterReceiver(mReceiverInformacionesDone);
+        }
     }
 
     @Override

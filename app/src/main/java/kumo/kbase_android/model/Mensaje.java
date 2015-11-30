@@ -28,10 +28,21 @@ public class Mensaje extends db_Base implements Serializable{
     public int Orden;
 
     @DatabaseField
+    public int c_Estado;
+
+    @DatabaseField
     public String Id_Archivo;
 
     @DatabaseField
-    public int c_Estado;
+    public String Medida_Archivo;
+
+    @DatabaseField
+    public String Imagen_Archivo;
+
+    @DatabaseField
+    public boolean si_Leido;
+
+
 
     public Mensaje(){
 

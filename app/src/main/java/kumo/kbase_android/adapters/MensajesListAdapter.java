@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
     private List<Mensaje> l_mensajes;
     private String mId_Usuario;
 
+    private static Context mContext;
+
     private int position_ant = -1;
 
 
@@ -36,6 +39,7 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
     }
 
     public MensajesListAdapter(Context _context, String _id_Usuario) {
+        this.mContext = _context;
         this.l_mensajes = new ArrayList<>();
         this.mId_Usuario = _id_Usuario;
     }
@@ -45,6 +49,9 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
 
         private TextView mMensaje;
         private TextView mNombre_Usuario;
+
+        private ImageView vImagen_Archivo;
+
         RequestQueue mRequestQueue;
         NetworkImageView mImagen;
         ImageLoader mImageLoader;
@@ -54,6 +61,8 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             super(itemView);
 
             mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
+            vImagen_Archivo  = (ImageView)itemView.findViewById(R.id.Imagen_Archivo);
+
           /*  mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
             mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);*/
 
@@ -62,6 +71,21 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
         public void bindTitular(Mensaje t) {
             //mNombre_Usuario.setText(t.Nombre);
             mMensaje.setText(t.Mensaje);
+
+
+            if(t.Id_Archivo != null && !t.Id_Archivo.equals("") && !t.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+                if (t.Imagen_Archivo != null && !t.Imagen_Archivo.equals("")) {
+
+                    t.Imagen_Archivo = t.Imagen_Archivo.replace(".png","");
+
+                    int id = mContext.getResources().getIdentifier(t.Imagen_Archivo, "drawable", mContext.getPackageName());
+                    if(id!= 0) {
+                        vImagen_Archivo.setImageResource(id);
+                        vImagen_Archivo.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
         }
     }
 

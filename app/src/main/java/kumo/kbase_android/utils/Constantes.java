@@ -5,7 +5,7 @@ package kumo.kbase_android.utils;
  */
 public class Constantes {
 
-    //public static final String HTTP_SERVER = "http://localhost:32766";
+   // public static final String HTTP_SERVER = "http://localhost:32766";
 
 
     public static final String HTTP_SERVER = "https://www.kmed.es/Android_Api";
@@ -36,6 +36,8 @@ public class Constantes {
 
 
     public static final String DOCUMENTOS_OBT_DOCUMENTOS = HTTP_SERVER+"/Documentos/obt_documentos";
+
+    public static final String ARCHIVOS_OBT_ARCHIVO = HTTP_SERVER+"/Archivos/obt_archivo";
 
     public static final String INFORMACIONES_OBT_INFORMACIONES = HTTP_SERVER+"/Informaciones/obt_informaciones";
 

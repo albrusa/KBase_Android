@@ -72,8 +72,9 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
                 t.Imagen = t.Imagen.replace(".png","");
 
                 int id = mContext.getResources().getIdentifier(t.Imagen, "drawable", mContext.getPackageName());
-
-                vImagen.setImageResource(id);
+                if(id!= 0) {
+                    vImagen.setImageResource(id);
+                }
 
             }
            /* ImageLoader.ImageCache imageCache = new LruBitmapCache(itemView.getContext());

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,6 +37,7 @@ import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.model.Mensaje;
 import kumo.kbase_android.model.boolean_Api;
 import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.DownloadTask;
 import kumo.kbase_android.utils.ReceiverManager;
 
 
@@ -187,6 +190,26 @@ public class MensajesListFragment extends Fragment {
             }
         });
 
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Mensaje mensaje_seleccionado = l_mensajes.get(recView.getChildViewHolder(v).getAdapterPosition());
+
+                if(!mensaje_seleccionado.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+
+                    File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mensaje_seleccionado.Mensaje);
+                    target.setWritable(true);
+                    String url = Constantes.ARCHIVOS_OBT_ARCHIVO + "?_id_aplicacion=" + mId_Aplicacion + "&_id_usuario=" + mId + "&_id_usuario_clase=" + mId_Clase + "&_id_archivo=" + mensaje_seleccionado.Id_Archivo;
+
+
+                    new DownloadTask(getContext(), target, "hola").execute(url);
+                }
+
+            }
+        });
+
        /* vMensaje.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -317,7 +340,9 @@ public class MensajesListFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
+        if (mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
+            mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
+        }
     }
 
 

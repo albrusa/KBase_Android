@@ -1,10 +1,13 @@
 package kumo.kbase_android.fragments.documentosList;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,6 +24,8 @@ import kumo.kbase_android.adapters.DocumentosListAdapter;
 import kumo.kbase_android.dao.BaseDao;
 import kumo.kbase_android.dao.DocumentosDao;
 import kumo.kbase_android.model.Documento;
+import kumo.kbase_android.utils.Constantes;
+import kumo.kbase_android.utils.DownloadTask;
 import kumo.kbase_android.utils.ReceiverManager;
 
 
@@ -142,6 +148,62 @@ public class DocumentosListFragment extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Documento document_seleccionado = l_documentos.get(recView.getChildViewHolder(v).getAdapterPosition());
+
+                File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), document_seleccionado.Nombre);
+                target.setWritable(true);
+                String url = Constantes.ARCHIVOS_OBT_ARCHIVO + "?_id_aplicacion="+ mId_Aplicacion + "&_id_usuario="+mId+"&_id_usuario_clase="+mId_Clase+"&_id_archivo="+document_seleccionado.Id_Archivo;
+
+
+                new DownloadTask(getContext(), target,"hola").execute(url);
+
+
+
+               /* DownloadManager mgr = (DownloadManager)
+                        getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                boolean isDownloading = false;
+                DownloadManager.Query query = new DownloadManager.Query();
+                query.setFilterByStatus(
+                        DownloadManager.STATUS_PAUSED |
+                                DownloadManager.STATUS_PENDING |
+                                DownloadManager.STATUS_RUNNING |
+                                DownloadManager.STATUS_SUCCESSFUL);
+                Cursor cur = mgr.query(query);
+                int col = cur.getColumnIndex(
+                        DownloadManager.COLUMN_LOCAL_FILENAME);
+                for(cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+                    isDownloading = isDownloading || ("local file path" == cur.getString(col));
+                }
+                cur.close();
+
+                if (!isDownloading) {
+
+                    String url = Constantes.ARCHIVOS_OBT_ARCHIVO + "?_id_aplicacion="+ mId_Aplicacion + "&_id_usuario="+mId+"&_id_usuario_clase="+mId_Clase+"&_id_archivo="+document_seleccionado.Id_Archivo;
+
+                    Uri source = Uri.parse(url.trim());
+                    Uri destination = Uri.fromFile(new File("test.txt"));
+
+                    DownloadManager.Request request =
+                            new DownloadManager.Request(source);
+                    request.setTitle("file title");
+                    request.setDescription("file description");
+                    //request.setDestinationUri(destination);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "test.txt");
+                    request.setNotificationVisibility(DownloadManager
+                            .Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.allowScanningByMediaScanner();
+
+                    long id = mgr.enqueue(request);
+
+                }*/
+            }
+        });
+
         /*final View _view = getView();
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -181,6 +243,29 @@ public class DocumentosListFragment extends Fragment {
         }*/
     }
 
+    public class DownloadReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long receivedID = intent.getLongExtra(
+                    DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
+            DownloadManager mgr = (DownloadManager)
+                    context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+            DownloadManager.Query query = new DownloadManager.Query();
+            query.setFilterById(receivedID);
+            Cursor cur = mgr.query(query);
+            int index = cur.getColumnIndex(
+                    DownloadManager.COLUMN_STATUS);
+            if(cur.moveToFirst()) {
+                if(cur.getInt(index) ==
+                        DownloadManager.STATUS_SUCCESSFUL){
+                    // do something
+                }
+            }
+            cur.close();
+        }
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -201,7 +286,9 @@ public class DocumentosListFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        mReceiverManager.unregisterReceiver(mReceiverDocumentosDone);
+        if (mReceiverManager.isReceiverRegistered(mReceiverDocumentosDone)) {
+            mReceiverManager.unregisterReceiver(mReceiverDocumentosDone);
+        }
     }
 
 

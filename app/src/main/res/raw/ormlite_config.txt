@@ -253,12 +253,24 @@ fieldName=Orden
 columnName=Orden
 # --field-end--
 # --field-start--
+fieldName=c_Estado
+columnName=c_Estado
+# --field-end--
+# --field-start--
 fieldName=Id_Archivo
 columnName=Id_Archivo
 # --field-end--
 # --field-start--
-fieldName=c_Estado
-columnName=c_Estado
+fieldName=Medida_Archivo
+columnName=Medida_Archivo
+# --field-end--
+# --field-start--
+fieldName=Imagen_Archivo
+columnName=Imagen_Archivo
+# --field-end--
+# --field-start--
+fieldName=si_Leido
+columnName=si_Leido
 # --field-end--
 # --table-fields-end--
 # --table-end--

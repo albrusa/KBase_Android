@@ -109,6 +109,7 @@ public class ConversacionesDao {
         public List<Conversacion> obt_Conversaciones_db(String _id_Aplicacion, String _id_Usuario, String _id_Usuario_Clase) throws SQLException {
 
             return  conversacionDao.queryForAll();
+            //return conversacionDao.queryBuilder().where().eq("Id","44154DFF-DCED-4877-9D25-00EF75AA4485").query();
         }
 
         public void drop(){

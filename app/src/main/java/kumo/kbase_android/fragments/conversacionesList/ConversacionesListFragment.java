@@ -173,7 +173,9 @@ public class ConversacionesListFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        mReceiverManager.unregisterReceiver(mReceiverConversacionesDone);
+        if (mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone)) {
+            mReceiverManager.unregisterReceiver(mReceiverConversacionesDone);
+        }
     }
 
 
