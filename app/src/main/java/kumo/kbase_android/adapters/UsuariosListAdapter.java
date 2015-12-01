@@ -66,6 +66,7 @@ public class UsuariosListAdapter extends RecyclerView.Adapter<UsuariosListAdapte
             if(t.Imagen_Perfil != null && t.Imagen_Perfil != "")
             {
                 vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen_Perfil, mImageLoader);
+
             }
         }
 

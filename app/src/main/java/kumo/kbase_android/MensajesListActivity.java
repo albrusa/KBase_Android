@@ -60,17 +60,12 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private CircularNetworkImageView vImagen;
     private TextView vTitulo;
 
-    private String mImagen;
-    private String mNombre;
-
     private String mId_Conversacion;
-    private ImageLoader mImageLoader;
 
     private View mPopupView;
     private PopupWindow mPopupWindow;
 
     private Uri fileUri;
-    private ObjectPreference objectPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,28 +85,10 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         Bundle bundle = this.getIntent().getExtras();
         mId_Conversacion = bundle.getString("Id_Conversacion");
-        mNombre = bundle.getString("Nombre");
-        mImagen = bundle.getString("Imagen");
+        String mNombre = bundle.getString("Nombre");
+        String mImagen = bundle.getString("Imagen");
 
-        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        mId_Usuario = sharedPreferences.getString(QuickstartPreferences.USUARIO_ACTIVO, "0");
-
-        DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-
-        try {
-            Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
-
-            List<Usuario> l_usuarios = usuarioDao.queryBuilder().where().eq("Id",mId_Usuario).query();
-
-            if(l_usuarios.size() > 0){
-                mUsuario = l_usuarios.get(0);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
-        objectPreference = new ObjectPreference();
+        ObjectPreference objectPreference = new ObjectPreference();
         objectPreference.init(getBaseContext());
         Cookies cookie = objectPreference.getComplexPreference();
 
@@ -123,17 +100,18 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         ImageLoader.ImageCache imageCache = new LruBitmapCache(getBaseContext());
 
-        mImageLoader = HttpCola.getInstance(getBaseContext()).getImageLoader();
+        ImageLoader mImageLoader = HttpCola.getInstance(getBaseContext()).getImageLoader();
 
-        if(mImagen != null && mImagen != "")
+        if(mImagen != null && !mImagen.equals(""))
         {
-            vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+mImagen, mImageLoader);
+            vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+ mImagen, mImageLoader);
         }
 
        vTitulo.setText(mNombre);
 
 
-        Fragment fragment = new MensajesListFragment().newInstance(mUsuario.Id_Aplicacion, mUsuario.Id, mUsuario.Id_Clase, mId_Conversacion);
+        new MensajesListFragment();
+        Fragment fragment = MensajesListFragment.newInstance(mUsuario.Id_Aplicacion, mUsuario.Id, mUsuario.Id_Clase, mId_Conversacion);
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
