@@ -25,6 +25,12 @@ public class db_Base {
     public String Id_Aplicacion;
 
     @DatabaseField
+    public String Id_Usuario;
+
+    @DatabaseField
+    public String Id_Usuario_Clase;
+
+    @DatabaseField
     public Date Creado;
 
     @DatabaseField

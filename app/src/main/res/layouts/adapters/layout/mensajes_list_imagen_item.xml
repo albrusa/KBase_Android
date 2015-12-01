@@ -14,14 +14,25 @@
         style="@style/conversation_bubble"
         android:background="@drawable/balloon_incoming_normal_ext">
 
-        <TextView
-            android:textSize="@dimen/conversation_text_row_tv"
-            android:layout_gravity="left"
-            android:id="@+id/Mensaje"
-            android:text="aixo es un missatge"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/Imagen_Archivo"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <TextView
+                android:textSize="@dimen/conversation_text_row_tv"
+                android:layout_gravity="left"
+                android:id="@+id/Mensaje"
+                android:text="aixo es un missatge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_gravity="bottom|center|right"

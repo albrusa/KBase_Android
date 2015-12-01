@@ -154,6 +154,16 @@ columnName=Id_Propietario
 fieldName=Id_Propietario_Clase
 columnName=Id_Propietario_Clase
 # --field-end--
+
+# --field-start--
+fieldName=Id_Usuario
+columnName=Id_Usuario
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario_Clase
+columnName=Id_Usuario_Clase
+# --field-end--
+
 # --field-start--
 fieldName=Id_Aplicacion
 columnName=Id_Aplicacion
@@ -224,6 +234,16 @@ columnName=Id_Propietario
 fieldName=Id_Propietario_Clase
 columnName=Id_Propietario_Clase
 # --field-end--
+
+# --field-start--
+fieldName=Id_Usuario
+columnName=Id_Usuario
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario_Clase
+columnName=Id_Usuario_Clase
+# --field-end--
+
 # --field-start--
 fieldName=Id_Aplicacion
 columnName=Id_Aplicacion
@@ -302,6 +322,16 @@ columnName=Id_Propietario
 fieldName=Id_Propietario_Clase
 columnName=Id_Propietario_Clase
 # --field-end--
+
+# --field-start--
+fieldName=Id_Usuario
+columnName=Id_Usuario
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario_Clase
+columnName=Id_Usuario_Clase
+# --field-end--
+
 # --field-start--
 fieldName=Id_Aplicacion
 columnName=Id_Aplicacion
@@ -368,6 +398,16 @@ columnName=Id_Propietario
 fieldName=Id_Propietario_Clase
 columnName=Id_Propietario_Clase
 # --field-end--
+
+# --field-start--
+fieldName=Id_Usuario
+columnName=Id_Usuario
+# --field-end--
+# --field-start--
+fieldName=Id_Usuario_Clase
+columnName=Id_Usuario_Clase
+# --field-end--
+
 # --field-start--
 fieldName=Id_Aplicacion
 columnName=Id_Aplicacion

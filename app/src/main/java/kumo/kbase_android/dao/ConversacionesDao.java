@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -33,6 +34,10 @@ public class ConversacionesDao {
         private static Context mContext;
         private static Dao<Conversacion, Integer> conversacionDao;
 
+
+        private String mId_Usuario;
+        private String mId_Usuario_Clase;
+        private String mId_Aplicacion;
 
         private ConversacionesDao(Context _context,BaseDao _bdao) throws SQLException{
             this.mContext = _context;
@@ -67,6 +72,10 @@ public class ConversacionesDao {
             jsonObject.addProperty("_id_usuario", _id_Usuario);
             jsonObject.addProperty("_id_usuario_clase", _id_Usuario_Clase);
 
+            mId_Usuario = _id_Usuario.toLowerCase();
+            mId_Usuario_Clase = _id_Usuario_Clase.toLowerCase();
+            mId_Aplicacion = _id_Aplicacion.toLowerCase();
+
             try {
                 GsonRequest<Conversacion[]> request =
                         new GsonRequest<Conversacion[]>(Request.Method.POST, Constantes.CONVERSACIONES_OBT_CONVERSACIONES, Conversacion[].class,params,jsonObject,
@@ -76,7 +85,15 @@ public class ConversacionesDao {
                                     public void onResponse(Conversacion[] response) {
                                         List<Conversacion> l_conversaciones = Arrays.asList(response);
 
-                                        clean();
+                                        //clean();
+                                        try {
+                                            DeleteBuilder<Conversacion, Integer> dbuilder = conversacionDao.deleteBuilder();
+                                            dbuilder.where().like("Id_Usuario", mId_Usuario).and().like("Id_Usuario_Clase", mId_Usuario_Clase).and().like("Id_Aplicacion", mId_Aplicacion);
+                                            conversacionDao.delete(dbuilder.prepare());
+                                            //conversacionDao.deleteBuilder().where().eq("Id_Usuario", mId_Usuario).and().eq("Id_Usuario_Clase",mId_Usuario_Clase).and().eq("Id_Aplicacion",mId_Aplicacion).query();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
 
                                         for (Conversacion conversacion : l_conversaciones) {
 
@@ -108,8 +125,8 @@ public class ConversacionesDao {
 
         public List<Conversacion> obt_Conversaciones_db(String _id_Aplicacion, String _id_Usuario, String _id_Usuario_Clase) throws SQLException {
 
-            return  conversacionDao.queryForAll();
-            //return conversacionDao.queryBuilder().where().eq("Id","44154DFF-DCED-4877-9D25-00EF75AA4485").query();
+            //return  conversacionDao.queryForAll();
+            return conversacionDao.queryBuilder().where().like("Id_Usuario", _id_Usuario).and().like("Id_Usuario_Clase", _id_Usuario_Clase).and().like("Id_Aplicacion",_id_Aplicacion).query();
         }
 
         public void drop(){

@@ -38,26 +38,26 @@ public class UsuariosListAdapter extends RecyclerView.Adapter<UsuariosListAdapte
     public static class AdapterElementoViewHolder
             extends RecyclerView.ViewHolder{
 
-        private TextView mNombre_Aplicacion;
-        private TextView mNombre_Usuario;
+        private TextView vNombre_Aplicacion;
+        private TextView vNombre_Usuario;
         RequestQueue mRequestQueue;
-        NetworkImageView mImagen;
+        NetworkImageView vImagen;
         ImageLoader mImageLoader;
 
 
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mNombre_Aplicacion = (TextView)itemView.findViewById(R.id.Nombre_Aplicacion);
-            mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);
+            vNombre_Aplicacion = (TextView)itemView.findViewById(R.id.Nombre_Aplicacion);
+            vNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
+            vImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);
 
 
         }
 
         public void bindTitular(Usuario t) {
-            mNombre_Usuario.setText(t.Nombre);
-            mNombre_Aplicacion.setText(t.Aplicacion);
+            vNombre_Usuario.setText(t.Nombre);
+            vNombre_Aplicacion.setText(t.Aplicacion);
 
             ImageLoader.ImageCache imageCache = new LruBitmapCache(itemView.getContext());
 
@@ -65,7 +65,7 @@ public class UsuariosListAdapter extends RecyclerView.Adapter<UsuariosListAdapte
 
             if(t.Imagen_Perfil != null && t.Imagen_Perfil != "")
             {
-                mImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen_Perfil, mImageLoader);
+                vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen_Perfil, mImageLoader);
             }
         }
 
@@ -78,6 +78,10 @@ public class UsuariosListAdapter extends RecyclerView.Adapter<UsuariosListAdapte
                 .inflate(R.layout.usuario_list_item, viewGroup, false);
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
+
+        if(tvh.vImagen != null){
+            tvh.vImagen.setImageDrawable(null);
+        }
 
         itemView.setOnClickListener(this);
 

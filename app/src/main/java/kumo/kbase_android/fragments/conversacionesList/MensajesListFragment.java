@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -125,7 +124,7 @@ public class MensajesListFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        final View _view = getView();
+       /* final View _view = getView();
 
 
         mReceiverManager = ReceiverManager.init(getContext());
@@ -179,7 +178,9 @@ public class MensajesListFragment extends Fragment {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        obt_mensajes();
 
 
         vEnviar.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +198,7 @@ public class MensajesListFragment extends Fragment {
 
                 Mensaje mensaje_seleccionado = l_mensajes.get(recView.getChildViewHolder(v).getAdapterPosition());
 
-                if(!mensaje_seleccionado.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+                if (!mensaje_seleccionado.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
 
                     File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mensaje_seleccionado.Mensaje);
                     target.setWritable(true);
@@ -230,44 +231,57 @@ public class MensajesListFragment extends Fragment {
     {
         final View _view = getView();
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        mReceiverManager = ReceiverManager.init(getContext());
 
-        final JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("_id_aplicacion", mId_Aplicacion);
-        jsonObject.addProperty("_id_usuario", mId);
-        jsonObject.addProperty("_id_usuario_clase", mId_Clase);
-        jsonObject.addProperty("_id_conversacion", mId_Conversacion);
+        IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.OBT_MENSAJES_DONE);
 
         try {
-            GsonRequest<Mensaje[]> obt_mensajes =
-                    new GsonRequest<Mensaje[]>(Request.Method.POST, Constantes.CONVERSACIONES_OBT_MENSAJES, Mensaje[].class,params,jsonObject,
+            mensajesDao = mensajesDao.init(getContext(), BaseDao.getInstance(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                            new Response.Listener<Mensaje[]>() {
-                                @Override
-                                public void onResponse(Mensaje[] response) {
-                                    List<Mensaje> l_mensajes = Arrays.asList(response);
+        mReceiverMensajesDone = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
 
-                                    adaptador.updateData(l_mensajes);
+                try {
+                    l_mensajes = mensajesDao.obt_Mensajes_db(mId_Aplicacion, mId, mId_Clase, mId_Conversacion);
 
-                                    recView.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            recView.scrollToPosition(adaptador.getItemCount());
-                                        }
-                                    }, 100);
-                                }
-                            }, new Response.ErrorListener() {
+                    adaptador.updateData(l_mensajes);
 
+                    recView.postDelayed(new Runnable() {
                         @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("objeto", error.getMessage());
+                        public void run() {
+                            recView.smoothScrollToPosition(adaptador.getItemCount());
                         }
-                    });
+                    }, 100);
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
-            HttpCola.getInstance(_view.getContext()).addToRequestQueue(obt_mensajes);
+            }
+        };
 
-        } catch (Exception e) {
-            Log.d("Error",e.getMessage());
+        if (!mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
+            mReceiverManager.registerReceiver(mReceiverMensajesDone, conversacionesDone);
+        }
+
+        try {
+            l_mensajes = mensajesDao.obt_Mensajes(mId_Aplicacion, mId, mId_Clase, mId_Conversacion);
+
+            adaptador.updateData(l_mensajes);
+
+            recView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recView.smoothScrollToPosition(adaptador.getItemCount());
+                }
+            }, 100);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -339,10 +353,12 @@ public class MensajesListFragment extends Fragment {
 
     @Override
     public void onPause(){
-        super.onPause();
-        if (mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
-            mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
+        if(mReceiverManager!=null) {
+            if (mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
+                mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
+            }
         }
+        super.onPause();
     }
 
 

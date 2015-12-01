@@ -73,17 +73,19 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             mMensaje.setText(t.Mensaje);
 
 
-            if(t.Id_Archivo != null && !t.Id_Archivo.equals("") && !t.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
-                if (t.Imagen_Archivo != null && !t.Imagen_Archivo.equals("")) {
+            if(vImagen_Archivo != null){
+                if(t.Id_Archivo != null && !t.Id_Archivo.equals("") && !t.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+                    if (t.Imagen_Archivo != null && !t.Imagen_Archivo.equals("")) {
 
-                    t.Imagen_Archivo = t.Imagen_Archivo.replace(".png","");
+                        t.Imagen_Archivo = t.Imagen_Archivo.replace(".png", "");
 
-                    int id = mContext.getResources().getIdentifier(t.Imagen_Archivo, "drawable", mContext.getPackageName());
-                    if(id!= 0) {
-                        vImagen_Archivo.setImageResource(id);
-                        vImagen_Archivo.setVisibility(View.VISIBLE);
+                        int id = mContext.getResources().getIdentifier(t.Imagen_Archivo, "drawable", mContext.getPackageName());
+                        if (id != 0) {
+                            vImagen_Archivo.setImageResource(id);
+                            vImagen_Archivo.setVisibility(View.VISIBLE);
+                        }
+
                     }
-
                 }
             }
         }
@@ -102,35 +104,81 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             item_ant = null;
         }
 
+        int valor = 0;
+
+        /*
+         0 -> text meu inicial
+         1 -> text meu no inicial
+
+         2 -> imatge meva inicial
+         3 -> imatge meva no inicial
+
+         4 -> text meu inicial
+         5 -> text meu no inicial
+
+         6 -> imatge meva inicial
+         7 -> imatge meva no inicial
+
+         */
+
         if(item.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase()))
         {
             if(item_ant == null) {
-                return 0;
+                valor = 0;
             }else{
                 if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
-                    return 1;
+                    valor = 1;
                 }
                 else
                 {
-                    return 0;
+                    valor = 0;
                 }
             }
 
+            if(item.Id_Archivo != null && !item.Id_Archivo.equals("") && !item.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+                if (item.Imagen_Archivo != null && !item.Imagen_Archivo.equals("")) {
+                    valor+=2;
+                }
+            }
         }else
         {
             if(item_ant == null) {
-                return 2;
+                valor = 4;
             }else{
                 if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
-                    return 3;
+                    valor =  5;
                 }
                 else
                 {
-                    return 2;
+                    valor = 4;
+                }
+            }
+
+            if(item.Id_Archivo != null && !item.Id_Archivo.equals("") && !item.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
+                if (item.Imagen_Archivo != null && !item.Imagen_Archivo.equals("")) {
+                    valor+=2;
                 }
             }
         }
+
+        return valor;
     }
+
+
+    /*
+         0 -> text meu inicial
+         1 -> text meu no inicial
+
+         2 -> imatge meva inicial
+         3 -> imatge meva no inicial
+
+         4 -> text meu inicial
+         5 -> text meu no inicial
+
+         6 -> imatge meva inicial
+         7 -> imatge meva no inicial
+
+         */
 
     @Override
     public AdapterElementoViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -147,19 +195,35 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
                 break;
             case 1: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
-
-
                 break;
+
             case 2: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_imagen_item_propio, viewGroup, false);
+
+                list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
+                break;
+            case 3: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_imagen_item_propio, viewGroup, false);
+                break;
+
+            case 4: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
 
                 list = (LinearLayout) itemView.findViewById(R.id.main_layout);
                 list.setBackgroundResource(R.drawable.balloon_incoming_normal);
            break;
-            case 3: itemView = LayoutInflater.from(viewGroup.getContext())
+            case 5: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
+                break;
+            case 6: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_imagen_item, viewGroup, false);
 
-
+                list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+                list.setBackgroundResource(R.drawable.balloon_incoming_normal);
+                break;
+            case 7: itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.mensajes_list_imagen_item, viewGroup, false);
                 break;
             default:
                 itemView = LayoutInflater.from(viewGroup.getContext())
@@ -170,6 +234,10 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
         position_ant = viewType;
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
+
+        if(tvh.vImagen_Archivo != null){
+            tvh.vImagen_Archivo.setImageDrawable(null);
+        }
 
         itemView.setOnClickListener(this);
 

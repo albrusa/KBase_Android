@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -33,6 +34,10 @@ public class InformacionesDao {
         private static Context mContext;
         private static Dao<Informacion, Integer> informacionDao;
 
+
+        private String mId_Usuario;
+        private String mId_Usuario_Clase;
+        private String mId_Aplicacion;
 
         private InformacionesDao(Context _context, BaseDao _bdao) throws SQLException{
             this.mContext = _context;
@@ -66,6 +71,10 @@ public class InformacionesDao {
             jsonObject.addProperty("_id_usuario", _id_Usuario);
             jsonObject.addProperty("_id_usuario_clase", _id_Usuario_Clase);
 
+            mId_Usuario = _id_Usuario.toLowerCase();
+            mId_Usuario_Clase = _id_Usuario_Clase.toLowerCase();
+            mId_Aplicacion = _id_Aplicacion.toLowerCase();
+
             try {
                 GsonRequest<Informacion[]> getPersons =
                         new GsonRequest<Informacion[]>(Request.Method.POST, Constantes.INFORMACIONES_OBT_INFORMACIONES, Informacion[].class,params,jsonObject,
@@ -75,7 +84,17 @@ public class InformacionesDao {
                                     public void onResponse(Informacion[] response) {
                                         List<Informacion> l_informaciones = Arrays.asList(response);
 
-                                        clean();
+                                        //clean();
+                                        try {
+
+                                            DeleteBuilder<Informacion, Integer> dbuilder = informacionDao.deleteBuilder();
+                                            dbuilder.where().like("Id_Usuario", mId_Usuario).and().like("Id_Usuario_Clase", mId_Usuario_Clase).and().like("Id_Aplicacion", mId_Aplicacion);
+                                            informacionDao.delete(dbuilder.prepare());
+
+                                            //informacionDao.deleteBuilder().where().eq("Id_Usuario", mId_Usuario).and().eq("Id_Usuario_Clase",mId_Usuario_Clase).and().eq("Id_Aplicacion",mId_Aplicacion).query();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
 
                                         for (Informacion informacion : l_informaciones) {
 
@@ -108,7 +127,8 @@ public class InformacionesDao {
 
         public List<Informacion> obt_Informaciones_db(String _id_Aplicacion, String _id_Usuario, String _id_Usuario_Clase) throws SQLException {
 
-            return  informacionDao.queryForAll();
+            return informacionDao.queryBuilder().where().like("Id_Usuario", _id_Usuario).and().like("Id_Usuario_Clase", _id_Usuario_Clase).and().like("Id_Aplicacion",_id_Aplicacion).query();
+            //return  informacionDao.queryForAll();
         }
 
         public void drop(){

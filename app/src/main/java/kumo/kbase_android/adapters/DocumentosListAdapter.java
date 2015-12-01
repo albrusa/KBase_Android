@@ -100,6 +100,10 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
 
         itemView.setOnClickListener(this);
 
+        if(tvh.vImagen != null){
+            tvh.vImagen.setImageDrawable(null);
+        }
+
         return tvh;
     }
 

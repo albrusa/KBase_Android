@@ -26,6 +26,7 @@ import kumo.kbase_android.utils.Constantes;
 public class ConversacionesListAdapter extends RecyclerView.Adapter<ConversacionesListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
     private List<Conversacion> l_conversaciones;
     private View.OnClickListener listener;
+    private ImageLoader mImageLoader;
 
     public ConversacionesListAdapter(List<Conversacion> _l_conversaciones) {
         this.l_conversaciones = _l_conversaciones;
@@ -68,12 +69,17 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
 
             mImageLoader = HttpCola.getInstance(itemView.getContext()).getImageLoader();
 
+           /* vImagen.setImageDrawable(null);
+            vImagen.setImageBitmap(null);
+            vImagen.setImageURI(null);*/
+
             if(t.Imagen != null && !t.Imagen.equals(""))
             {
                 vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
             }
         }
     }
+
 
     @Override
     public AdapterElementoViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -82,6 +88,10 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
                 .inflate(R.layout.conversaciones_list_item, viewGroup, false);
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
+
+        tvh.vImagen.setImageDrawable(null);
+        tvh.vImagen.setImageBitmap(null);
+        tvh.vImagen.setImageURI(null);
 
         itemView.setOnClickListener(this);
 

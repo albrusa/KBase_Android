@@ -90,6 +90,10 @@ public class InformacionesListAdapter extends RecyclerView.Adapter<Informaciones
 
         AdapterElementoViewHolder tvh = new AdapterElementoViewHolder(itemView);
 
+        if(tvh.vImagen != null){
+            tvh.vImagen.setImageDrawable(null);
+        }
+
         itemView.setOnClickListener(this);
 
         return tvh;
@@ -104,6 +108,7 @@ public class InformacionesListAdapter extends RecyclerView.Adapter<Informaciones
     @Override
     public void onBindViewHolder(AdapterElementoViewHolder viewHolder, int pos) {
         Informacion item = l_informaciones.get(pos);
+
 
         viewHolder.bindTitular(item);
     }

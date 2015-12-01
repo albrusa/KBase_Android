@@ -285,10 +285,12 @@ public class DocumentosListFragment extends Fragment {
 
     @Override
     public void onPause(){
-        super.onPause();
-        if (mReceiverManager.isReceiverRegistered(mReceiverDocumentosDone)) {
-            mReceiverManager.unregisterReceiver(mReceiverDocumentosDone);
+        if(mReceiverManager!=null) {
+            if (mReceiverManager.isReceiverRegistered(mReceiverDocumentosDone)) {
+                mReceiverManager.unregisterReceiver(mReceiverDocumentosDone);
+            }
         }
+        super.onPause();
     }
 
 

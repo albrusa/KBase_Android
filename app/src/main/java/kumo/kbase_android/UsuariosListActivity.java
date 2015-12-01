@@ -16,17 +16,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import kumo.kbase_android.adapters.UsuariosListAdapter;
-import kumo.kbase_android.dao.BaseDao;
-import kumo.kbase_android.dao.UsuariosDao;
 import kumo.kbase_android.db.DatabaseHelper;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.Cookies;
 import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
@@ -53,11 +50,57 @@ public class UsuariosListActivity extends AppCompatActivity{
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
 
         l_usuarios =  new ArrayList<Usuario>();
+        Usuario usuario = new Usuario();
 
-        List<Usuario> l_usuarios2 = new ArrayList<Usuario>();
-        List<Usuario> l_usuarios3 = new ArrayList<Usuario>();
 
-        Usuario usur2 = new Usuario();
+        if(Constantes.HTTP_SERVER.contains("www.kmed.es")){
+
+            usuario = new Usuario();
+            usuario.Nombre = "Profesional";
+            usuario.Aplicacion = "localhost";
+            usuario.Id = "988EE750-861F-4F05-821F-4E435BBE1976"; //8D75DB91-3315-4232-86DC-458F01426760
+            usuario.Id_Clase = "38278FE0-34BF-494D-9F43-E0214D7EF57E";
+            usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Imagen_Perfil = "";
+
+            l_usuarios.add(usuario);
+
+            usuario = new Usuario();
+            usuario.Nombre = "Paciente";
+            usuario.Aplicacion = "localhost";
+            usuario.Id = "9826FCE2-AA7B-4773-8E16-E06CAD27CE18"; //8D75DB91-3315-4232-86DC-458F01426760
+            usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
+            usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Imagen_Perfil = "";
+
+            l_usuarios.add(usuario);
+
+
+        }else{
+
+            usuario = new Usuario();
+            usuario.Nombre = "Profesional";
+            usuario.Aplicacion = "localhost";
+            usuario.Id = "592AAFE5-4125-4FB4-B684-9DA3D28A72A7"; //8D75DB91-3315-4232-86DC-458F01426760
+            usuario.Id_Clase = "38278FE0-34BF-494D-9F43-E0214D7EF57E";
+            usuario.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Imagen_Perfil = "";
+
+            l_usuarios.add(usuario);
+
+            usuario = new Usuario();
+            usuario.Nombre = "Paciente";
+            usuario.Aplicacion = "localhost";
+            usuario.Id = "44154DFF-DCED-4877-9D25-00EF75AA4485"; //8D75DB91-3315-4232-86DC-458F01426760
+            usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
+            usuario.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Imagen_Perfil = "";
+
+            l_usuarios.add(usuario);
+        }
+
+
+        /*Usuario usur2 = new Usuario();
         usur2.Nombre = "Paciente";
         usur2.Aplicacion = "localhost";
         usur2.Id = "44154DFF-DCED-4877-9D25-00EF75AA4485"; //8D75DB91-3315-4232-86DC-458F01426760
@@ -74,9 +117,24 @@ public class UsuariosListActivity extends AppCompatActivity{
         usur.Imagen_Perfil = "";
 
 
+        UsuariosDao usuariosDao;
+        try {
+            usuariosDao = UsuariosDao.init(this,BaseDao.getInstance(this));
+
+            usuariosDao.clean();
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         try {
 
             UsuariosDao.init(BaseDao.getInstance(this.getBaseContext()));
+
+
+
 
             Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
 
@@ -95,7 +153,7 @@ public class UsuariosListActivity extends AppCompatActivity{
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
         recView = (RecyclerView) findViewById(R.id.RecView);

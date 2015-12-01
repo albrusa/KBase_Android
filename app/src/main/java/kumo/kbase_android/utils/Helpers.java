@@ -59,7 +59,7 @@ public class Helpers{
             if (url.lastIndexOf(".") == -1) {
                 return null;
             } else {
-                String ext = url.substring(url.lastIndexOf("."));
+                String ext = url.substring(url.lastIndexOf(".")).substring(1);
                 if (ext.indexOf("%") > -1) {
                     ext = ext.substring(0, ext.indexOf("%"));
                 }

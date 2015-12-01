@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -34,6 +35,10 @@ public class MensajesDao {
         private static Dao<Mensaje, Integer> mensajeDao;
         private List<Mensaje> l_mensajes;
 
+        private String mId_Usuario;
+        private String mId_Usuario_Clase;
+        private String mId_Aplicacion;
+        private String mId_Conversacion;
 
         private MensajesDao(Context _context, BaseDao _bdao) throws SQLException{
             this.mContext = _context;
@@ -71,6 +76,11 @@ public class MensajesDao {
             jsonObject.addProperty("_id_usuario_clase", _id_Usuario_Clase);
             jsonObject.addProperty("_id_conversacion", _id_Conversacion);
 
+            mId_Usuario = _id_Usuario.toLowerCase();
+            mId_Usuario_Clase = _id_Usuario_Clase.toLowerCase();
+            mId_Aplicacion = _id_Aplicacion.toLowerCase();
+            mId_Conversacion = _id_Conversacion.toLowerCase();
+
            /* if(l_mensajes.size()> 0){
                 Mensaje mensaje = l_mensajes.get(l_mensajes.size() - 1);
 
@@ -89,7 +99,17 @@ public class MensajesDao {
 
                                         List<Mensaje> l_mensajes = Arrays.asList(response);
 
-                                        clean();
+                                        //clean();
+                                        try {
+
+                                            DeleteBuilder<Mensaje, Integer> dbuilder = mensajeDao.deleteBuilder();
+                                            dbuilder.where().like("Id_0", mId_Conversacion).and().like("Id_Aplicacion", mId_Aplicacion);
+                                            mensajeDao.delete(dbuilder.prepare());
+
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+
 
                                         for (Mensaje mensaje : l_mensajes) {
 
@@ -120,7 +140,7 @@ public class MensajesDao {
 
         public List<Mensaje> obt_Mensajes_db(String _id_Aplicacion, String _id_Usuario, String _id_Usuario_Clase, String _id_Conversacion) throws SQLException {
 
-             return  mensajeDao.queryBuilder().where().eq("Id_0",_id_Conversacion).query();
+             return  mensajeDao.queryBuilder().where().like("Id_0", _id_Conversacion).and().like("Id_Aplicacion", _id_Aplicacion).query();
 
         }
 

@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
@@ -33,6 +34,9 @@ public class DocumentosDao {
         private static Context mContext;
         private static Dao<Documento, Integer> documentoDao;
 
+        private String mId_Usuario;
+        private String mId_Usuario_Clase;
+        private String mId_Aplicacion;
 
         private DocumentosDao(Context _context, BaseDao _bdao) throws SQLException{
             this.mContext = _context;
@@ -67,6 +71,10 @@ public class DocumentosDao {
             jsonObject.addProperty("_id_usuario", _id_Usuario);
             jsonObject.addProperty("_id_usuario_clase", _id_Usuario_Clase);
 
+            mId_Usuario = _id_Usuario.toLowerCase();
+            mId_Usuario_Clase = _id_Usuario_Clase.toLowerCase();
+            mId_Aplicacion = _id_Aplicacion.toLowerCase();
+
             try {
                 GsonRequest<Documento[]> getPersons =
                         new GsonRequest<Documento[]>(Request.Method.POST, Constantes.DOCUMENTOS_OBT_DOCUMENTOS, Documento[].class,params,jsonObject,
@@ -76,7 +84,19 @@ public class DocumentosDao {
                                     public void onResponse(Documento[] response) {
                                         List<Documento> l_documentos = Arrays.asList(response);
 
-                                        clean();
+                                        //clean();
+
+                                        try {
+
+                                            DeleteBuilder<Documento, Integer> dbuilder = documentoDao.deleteBuilder();
+                                            dbuilder.where().like("Id_Usuario", mId_Usuario).and().like("Id_Usuario_Clase", mId_Usuario_Clase).and().like("Id_Aplicacion",mId_Aplicacion);
+                                            documentoDao.delete(dbuilder.prepare());
+
+                                            //documentoDao.deleteBuilder().where().eq("Id_Usuario", mId_Usuario).and().eq("Id_Usuario_Clase",mId_Usuario_Clase).and().eq("Id_Aplicacion",mId_Aplicacion).query();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+
 
                                         for (Documento documento : l_documentos) {
 
@@ -110,7 +130,8 @@ public class DocumentosDao {
 
         public List<Documento> obt_Documentos_db(String _id_Aplicacion, String _id_Usuario, String _id_Usuario_Clase) throws SQLException {
 
-            return  documentoDao.queryForAll();
+            //return  documentoDao.queryForAll();
+            return documentoDao.queryBuilder().where().like("Id_Usuario", _id_Usuario).and().like("Id_Usuario_Clase", _id_Usuario_Clase).and().like("Id_Aplicacion", _id_Aplicacion).query();
         }
 
         public void drop(){
