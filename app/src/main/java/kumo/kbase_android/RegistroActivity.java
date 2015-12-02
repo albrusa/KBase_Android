@@ -69,7 +69,7 @@ public class RegistroActivity extends AppCompatActivity
                 si_Usuarios = true;
             }
         }
-       // boolean si_Registro = true;
+        si_Registro = false;
 
         if(si_Registro) {
 
