@@ -18,6 +18,7 @@ import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.httpRequest.LruBitmapCache;
 import kumo.kbase_android.model.Conversacion;
 import kumo.kbase_android.utils.CircularNetworkImageView;
+import kumo.kbase_android.utils.Constantes;
 
 /**
  * Created by dev_2 on 09/11/2015.
@@ -78,7 +79,10 @@ public class ConversacionesListAdapter extends RecyclerView.Adapter<Conversacion
                     vImagen.setImageResource(R.drawable.imagen_perfil_defecto);
                 }else{
                     //vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
-                    vImagen.setImageUrl("http://localhost:32766/Imagenes/300x300/koala.jpg", mImageLoader);
+
+                    t.Imagen = Constantes.HTTP_IMAGENES_SERVER+"/" + t.Id_Aplicacion + "/s/"+ t.Imagen.replace (t.Id_Aplicacion +"/", "");
+
+                    vImagen.setImageUrl(t.Imagen, mImageLoader);
                 }
             }
         }

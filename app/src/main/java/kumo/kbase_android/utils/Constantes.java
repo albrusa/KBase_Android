@@ -14,6 +14,8 @@ public class Constantes {
 
     public static final String HTTP_KMED_SERVER = "https://www.kmed.es";
 
+    public static final String HTTP_IMAGENES_SERVER = "https://www.kmed.es/Imagenes";
+
     public static final String USUARIO__OBT_APLICACIONES = HTTP_SERVER+"/Usuarios/obt_aplicaciones";
     public static final String USUARIO__GENERAR_CODIGO_VERIFICACION = HTTP_SERVER+"/Usuarios/generar_codigo_verificacion";
     public static final String USUARIO__VERIFICAR_CODIGO_VERIFICACION = HTTP_SERVER+"/Usuarios/verificar_codigo_verificacion";

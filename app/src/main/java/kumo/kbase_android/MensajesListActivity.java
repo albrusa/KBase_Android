@@ -104,7 +104,17 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         if(mImagen != null && !mImagen.equals(""))
         {
-            vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+ mImagen, mImageLoader);
+            if(mImagen.contains("imagen_perfil_defecto.png")){
+                vImagen.setImageResource(R.drawable.imagen_perfil_defecto);
+            }else{
+                //vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
+
+                mImagen = Constantes.HTTP_IMAGENES_SERVER+"/" + mUsuario.Id_Aplicacion + "/s/"+ mImagen.replace (mUsuario.Id_Aplicacion +"/", "");
+
+                vImagen.setImageUrl(mImagen, mImageLoader);
+            }
+
+            //vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+ mImagen, mImageLoader);
         }
 
        vTitulo.setText(mNombre);
