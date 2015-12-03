@@ -24,6 +24,8 @@ public class Constantes {
 
     public static final String USUARIO__ASIGNAR_CLAVE = HTTP_SERVER+"/Usuarios/asg_clave";
 
+    public static final String USUARIO_MODIFICAR_IMAGEN_PERFIL = HTTP_SERVER+"/Usuarios/modificar_imagen_perfil";
+
 
     public static final String USUARIO__AUTENTIFICAR = HTTP_SERVER+"/Usuarios/autentificar";
 

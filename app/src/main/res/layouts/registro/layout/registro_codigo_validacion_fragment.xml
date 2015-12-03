@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <AutoCompleteTextView android:id="@+id/registro_codigo_validacion" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="Codigo validacion"
+            android:layout_height="wrap_content" android:hint="@string/Registro.Codigo_Validacion"
             android:inputType="text" android:maxLines="1"
             android:singleLine="true" />
 
@@ -22,7 +22,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:hint="@string/siguiente" android:id="@+id/registro_to_telefono"/>
+        android:layout_height="wrap_content" android:hint="@string/Siguiente" android:id="@+id/registro_to_telefono"/>
 
 
 </LinearLayout>

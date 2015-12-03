@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import kumo.kbase_android.adapters.MainTabAdapter;
 import kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragment;
@@ -39,23 +42,6 @@ public class MainActivity extends AppCompatActivity
 
         Bundle bundle = this.getIntent().getExtras();
 
-        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        mId_Usuario = sharedPreferences.getString(QuickstartPreferences.USUARIO_ACTIVO,"0");
-
-        DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-
-        try {
-            Dao<Usuario, Integer> usuarioDao = databaseHelper.getUsuarioDao();
-
-            List<Usuario> l_usuarios = usuarioDao.queryBuilder().where().eq("Id",mId_Usuario).query();
-
-            if(l_usuarios.size() > 0){
-                mUsuario = l_usuarios.get(0);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
 
         objectPreference = new ObjectPreference();
         objectPreference.init(getBaseContext());
@@ -82,7 +68,6 @@ public class MainActivity extends AppCompatActivity
             tabLayout.setupWithViewPager(viewPager);
 
 
-
         }else{
 
             setContentView(R.layout.main_pro_activity);
@@ -97,6 +82,39 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.Configuracion:
+                return abrir_configuracion();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean abrir_configuracion(){
+        Intent intent = new Intent(getBaseContext(), ConfiguracionActivity.class);
+
+        Cookies cookie = objectPreference.getComplexPreference();
+        if (cookie != null) {
+            cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
+            cookie.commit();
+        }
+
+
+        startActivity(intent);
+
+        return true;
     }
 
     @Override

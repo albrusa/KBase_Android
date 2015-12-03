@@ -26,7 +26,6 @@ import kumo.kbase_android.utils.Constantes;
 public class ConversacionesListAdapter extends RecyclerView.Adapter<ConversacionesListAdapter.AdapterElementoViewHolder> implements View.OnClickListener{
     private List<Conversacion> l_conversaciones;
     private View.OnClickListener listener;
-    private ImageLoader mImageLoader;
 
     public ConversacionesListAdapter(List<Conversacion> _l_conversaciones) {
         this.l_conversaciones = _l_conversaciones;

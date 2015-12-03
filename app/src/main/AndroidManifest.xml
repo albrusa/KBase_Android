@@ -34,6 +34,10 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity" />
         </activity>
 
+        <activity android:name=".ConfiguracionActivity" android:theme="@style/AppTheme" android:parentActivityName=".MainActivity"  android:launchMode="singleTask">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity" />
+        </activity>
+
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

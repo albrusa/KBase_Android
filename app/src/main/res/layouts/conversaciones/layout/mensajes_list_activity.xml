@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kumo.kbase_android.MensajesListActivity"
-    >
+    tools:context="kumo.kbase_android.MensajesListActivity">
+
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -27,7 +27,6 @@
                 android:layout_height="?actionBarSize"
                 >
             <!-- android:background="?attr/selectableItemBackgroundBorderless" will cause this Custom View to make ripple effect -->
-
                 <LinearLayout
                     android:id="@+id/conversation_image"
                     android:layout_width="wrap_content"
@@ -70,8 +69,6 @@
                     android:textStyle="bold" />
                 </LinearLayout>
             </RelativeLayout>
-
-
             </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

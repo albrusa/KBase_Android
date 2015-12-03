@@ -95,15 +95,11 @@ public class ConversacionesListFragment extends Fragment {
     public void onResume(){
 
         mReceiverManager = ReceiverManager.init(getContext());
-
-        IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.OBT_CONVERSACIONES_DONE);
-
         try {
-            conversacionesDao = conversacionesDao.init(getContext(),BaseDao.getInstance(getContext()));
+            conversacionesDao = conversacionesDao.init(getContext(), BaseDao.getInstance(getContext()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         mReceiverConversacionesDone = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -112,8 +108,7 @@ public class ConversacionesListFragment extends Fragment {
                     l_conversaciones = conversacionesDao.obt_Conversaciones_db(mId_Aplicacion, mId, mId_Clase);
 
                     adaptador.updateData(l_conversaciones);
-                }
-                    catch (SQLException e) {
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
@@ -121,8 +116,11 @@ public class ConversacionesListFragment extends Fragment {
         };
 
         if (!mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone)) {
+            IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.OBT_CONVERSACIONES_DONE);
+
             mReceiverManager.registerReceiver(mReceiverConversacionesDone, conversacionesDone);
         }
+
 
         try {
             l_conversaciones = conversacionesDao.obt_Conversaciones(mId_Aplicacion, mId, mId_Clase);
@@ -172,12 +170,18 @@ public class ConversacionesListFragment extends Fragment {
 
     @Override
     public void onPause(){
-        if(mReceiverManager!=null) {
-            if (mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone)) {
-                mReceiverManager.unregisterReceiver(mReceiverConversacionesDone);
-            }
-        }
         super.onPause();
+        try {
+            if (mReceiverManager != null) {
+                if (mReceiverConversacionesDone != null) {
+                    if (mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone))
+                        mReceiverManager.unregisterReceiver(mReceiverConversacionesDone);
+                    mReceiverConversacionesDone = null;
+                }
+                mReceiverManager = null;
+            }
+        }catch (Exception x){}
+
 
     }
 

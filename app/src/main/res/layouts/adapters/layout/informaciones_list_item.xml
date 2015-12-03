@@ -45,7 +45,6 @@
                     android:layout_gravity="center|left"
                     android:id="@+id/Nombre_Usuario"
                     android:layout_width="wrap_content"
-                    android:text="hola"
                     android:layout_height="wrap_content"
                     style="@style/ListItemTitle"/>
             </FrameLayout>
@@ -54,7 +53,6 @@
                 android:textColor="@color/gris_oscuro"
                 android:ellipsize="end"
                 android:gravity="right"
-                android:text="23:13"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/Fecha"
                 android:paddingLeft="4.0dip"

@@ -28,7 +28,6 @@
                 android:textSize="@dimen/conversation_text_row_tv"
                 android:layout_gravity="left"
                 android:id="@+id/Mensaje"
-                android:text="aixo es un missatge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -49,7 +48,6 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23:30"
                 style="@style/ConversationDate" />
             <ImageView
                 android:layout_gravity="bottom|center|right"

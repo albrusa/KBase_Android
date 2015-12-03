@@ -1,52 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KBase_Android</string>
 
-    <string name="Prefijo">Prefijo</string>
-    <string name="Telefono">Teléfono</string>
+
+    <string name="Telefono">Telèfon</string>
 
 
-
-    <string name="Siguiente">Siguiente</string>
+    <string name="Registro.Clave">Clau</string>
+    <string name="Registro.Repetir_Clave">Clau</string>
+    <string name="Registro.Codigo_Validacion">Codi de validació</string>
+    <string name="Registro.Codigo_Usuario">Códi d\'usuari</string>
+    <string name="Registro.Telefono">@string/Telefono</string>
+    <string name="Registro.Prefijo">Prefix</string>
+    <string name="Registro.Crear_password">Crear clau</string>
+    <string name="Registro.Introducir_password">Introduir clau</string>
+    <string name="Siguiente">Següent</string>
     <string name="Anterior">Anterior</string>
 
-    <string name="Configuracion">Configuración</string>
+    <string name="Error.Campo_Obligatorio">Camp Obligatori</string>
 
 
-    <string name="Camara">Cámara</string>
-    <string name="Galeria">Galeria</string>
-
-
-
-    <string name="Registro.Clave">Clave</string>
-    <string name="Registro.Repetir_Clave">Clave</string>
-    <string name="Registro.Codigo_Validacion">Código de validación</string>
-    <string name="Registro.Codigo_Usuario">Código usuario</string>
-    <string name="Registro.Telefono">@string/Telefono</string>
-    <string name="Registro.Prefijo">@string/Prefijo</string>
-    <string name="Registro.Crear_password">Crear clave</string>
-    <string name="Registro.Introducir_password">Introducir clave</string>
-
-    <string name="Mensajes.Enviar">Enviar</string>
-
-
-    <string name="Mensajes.PopUp.Camara">@string/Camara</string>
-    <string name="Mensajes.PopUp.Galeria">@string/Galeria</string>
-
-
-    <string name="Configuracion.Nombre">Nombre</string>
-    <string name="Configuracion.Apellidos">Apellidos</string>
-    <string name="Configuracion.Prefijo">@string/Prefijo</string>
-    <string name="Configuracion.Telefono">@string/Telefono</string>
-    <string name="Configuracion.Correo">Correo</string>
-    <string name="Configuracion.Guardar">Guardar</string>
-
-
-    <string name="Error.Campo_Obligatorio">Campo Obligatorio</string>
-
-
-    <string name="Main.Conversaciones">Conversaciones</string>
-    <string name="Main.Informaciones">Informaciones</string>
-    <string name="Main.Documentos">Documentos</string>
+    <string name="Main.Conversaciones">Converses</string>
+    <string name="Main.Informaciones">Informacions</string>
+    <string name="Main.Documentos">Documents</string>
 
 
 

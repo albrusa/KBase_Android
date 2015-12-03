@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textAlignment="center"
-            android:text="Camara"/>
+            android:text="@string/Mensajes.PopUp.Camara"/>
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textAlignment="center"
-            android:text="Galeria"/>
+            android:text="Mensajes.PopUp.Galeria"/>
     </LinearLayout>
 
    <!-- <ImageButton

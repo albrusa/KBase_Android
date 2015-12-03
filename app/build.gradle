@@ -28,6 +28,7 @@ android {
                     'src/main/res/layouts/informaciones',
                     'src/main/res/layouts/documentos',
                     'src/main/res/layouts/genericos',
+                    'src/main/res/layouts/configuracion',
                     'src/main/res/layouts/main',
                     'src/main/res/layouts',
                     'src/main/res'

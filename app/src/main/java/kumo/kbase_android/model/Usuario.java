@@ -54,6 +54,9 @@ public class Usuario extends db_Base implements Serializable{
     @DatabaseField
     public String Ruta_Imagen_Aplicacion;
 
+    @DatabaseField
+    public String PIN;
+
     public Usuario(){
 
     }

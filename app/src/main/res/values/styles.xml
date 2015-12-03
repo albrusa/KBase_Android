@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/lila</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/lila</item>
         <!--<item name="android:textViewStyle">sans-serif</item>-->
     </style>
     <style name="AppTheme.NoActionBar">

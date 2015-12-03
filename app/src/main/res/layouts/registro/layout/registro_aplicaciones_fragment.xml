@@ -14,7 +14,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/siguiente"
+        android:hint="@string/Siguiente"
         android:id="@+id/registro_to_telefono"
         android:visibility="gone"
         />

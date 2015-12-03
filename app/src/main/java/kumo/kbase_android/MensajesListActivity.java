@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
@@ -29,10 +28,7 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import kumo.kbase_android.fragments.conversacionesList.MensajesListFragment;
 import kumo.kbase_android.httpRequest.HttpCola;
@@ -42,17 +38,11 @@ import kumo.kbase_android.model.Usuario;
 import kumo.kbase_android.utils.CircularNetworkImageView;
 import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.Cookies;
+import kumo.kbase_android.utils.MediaHelper;
 import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 public class MensajesListActivity extends AppCompatActivity implements MensajesListFragment.OnMensajesListFragmentInteractionListener {
-
-    private static final int CAMERA = 100;
-    private static final int GALERIA = 200;
-    private static final int ARCHIVO = 300;
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
     private String mId_Usuario;
     private Usuario mUsuario;
@@ -107,10 +97,6 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
             if(mImagen.contains("imagen_perfil_defecto.png")){
                 vImagen.setImageResource(R.drawable.imagen_perfil_defecto);
             }else{
-                //vImagen.setImageUrl(Constantes.HTTP_KMED_SERVER+t.Imagen, mImageLoader);
-
-                mImagen = Constantes.HTTP_IMAGENES_SERVER+"/" + mUsuario.Id_Aplicacion + "/s/"+ mImagen.replace (mUsuario.Id_Aplicacion +"/", "");
-
                 vImagen.setImageUrl(mImagen, mImageLoader);
             }
 
@@ -184,12 +170,12 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     private void capturarImagen() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        fileUri = MediaHelper.getOutputMediaFileUri(MediaHelper.MEDIA_TYPE_IMAGE);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
         // start the image capture Intent
-        startActivityForResult(intent, CAMERA);
+        startActivityForResult(intent, MediaHelper.CAMERA);
     }
 
     public void abrirGalleria()
@@ -201,7 +187,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         intent.setAction(Intent.ACTION_GET_CONTENT);
         //Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(Intent.createChooser(intent, ""), GALERIA);
+        startActivityForResult(Intent.createChooser(intent, ""), MediaHelper.GALERIA);
         //startActivityForResult(intent, GALERIA);
 
     }
@@ -213,48 +199,9 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         intent.setAction(Intent.ACTION_GET_CONTENT);
         //Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.DocumentsProvider.Media);
 
-        startActivityForResult(Intent.createChooser(intent, ""), ARCHIVO);
+        startActivityForResult(Intent.createChooser(intent, ""), MediaHelper.ARCHIVO);
        //startActivityForResult(intent, GALERIA);
 
-    }
-
-    public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-
-    private static File getOutputMediaFile(int type) {
-
-        // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "Test");
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("Mensajes", "Oops! Failed create "
-                        + "Test" + " directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
-        } /*else if (type == 2) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "VID_" + timeStamp + ".mp4");
-        }*/ else {
-            return null;
-        }
-
-        return mediaFile;
     }
 
 
@@ -278,12 +225,12 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == CAMERA) {
+        if (requestCode == MediaHelper.CAMERA) {
             if (resultCode == RESULT_OK) {
 
                 File archivo = new File(fileUri.getPath());
 
-                new UploadFileToServer(archivo, CAMERA).execute();
+                new UploadFileToServer(archivo, MediaHelper.CAMERA).execute();
             }
              else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
@@ -297,7 +244,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
                         .show();
             }
         }else{
-            if(requestCode == GALERIA){
+            if(requestCode == MediaHelper.GALERIA){
 
                 if (resultCode == RESULT_OK) {
                     fileUri = data.getData();
@@ -314,7 +261,7 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
                     File archivo = new File(fileUri.getPath());
 
-                    new UploadFileToServer(archivo, GALERIA).execute();
+                    new UploadFileToServer(archivo, MediaHelper.GALERIA).execute();
                 }
                 else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
@@ -415,10 +362,10 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
                 multipart.addFormField("_id_conversacion", mId_Conversacion);
                 multipart.addFormField("_nombre_fichero", mArchivo.getName());
 
-                if(mOrigen == CAMERA) {
+                if(mOrigen == MediaHelper.CAMERA) {
                     multipart.addFilePart("fileUpload", mArchivo);
                 }else{
-                    if(mOrigen == GALERIA) {
+                    if(mOrigen == MediaHelper.GALERIA) {
 
                         File filePath = new File(fileUri.getPath());
 

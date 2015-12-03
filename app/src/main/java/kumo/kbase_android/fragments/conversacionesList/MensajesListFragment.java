@@ -353,12 +353,18 @@ public class MensajesListFragment extends Fragment {
 
     @Override
     public void onPause(){
-        if(mReceiverManager!=null) {
-            if (mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
-                mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
-            }
-        }
         super.onPause();
+        try {
+            if (mReceiverManager != null) {
+                if (mReceiverMensajesDone != null) {
+                    if (mReceiverManager.isReceiverRegistered(mReceiverMensajesDone)) {
+                        mReceiverManager.unregisterReceiver(mReceiverMensajesDone);
+                    }
+                }
+                mReceiverManager = null;
+            }
+        }catch(Exception x){}
+
     }
 
 

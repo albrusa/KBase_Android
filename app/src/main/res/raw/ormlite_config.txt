@@ -86,6 +86,10 @@ columnName=Aplicacion
 fieldName=Ruta_Imagen_Aplicacion
 columnName=Ruta_Imagen_Aplicacion
 # --field-end--
+# --field-start--
+fieldName=PIN
+columnName=PIN
+# --field-end--
 # --table-fields-end--
 # --table-end--
 #################################

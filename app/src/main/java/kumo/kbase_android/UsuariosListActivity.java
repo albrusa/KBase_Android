@@ -57,21 +57,30 @@ public class UsuariosListActivity extends AppCompatActivity{
 
             usuario = new Usuario();
             usuario.Nombre = "Profesional";
+            usuario.Apellidos = "Profesional1";
             usuario.Aplicacion = "localhost";
             usuario.Id = "988EE750-861F-4F05-821F-4E435BBE1976"; //8D75DB91-3315-4232-86DC-458F01426760
             usuario.Id_Clase = "38278FE0-34BF-494D-9F43-E0214D7EF57E";
             usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
-            usuario.Imagen_Perfil = "";
+            usuario.Tlf_Movil  = "650595821";
+            usuario.Prefijo  = "34";
+            usuario.Correo = "arubio@kumoglobal.com";
+            usuario.Imagen_Perfil = "988ee750-861f-4f05-821f-4e435bbe1976.jpg";
 
             l_usuarios.add(usuario);
 
             usuario = new Usuario();
             usuario.Nombre = "Paciente";
+            usuario.Apellidos = "Paciente1";
             usuario.Aplicacion = "localhost";
             usuario.Id = "9826FCE2-AA7B-4773-8E16-E06CAD27CE18"; //8D75DB91-3315-4232-86DC-458F01426760
             usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
             usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
-            usuario.Imagen_Perfil = "";
+            usuario.PIN = "1234";
+            usuario.Tlf_Movil  = "650595821";
+            usuario.Prefijo  = "34";
+            usuario.Correo = "arubio@kumoglobal.com";
+            usuario.Imagen_Perfil = "9826FCE2-AA7B-4773-8E16-E06CAD27CE18.jpg";
 
             l_usuarios.add(usuario);
 
@@ -80,20 +89,28 @@ public class UsuariosListActivity extends AppCompatActivity{
 
             usuario = new Usuario();
             usuario.Nombre = "Profesional";
+            usuario.Apellidos = "Profesional1";
             usuario.Aplicacion = "localhost";
             usuario.Id = "592AAFE5-4125-4FB4-B684-9DA3D28A72A7"; //8D75DB91-3315-4232-86DC-458F01426760
             usuario.Id_Clase = "38278FE0-34BF-494D-9F43-E0214D7EF57E";
             usuario.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Tlf_Movil  = "650595821";
+            usuario.Prefijo  = "34";
+            usuario.Correo = "arubio@kumoglobal.com";
             usuario.Imagen_Perfil = "";
 
             l_usuarios.add(usuario);
 
             usuario = new Usuario();
             usuario.Nombre = "Paciente";
+            usuario.Apellidos = "Paciente1";
             usuario.Aplicacion = "localhost";
             usuario.Id = "44154DFF-DCED-4877-9D25-00EF75AA4485"; //8D75DB91-3315-4232-86DC-458F01426760
             usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
             usuario.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
+            usuario.Tlf_Movil  = "650595821";
+            usuario.Prefijo  = "34";
+            usuario.Correo = "arubio@kumoglobal.com";
             usuario.Imagen_Perfil = "";
 
             l_usuarios.add(usuario);
@@ -188,23 +205,47 @@ public class UsuariosListActivity extends AppCompatActivity{
 
                 if (usuario_seleccionado != null) {
 
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    Bundle b = new Bundle();
+                    if(usuario_seleccionado.PIN == null || usuario_seleccionado.PIN.equals("")) {
 
-                    b.putString("Id_Usuario", usuario_seleccionado.Id);
-                    intent.putExtras(b);
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        Bundle b = new Bundle();
+
+                        b.putString("Id_Usuario", usuario_seleccionado.Id);
+                        intent.putExtras(b);
 
                 /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();*/
 
-                    Cookies cookie = objectPreference.getComplexPreference();
-                    if (cookie != null) {
-                        cookie.putObject(QuickstartPreferences.USUARIO_ACTIVO, usuario_seleccionado);
-                        cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
-                        cookie.commit();
-                    }
+                        Cookies cookie = objectPreference.getComplexPreference();
+                        if (cookie != null) {
+                            cookie.putObject(QuickstartPreferences.USUARIO_ACTIVO, usuario_seleccionado);
+                            cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
+                            cookie.commit();
+                        }
 
-                    startActivity(intent);
+                        startActivity(intent);
+
+                    }else{
+
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        Bundle b = new Bundle();
+
+                        b.putString("Id_Usuario", usuario_seleccionado.Id);
+                        intent.putExtras(b);
+
+                /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();*/
+
+                        Cookies cookie = objectPreference.getComplexPreference();
+                        if (cookie != null) {
+                            cookie.putObject(QuickstartPreferences.USUARIO_ACTIVO, usuario_seleccionado);
+                            cookie.putObject(QuickstartPreferences.TAB_ACTIVO, 1);
+                            cookie.commit();
+                        }
+
+                        startActivity(intent);
+
+                    }
                 }
             }
         });
