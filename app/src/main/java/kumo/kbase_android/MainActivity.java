@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        timerHandler.removeCallbacks(timerRunnable);
+        //timerHandler.removeCallbacks(timerRunnable);
     }
 
     @Override
@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy(){
-        timerHandler.removeCallbacks(timerRunnable);
-        super.onDestroy();super.finish();
+        //timerHandler.removeCallbacks(timerRunnable);
+        super.onDestroy();
     }
 
     public void OnConversacionesListFragmentInteractionListener(String _id_conversacion, String _nombre, String _imagen){
