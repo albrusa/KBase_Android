@@ -47,6 +47,12 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+
 }
 
 dependencies {

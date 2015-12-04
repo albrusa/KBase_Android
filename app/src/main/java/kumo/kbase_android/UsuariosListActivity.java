@@ -203,6 +203,37 @@ public class UsuariosListActivity extends AppCompatActivity{
 
                 Usuario usuario_seleccionado = l_usuarios.get(recView.getChildViewHolder(v).getAdapterPosition());
 
+
+                /*ReceiverManager mReceiverManager = ReceiverManager.init(getBaseContext());
+
+                UsuariosDao usuariosDao;
+
+
+
+                BroadcastReceiver mReceiverConversacionesDone = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        Log.d("si_activo", Boolean.toString(intent.getBooleanExtra("Valor", false)));
+                    }
+                };
+
+                if (!mReceiverManager.isReceiverRegistered(mReceiverConversacionesDone)) {
+                    IntentFilter conversacionesDone = new IntentFilter(ReceiverManager.USUARIO_SI_ACTIVO);
+
+                    mReceiverManager.registerReceiver(mReceiverConversacionesDone, conversacionesDone);
+                }
+
+                try {
+                    usuariosDao = UsuariosDao.init(getBaseContext(), BaseDao.getInstance(getBaseContext()));
+
+                    usuariosDao.si_activo(usuario_seleccionado.Id_Aplicacion,usuario_seleccionado.Id, usuario_seleccionado.Id_Clase);
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }*/
+
+
+
                 if (usuario_seleccionado != null) {
 
                     if(usuario_seleccionado.PIN == null || usuario_seleccionado.PIN.equals("")) {
@@ -213,8 +244,8 @@ public class UsuariosListActivity extends AppCompatActivity{
                         b.putString("Id_Usuario", usuario_seleccionado.Id);
                         intent.putExtras(b);
 
-                /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();*/
+                //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                //sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();
 
                         Cookies cookie = objectPreference.getComplexPreference();
                         if (cookie != null) {
@@ -233,8 +264,8 @@ public class UsuariosListActivity extends AppCompatActivity{
                         b.putString("Id_Usuario", usuario_seleccionado.Id);
                         intent.putExtras(b);
 
-                /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();*/
+                //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+               // sharedPreferences.edit().putString(QuickstartPreferences.USUARIO_ACTIVO,usuario_seleccionado.Id).apply();
 
                         Cookies cookie = objectPreference.getComplexPreference();
                         if (cookie != null) {

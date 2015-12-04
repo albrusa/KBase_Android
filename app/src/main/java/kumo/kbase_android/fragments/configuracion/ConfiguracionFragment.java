@@ -27,11 +27,15 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import kumo.kbase_android.R;
 import kumo.kbase_android.adapters.PrefijosAdapter;
+import kumo.kbase_android.dao.BaseDao;
+import kumo.kbase_android.dao.UsuariosDao;
 import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.httpRequest.MultipartUtility;
 import kumo.kbase_android.model.Usuario;
@@ -57,10 +61,13 @@ public class ConfiguracionFragment extends Fragment {
     private Button vGuardar;
     private ImageButton vEditarImagen;
     private Uri fileUri;
+    private ImageLoader mImageLoader;
 
     private Usuario mUsuario;
 
     private Spinner vPrefijo;
+
+    private UsuariosDao usuariosDao;
 
     public static ConfiguracionFragment newInstance() {
         ConfiguracionFragment fragment = new ConfiguracionFragment();
@@ -126,7 +133,7 @@ public class ConfiguracionFragment extends Fragment {
             }
         }
 
-        ImageLoader mImageLoader = HttpCola.getInstance(getContext()).getImageLoader();
+        mImageLoader = HttpCola.getInstance(getContext()).getImageLoader();
 
         if(mUsuario.Imagen_Perfil != null && !mUsuario.Imagen_Perfil.equals(""))
         {
@@ -183,7 +190,21 @@ public class ConfiguracionFragment extends Fragment {
 
                 if (si_ok) {
 
-                    //guardem
+                    mUsuario.Nombre = nombre;
+                    mUsuario.Apellidos = apellidos;
+                    mUsuario.Correo = correo;
+                    mUsuario.Prefijo = prefijo;
+                    mUsuario.Tlf_Movil = telefono;
+
+
+                    try {
+                        usuariosDao = usuariosDao.init(getContext(), BaseDao.getInstance(getContext()));
+
+                        usuariosDao.modificar(mUsuario);
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
@@ -275,12 +296,6 @@ public class ConfiguracionFragment extends Fragment {
                     File archivo = new File(fileUri.getPath());
                     new UploadFileToServer(archivo, MediaHelper.GALERIA).execute();
                 }
-
-
-
-
-
-
                // new UploadFileToServer(archivo, MediaHelper.CAMERA).execute();
             }
             else if (resultCode == getActivity().RESULT_CANCELED) {
@@ -368,6 +383,13 @@ public class ConfiguracionFragment extends Fragment {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
+
+            Random ran = new Random();
+            int x = ran.nextInt(6) + 5;
+
+            String imagen_perfil = Constantes.HTTP_IMAGENES_SERVER+"/" + mUsuario.Id_Aplicacion + "/l/"+ mUsuario.Imagen_Perfil.replace (mUsuario.Id_Aplicacion  +"/", "")+"?"+x;
+
+            vImagen.setImageUrl(imagen_perfil, mImageLoader);
         }
 
     }

@@ -23,6 +23,7 @@
                 android:id="@+id/configuracion_imagen"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
+                android:maxHeight="100dip"
                 />
             <ImageButton
                 android:layout_width="wrap_content"

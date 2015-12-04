@@ -2,20 +2,37 @@
 <resources>
     <string name="app_name">KBase_Android</string>
 
-
+    <string name="Prefijo">Prefix</string>
     <string name="Telefono">Telèfon</string>
 
+    <string name="Siguiente">Següent</string>
+    <string name="Anterior">Anterior</string>
+
+    <string name="Configuracion">Configuració</string>
+
+    <string name="Camara">Càmara</string>
+    <string name="Galeria">Galeria</string>
 
     <string name="Registro.Clave">Clau</string>
     <string name="Registro.Repetir_Clave">Clau</string>
     <string name="Registro.Codigo_Validacion">Codi de validació</string>
     <string name="Registro.Codigo_Usuario">Códi d\'usuari</string>
     <string name="Registro.Telefono">@string/Telefono</string>
-    <string name="Registro.Prefijo">Prefix</string>
+    <string name="Registro.Prefijo">@string/Prefijo</string>
     <string name="Registro.Crear_password">Crear clau</string>
     <string name="Registro.Introducir_password">Introduir clau</string>
-    <string name="Siguiente">Següent</string>
-    <string name="Anterior">Anterior</string>
+
+    <string name="Mensajes.Enviar">Enviar</string>
+
+    <string name="Mensajes.PopUp.Camara">@string/Camara</string>
+    <string name="Mensajes.PopUp.Galeria">@string/Galeria</string>
+
+    <string name="Configuracion.Nombre">Nom</string>
+    <string name="Configuracion.Apellidos">Cognoms</string>
+    <string name="Configuracion.Prefijo">@string/Prefijo</string>
+    <string name="Configuracion.Telefono">@string/Telefono</string>
+    <string name="Configuracion.Correo">Correu</string>
+    <string name="Configuracion.Guardar">Guardar</string>
 
     <string name="Error.Campo_Obligatorio">Camp Obligatori</string>
 

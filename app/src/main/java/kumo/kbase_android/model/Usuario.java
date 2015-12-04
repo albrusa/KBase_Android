@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by dev_2 on 03/11/2015.
@@ -53,6 +54,8 @@ public class Usuario extends db_Base implements Serializable{
 
     @DatabaseField
     public String Ruta_Imagen_Aplicacion;
+
+    public Date Fecha_Limite;
 
     @DatabaseField
     public String PIN;

@@ -4,18 +4,13 @@
     <string name="Prefijo">Prefijo</string>
     <string name="Telefono">Teléfono</string>
 
-
-
     <string name="Siguiente">Siguiente</string>
     <string name="Anterior">Anterior</string>
 
     <string name="Configuracion">Configuración</string>
 
-
     <string name="Camara">Cámara</string>
     <string name="Galeria">Galeria</string>
-
-
 
     <string name="Registro.Clave">Clave</string>
     <string name="Registro.Repetir_Clave">Clave</string>

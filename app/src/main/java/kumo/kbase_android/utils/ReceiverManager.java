@@ -17,10 +17,14 @@ public class ReceiverManager {
     private Context context;
 
 
+
     public static final String OBT_CONVERSACIONES_DONE = "es.kumo.kbase.obt_Conversaciones_request_done";
     public static final String OBT_MENSAJES_DONE = "es.kumo.kbase.obt_Mensajes_request_done";
     public static final String OBT_DOCUMENTOS_DONE = "es.kumo.kbase.obt_Documentos_request_done";
     public static final String OBT_INFORMACIONES_DONE = "es.kumo.kbase.obt_Informaciones_request_done";
+
+    public static final String USUARIO_SI_ACTIVO_DONE = "es.kumo.kbase.Usuario_si_Activo_request_done";
+    public static final String MODIFICAR_USUARIO_DONE = "es.kumo.kbase.obt_Informaciones_request_done";
 
 
     private ReceiverManager(Context context){
