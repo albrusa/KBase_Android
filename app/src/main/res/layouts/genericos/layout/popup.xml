@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textAlignment="center"
-            android:text="Mensajes.PopUp.Galeria"/>
+            android:text="@string/Mensajes.PopUp.Galeria"/>
     </LinearLayout>
 
    <!-- <ImageButton

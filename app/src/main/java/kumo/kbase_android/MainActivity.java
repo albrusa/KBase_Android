@@ -2,10 +2,8 @@ package kumo.kbase_android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -17,12 +15,13 @@ import kumo.kbase_android.fragments.conversacionesList.ConversacionesListFragmen
 import kumo.kbase_android.fragments.documentosList.DocumentosListFragment;
 import kumo.kbase_android.fragments.informacionesList.InformacionesListFragment;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.BaseAppCompatActivity;
 import kumo.kbase_android.utils.Cookies;
 import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseAppCompatActivity
  implements ConversacionesListFragment.OnConversacionesListFragmentInteractionListener,
         DocumentosListFragment.OnDocumentosListFragmentInteractionListener,
         InformacionesListFragment.OnInformacionesListFragmentInteractionListener
@@ -30,13 +29,10 @@ public class MainActivity extends AppCompatActivity
 
     private Usuario mUsuario;
     private ObjectPreference objectPreference;
-    private AppCompatActivity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mActivity = this;
 
         //overridePendingTransition(R.anim.enter, R.anim.hold);
 
@@ -132,16 +128,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPause(){
         super.onPause();
-       // overridePendingTransition(R.anim.enter,R.anim.hold);
     }
 
     @Override
     public void onStop(){
         super.onStop();
-
-       //timerHandler.postDelayed(timerRunnable, 30000);
-
-        // this.finish();
     }
 
     @Override
@@ -196,15 +187,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         Log.d("Interaction", "asd");
     }
-
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-
-            mActivity.finish();
-            timerHandler.postDelayed(this, 500);
-        }
-    };
 }

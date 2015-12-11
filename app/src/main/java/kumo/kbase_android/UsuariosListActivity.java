@@ -64,6 +64,7 @@ public class UsuariosListActivity extends AppCompatActivity{
             usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
             usuario.Tlf_Movil  = "650595821";
             usuario.Prefijo  = "34";
+            usuario.PIN = "1234";
             usuario.Correo = "arubio@kumoglobal.com";
             usuario.Imagen_Perfil = "988ee750-861f-4f05-821f-4e435bbe1976.jpg";
 
@@ -76,7 +77,7 @@ public class UsuariosListActivity extends AppCompatActivity{
             usuario.Id = "9826FCE2-AA7B-4773-8E16-E06CAD27CE18"; //8D75DB91-3315-4232-86DC-458F01426760
             usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
             usuario.Id_Aplicacion = "EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
-            usuario.PIN = "1234";
+            //usuario.PIN = "1234";
             usuario.Tlf_Movil  = "650595821";
             usuario.Prefijo  = "34";
             usuario.Correo = "arubio@kumoglobal.com";
@@ -109,6 +110,7 @@ public class UsuariosListActivity extends AppCompatActivity{
             usuario.Id_Clase = "BB60C904-701F-43CE-8E63-5E4F9D528E93";
             usuario.Id_Aplicacion = "59135511-BF4F-4A50-A013-950734A087FF"; //EBB7F446-03E5-41CE-A8C3-EF3EC9A8A1E6
             usuario.Tlf_Movil  = "650595821";
+            usuario.PIN = "1234";
             usuario.Prefijo  = "34";
             usuario.Correo = "arubio@kumoglobal.com";
             usuario.Imagen_Perfil = "";
@@ -194,6 +196,12 @@ public class UsuariosListActivity extends AppCompatActivity{
     protected void onResume(){
         super.onResume();
 
+        Cookies cookie = objectPreference.getComplexPreference();
+        if (cookie != null) {
+            cookie.removeObject(QuickstartPreferences.USUARIO_ACTIVO);
+            cookie.commit();
+        }
+
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,7 +266,7 @@ public class UsuariosListActivity extends AppCompatActivity{
 
                     }else{
 
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        Intent intent = new Intent(getBaseContext(), PinActivity.class);
                         Bundle b = new Bundle();
 
                         b.putString("Id_Usuario", usuario_seleccionado.Id);

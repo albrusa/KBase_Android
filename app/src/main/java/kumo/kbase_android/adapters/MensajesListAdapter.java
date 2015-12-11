@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kumo.kbase_android.R;
@@ -47,37 +45,51 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
     public static class AdapterElementoViewHolder
             extends RecyclerView.ViewHolder {
 
-        private TextView mMensaje;
-        private TextView mNombre_Usuario;
+        private TextView vMensaje;
+        private TextView vFecha;
+
+        private DateFormat mDateFormat;
+        private DateFormat mTimeFormat;
+
+        private Date mToday;
 
         private ImageView vImagen_Archivo;
 
-        RequestQueue mRequestQueue;
-        NetworkImageView mImagen;
-        ImageLoader mImageLoader;
+        /*private RequestQueue mRequestQueue;
+        private NetworkImageView mImagen;
+        private ImageLoader mImageLoader;*/
 
 
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
+            vMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
+            vFecha = (TextView)itemView.findViewById(R.id.Fecha);
             vImagen_Archivo  = (ImageView)itemView.findViewById(R.id.Imagen_Archivo);
 
-          /*  mNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
-            mImagen = (NetworkImageView) itemView.findViewById(R.id.Imagen);*/
+            mToday = new Date();
 
+            mDateFormat = android.text.format.DateFormat.getMediumDateFormat(mContext);
+            mTimeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
         }
 
         public void bindTitular(Mensaje t) {
-            //mNombre_Usuario.setText(t.Nombre);
-            mMensaje.setText(t.Mensaje);
+            vMensaje.setText(t.Mensaje);
 
+            String hoy = mDateFormat.format(mToday);
+            String fecha = mDateFormat.format(t.Creado);
+
+            if(hoy.equals(fecha)){
+                vFecha.setText(mTimeFormat.format(t.Creado));
+            }else{
+                vFecha.setText(fecha + " "+ mTimeFormat.format(t.Creado));
+            }
 
             if(vImagen_Archivo != null){
                 if(t.Id_Archivo != null && !t.Id_Archivo.equals("") && !t.Id_Archivo.equals("00000000-0000-0000-0000-000000000000")) {
                     if (t.Imagen_Archivo != null && !t.Imagen_Archivo.equals("")) {
 
-                        t.Imagen_Archivo = t.Imagen_Archivo.replace(".png", "");
+                       t.Imagen_Archivo = t.Imagen_Archivo.replace(".png", "");
 
                         int id = mContext.getResources().getIdentifier(t.Imagen_Archivo, "drawable", mContext.getPackageName());
                         if (id != 0) {
@@ -126,7 +138,8 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             if(item_ant == null) {
                 valor = 0;
             }else{
-                if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
+                if(item_ant.Id_Propietario.toUpperCase().equals(item.Id_Propietario.toUpperCase())){
+                //if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
                     valor = 1;
                 }
                 else
@@ -145,7 +158,8 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
             if(item_ant == null) {
                 valor = 4;
             }else{
-                if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
+                if(item_ant.Id_Propietario.toUpperCase().equals(item.Id_Propietario.toUpperCase())){
+                //if(item_ant.Id_Propietario.toUpperCase().equals(mId_Usuario.toUpperCase())){
                     valor =  5;
                 }
                 else
@@ -172,11 +186,11 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
          2 -> imatge meva inicial
          3 -> imatge meva no inicial
 
-         4 -> text meu inicial
-         5 -> text meu no inicial
+         4 -> text no meu inicial
+         5 -> text no meu no inicial
 
-         6 -> imatge meva inicial
-         7 -> imatge meva no inicial
+         6 -> imatge no meva inicial
+         7 -> imatge no meva no inicial
 
          */
 
@@ -186,12 +200,22 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
         View itemView;
         LinearLayout list;
 
+        int pL,pT,pR,pB;
+
+
         switch (viewType) {
             case 0: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
 
                 list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+
+                pL = list.getPaddingLeft();
+                pT = list.getPaddingTop();
+                pR = list.getPaddingRight();
+                pB = list.getPaddingBottom();
+
                 list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
+                list.setPadding(pL, pT, pR, pB);
                 break;
             case 1: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item_propio, viewGroup, false);
@@ -201,7 +225,14 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
                     .inflate(R.layout.mensajes_list_imagen_item_propio, viewGroup, false);
 
                 list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+
+                pL = list.getPaddingLeft();
+                pT = list.getPaddingTop();
+                pR = list.getPaddingRight();
+                pB = list.getPaddingBottom();
+
                 list.setBackgroundResource(R.drawable.balloon_outgoing_normal);
+                list.setPadding(pL, pT, pR, pB);
                 break;
             case 3: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_imagen_item_propio, viewGroup, false);
@@ -211,7 +242,14 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
 
                 list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+
+                pL = list.getPaddingLeft();
+                pT = list.getPaddingTop();
+                pR = list.getPaddingRight();
+                pB = list.getPaddingBottom();
+
                 list.setBackgroundResource(R.drawable.balloon_incoming_normal);
+                list.setPadding(pL, pT, pR, pB);
            break;
             case 5: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_item, viewGroup, false);
@@ -220,7 +258,14 @@ public class MensajesListAdapter extends RecyclerView.Adapter<MensajesListAdapte
                     .inflate(R.layout.mensajes_list_imagen_item, viewGroup, false);
 
                 list = (LinearLayout) itemView.findViewById(R.id.main_layout);
+
+                pL = list.getPaddingLeft();
+                pT = list.getPaddingTop();
+                pR = list.getPaddingRight();
+                pB = list.getPaddingBottom();
+
                 list.setBackgroundResource(R.drawable.balloon_incoming_normal);
+                list.setPadding(pL, pT, pR, pB);
                 break;
             case 7: itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.mensajes_list_imagen_item, viewGroup, false);

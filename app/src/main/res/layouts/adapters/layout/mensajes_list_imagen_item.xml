@@ -17,16 +17,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
-                android:id="@+id/Imagen_Archivo"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:id="@+id/Imagen_Archivo"
+                android:visibility="gone"
+                android:maxHeight="50dp"
+                android:scaleType="fitStart"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+               />
 
             <TextView
                 android:textSize="@dimen/conversation_text_row_tv"
-                android:layout_gravity="left"
+                android:layout_gravity="center_vertical"
                 android:id="@+id/Mensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +52,7 @@
             <TextView
                 android:gravity="right"
                 android:layout_gravity="bottom|center|right"
-                android:id="@+id/date"
+                android:id="@+id/Fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/ConversationDate" />

@@ -34,6 +34,7 @@ public class InformacionActivity extends AppCompatActivity implements MensajesLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
         Bundle bundle = this.getIntent().getExtras();
         mId_Noticia = bundle.getString("Id_Noticia");
         mTitulo = bundle.getString("Titulo");

@@ -12,8 +12,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kumo.kbase_android.R;
@@ -42,18 +42,26 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
 
         private TextView vMensaje;
         private TextView vNombre_Usuario;
-        ImageView vImagen;
-        TextView vFecha;
+        private ImageView vImagen;
+        private TextView vFecha;
 
-        DateFormat mDateFormat;
-        RequestQueue mRequestQueue;
-        ImageLoader mImageLoader;
+        private DateFormat mDateFormat;
+        private DateFormat mTimeFormat;
+
+        private Date mToday;
+
+        private RequestQueue mRequestQueue;
+        private ImageLoader mImageLoader;
 
 
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            mToday = new Date();
+
+            mDateFormat = android.text.format.DateFormat.getMediumDateFormat(mContext);
+            mTimeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
+           // mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
             vMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
             vNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);
@@ -65,7 +73,19 @@ public class DocumentosListAdapter extends RecyclerView.Adapter<DocumentosListAd
         public void bindTitular(Documento t) {
             vNombre_Usuario.setText(t.Nombre);
             vMensaje.setText(t.Propietario);
-            vFecha.setText(mDateFormat.format(t.Fecha));
+
+            String hoy = mDateFormat.format(mToday);
+            String fecha = mDateFormat.format(t.Fecha);
+
+
+
+            if(hoy.equals(fecha)){
+                vFecha.setText(mTimeFormat.format(t.Fecha));
+            }else{
+                vFecha.setText(fecha + " "+ mTimeFormat.format(t.Fecha));
+            }
+
+
 
             if(t.Imagen != null && t.Imagen != "") {
 

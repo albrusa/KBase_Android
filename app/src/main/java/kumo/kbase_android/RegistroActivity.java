@@ -71,6 +71,7 @@ public class RegistroActivity extends AppCompatActivity
         }
         si_Registro = false;
 
+
         if(si_Registro) {
 
             setContentView(R.layout.registro_activity);

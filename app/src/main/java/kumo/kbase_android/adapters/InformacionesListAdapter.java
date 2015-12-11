@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class InformacionesListAdapter extends RecyclerView.Adapter<Informaciones
         public AdapterElementoViewHolder(View itemView) {
             super(itemView);
 
-            mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            mDateFormat = android.text.format.DateFormat.getMediumDateFormat(mContext);
 
             vMensaje = (TextView)itemView.findViewById(R.id.Mensaje);
             vNombre_Usuario = (TextView)itemView.findViewById(R.id.Nombre_Usuario);

@@ -49,6 +49,15 @@ public class Cookies {
         editor.putString(key, GSON.toJson(object));
     }
 
+    public void removeObject(String key){
+        if (key.equals("") || key == null) {
+            throw new IllegalArgumentException("Key is empty or null");
+        }
+        if(preferences.contains(key)) {
+            editor.remove(key);
+        }
+    }
+
     public void commit() {
         editor.commit();
     }

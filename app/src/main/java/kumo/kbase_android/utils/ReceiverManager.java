@@ -26,6 +26,8 @@ public class ReceiverManager {
     public static final String USUARIO_SI_ACTIVO_DONE = "es.kumo.kbase.Usuario_si_Activo_request_done";
     public static final String MODIFICAR_USUARIO_DONE = "es.kumo.kbase.obt_Informaciones_request_done";
 
+    public static final String DESTRUIR_TODAS_ACTIVITIES = "es.kumo.kbase.destruir_todas_activities";
+
 
     private ReceiverManager(Context context){
         this.context = context;

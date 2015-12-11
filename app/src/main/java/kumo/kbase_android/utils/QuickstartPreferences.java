@@ -1,8 +1,5 @@
 package kumo.kbase_android.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 /**
  * Created by dev_2 on 16/10/2015.
  */
@@ -19,21 +16,5 @@ public final class QuickstartPreferences {
 
     public static final String TAB_ACTIVO = "tabActivo";
 
-    public SharedPreferences settings;
 
-    public static Context globalContext;
-
-    /*public QuickstartPreferences(Context _context){
-
-        settings = _context.getSharedPreferences(DEFAULT_PREFERENCE, Context.MODE_PRIVATE);
-    }
-
-    public static void init(Context _context){
-        globalContext = _context;
-    }
-
-    public static SharedPreferences getSettings(Context _activity){
-        globalContext = _activity;
-        return globalContext.getSharedPreferences(DEFAULT_PREFERENCE, Context.MODE_PRIVATE);
-    }*/
 }

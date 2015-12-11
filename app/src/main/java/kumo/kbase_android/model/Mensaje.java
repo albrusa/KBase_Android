@@ -42,6 +42,8 @@ public class Mensaje extends db_Base implements Serializable{
     @DatabaseField
     public boolean si_Leido;
 
+    public String archivo_bytes;
+
 
 
     public Mensaje(){

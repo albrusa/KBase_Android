@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -35,6 +35,7 @@ import kumo.kbase_android.httpRequest.HttpCola;
 import kumo.kbase_android.httpRequest.LruBitmapCache;
 import kumo.kbase_android.httpRequest.MultipartUtility;
 import kumo.kbase_android.model.Usuario;
+import kumo.kbase_android.utils.BaseAppCompatActivity;
 import kumo.kbase_android.utils.CircularNetworkImageView;
 import kumo.kbase_android.utils.Constantes;
 import kumo.kbase_android.utils.Cookies;
@@ -42,7 +43,7 @@ import kumo.kbase_android.utils.MediaHelper;
 import kumo.kbase_android.utils.ObjectPreference;
 import kumo.kbase_android.utils.QuickstartPreferences;
 
-public class MensajesListActivity extends AppCompatActivity implements MensajesListFragment.OnMensajesListFragmentInteractionListener {
+public class MensajesListActivity extends BaseAppCompatActivity implements MensajesListFragment.OnMensajesListFragmentInteractionListener {
 
     private String mId_Usuario;
     private Usuario mUsuario;
@@ -57,6 +58,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     private Uri fileUri;
 
+    private boolean isActivityForResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        isActivityForResult = false;
 
         int height =(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -174,6 +179,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
+        isActivityForResult = true;
+
         // start the image capture Intent
         startActivityForResult(intent, MediaHelper.CAMERA);
     }
@@ -183,9 +190,10 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         Intent intent = new Intent();
         intent.setType("image/*");
 
-
         intent.setAction(Intent.ACTION_GET_CONTENT);
         //Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        isActivityForResult = true;
 
         startActivityForResult(Intent.createChooser(intent, ""), MediaHelper.GALERIA);
         //startActivityForResult(intent, GALERIA);
@@ -228,9 +236,11 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         if (requestCode == MediaHelper.CAMERA) {
             if (resultCode == RESULT_OK) {
 
-                File archivo = new File(fileUri.getPath());
+               // File archivo = new File(fileUri.getPath());
 
-                new UploadFileToServer(archivo, MediaHelper.CAMERA).execute();
+                new UploadFileToServer(fileUri, MediaHelper.CAMERA).execute();
+
+                //new UploadFileToServer(archivo, MediaHelper.CAMERA).execute();
             }
              else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
@@ -247,21 +257,28 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
             if(requestCode == MediaHelper.GALERIA){
 
                 if (resultCode == RESULT_OK) {
-                    fileUri = data.getData();
 
+                    new UploadFileToServer(data.getData(), MediaHelper.GALERIA).execute();
 
-                    /*try {
-                        Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    /*File original = new File(data.getData().getPath());
+                    String mime = MediaHelper.GetMimeType(this,data.getData());
 
+                    String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mime);
+
+                    File archivo;
+
+                    try {
+                        fileUri = MediaHelper.getOutputMediaFileUri(MediaHelper.MEDIA_TYPE_IMAGE, extension);
+
+                        archivo = new File(fileUri.getPath());
+
+                        MediaHelper.copy(original,archivo);
+
+                        new UploadFileToServer(archivo, MediaHelper.GALERIA).execute();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }*/
 
-                    //File archivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),fileUri.getPath());
-
-                    File archivo = new File(fileUri.getPath());
-
-                    new UploadFileToServer(archivo, MediaHelper.GALERIA).execute();
                 }
                 else if (resultCode == RESULT_CANCELED) {
                     // user cancelled Image capture
@@ -285,6 +302,11 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         @Override
     protected void onResume(){
         super.onResume();
+
+        if(isActivityForResult) {
+            mMemoryBoss.isInBackground = false;
+            isActivityForResult = false;
+        }
     }
 
     @Override
@@ -321,7 +343,8 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
 
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
 
-        private final File mArchivo;
+        private final Uri mUri;
+        private File mArchivo;
         private final int mOrigen;
 
         @Override
@@ -333,6 +356,14 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
         UploadFileToServer(File _archivo, int _tipo) {
 
             mArchivo = _archivo;
+            mUri = null;
+            mOrigen = _tipo;
+        }
+
+        UploadFileToServer(Uri _uri, int _tipo) {
+
+            mUri = _uri;
+            mArchivo = null;
             mOrigen = _tipo;
         }
 
@@ -360,16 +391,26 @@ public class MensajesListActivity extends AppCompatActivity implements MensajesL
                 multipart.addFormField("_id_usuario", mUsuario.Id);
                 multipart.addFormField("_id_usuario_clase", mUsuario.Id_Clase);
                 multipart.addFormField("_id_conversacion", mId_Conversacion);
-                multipart.addFormField("_nombre_fichero", mArchivo.getName());
+                //multipart.addFormField("_nombre_fichero", mArchivo.getName());
 
                 if(mOrigen == MediaHelper.CAMERA) {
+
+                    mArchivo = new File(fileUri.getPath());
+
+                    multipart.addFormField("_nombre_fichero", mArchivo.getName());
+
                     multipart.addFilePart("fileUpload", mArchivo);
                 }else{
                     if(mOrigen == MediaHelper.GALERIA) {
 
-                        File filePath = new File(fileUri.getPath());
+                        String mime = MediaHelper.GetMimeType(getBaseContext(), mUri);
 
-                        multipart.addFilePart("fileUpload", filePath.getName(), fileUri, getBaseContext());
+                        String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mime);
+                        String nombre = MediaHelper.GetName(getBaseContext(),mUri);
+
+                        multipart.addFormField("_nombre_fichero", nombre);
+
+                        multipart.addFilePart("fileUpload", nombre, mUri, getBaseContext());
                     }
                 }
 
